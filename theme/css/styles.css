@@ -154,8 +154,7 @@ sub {
 /* Lists */
 
 .article * li {
-    /*line-height: 1.1em;*/
-    line-height: 130%;
+    line-height: 1.1em;
     margin-top: 0.3em;
     margin-bottom: 0.3em;
 }
@@ -163,8 +162,7 @@ sub {
 /* Paragraphs. */
 
 .article p {
-    /*line-height: 1.3em;*/
-    line-height: 140%;
+    line-height: 1.3em;
     margin-bottom: 1.5em;
 }
 
