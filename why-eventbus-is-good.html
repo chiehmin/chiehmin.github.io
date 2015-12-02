@@ -87,11 +87,11 @@
 <p>Whenever you call startAcitvity, you are actually calling <code>startActivity</code> method in <strong>AMS</strong>(ActivityManagerService) through <strong>binder IPC</strong>. Binder is an RPC(Remote Procedure Call) mechanism, binder servers(ie. ActivityManagerService) expose their method for client to use. And the data to be transfered is carried by <code>Parcel</code>. <code>Intent</code> called <code>writeToParcel</code> to write all its data into a parcel and then transfer it into the AMS. So the whole procedure works like this, app opened <code>/dev/binder</code>, binder driver uses <code>copy_from_user</code> to copy the data to be transfered into binder driver, AMS uses <code>mmap</code> call to binder device to get the map the page that contains the data. Then AMS starts the targetActivity and uses the same way to send the data into the targetActivity. </p>
 <h2>Passing data in the same app through IPC is very weird and slow</h2>
 <p>Different components in the same app are reside in the same process(unless you specify <code>process</code> attribute in the xml), so we don't need to use IPC the transfer the data. So a common model is using <code>Application Singleton</code> to access data. For example:</p>
-<div class="highlight"><pre><span class="err">#</span> <span class="n">srcActivity</span>
-<span class="nf">getApplication</span><span class="o">().</span><span class="na">xxxData</span> <span class="o">=</span> <span class="n">data</span><span class="o">;</span>
+<div class="highlight"><pre><span class="c1">// srcActivity</span>
+<span class="n">getApplication</span><span class="o">().</span><span class="na">xxxData</span> <span class="o">=</span> <span class="n">data</span><span class="o">;</span>
 <span class="n">startActivity</span><span class="o">(</span><span class="k">new</span> <span class="n">Intent</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">TargetActivity</span><span class="o">.</span><span class="na">class</span><span class="o">));</span>
 
-<span class="err">#</span> <span class="n">targetActivity</span>
+<span class="c1">// targetActivity</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">getApplication</span><span class="o">().</span><span class="na">xxxData</span>
 </pre></div>
 

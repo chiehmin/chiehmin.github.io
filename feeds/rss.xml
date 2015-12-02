@@ -11,11 +11,11 @@
 &lt;p&gt;Whenever you call startAcitvity, you are actually calling &lt;code&gt;startActivity&lt;/code&gt; method in &lt;strong&gt;AMS&lt;/strong&gt;(ActivityManagerService) through &lt;strong&gt;binder IPC&lt;/strong&gt;. Binder is an RPC(Remote Procedure Call) mechanism, binder servers(ie. ActivityManagerService) expose their method for client to use. And the data to be transfered is carried by &lt;code&gt;Parcel&lt;/code&gt;. &lt;code&gt;Intent&lt;/code&gt; called &lt;code&gt;writeToParcel&lt;/code&gt; to write all its data into a parcel and then transfer it into the AMS. So the whole procedure works like this, app opened &lt;code&gt;/dev/binder&lt;/code&gt;, binder driver uses &lt;code&gt;copy_from_user&lt;/code&gt; to copy the data to be transfered into binder driver, AMS uses &lt;code&gt;mmap&lt;/code&gt; call to binder device to get the map the page that contains the data. Then AMS starts the targetActivity and uses the same way to send the data into the targetActivity. &lt;/p&gt;
 &lt;h2&gt;Passing data in the same app through IPC is very weird and slow&lt;/h2&gt;
 &lt;p&gt;Different components in the same app are reside in the same process(unless you specify &lt;code&gt;process&lt;/code&gt; attribute in the xml), so we don't need to use IPC the transfer the data. So a common model is using &lt;code&gt;Application Singleton&lt;/code&gt; to access data. For example:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="n"&gt;srcActivity&lt;/span&gt;
-&lt;span class="nf"&gt;getApplication&lt;/span&gt;&lt;span class="o"&gt;().&lt;/span&gt;&lt;span class="na"&gt;xxxData&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c1"&gt;// srcActivity&lt;/span&gt;
+&lt;span class="n"&gt;getApplication&lt;/span&gt;&lt;span class="o"&gt;().&lt;/span&gt;&lt;span class="na"&gt;xxxData&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
 &lt;span class="n"&gt;startActivity&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Intent&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;TargetActivity&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;));&lt;/span&gt;
 
-&lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="n"&gt;targetActivity&lt;/span&gt;
+&lt;span class="c1"&gt;// targetActivity&lt;/span&gt;
 &lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;getApplication&lt;/span&gt;&lt;span class="o"&gt;().&lt;/span&gt;&lt;span class="na"&gt;xxxData&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
