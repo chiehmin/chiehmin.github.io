@@ -1,5 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>FatMinMin</title><link>http://fatminmin.com/</link><description>"A computer and a dream can take you anywhere."</description><atom:link href="http://fatminmin.com/feeds/rss.xml" rel="self"></atom:link><lastBuildDate>Wed, 02 Dec 2015 23:17:00 +0800</lastBuildDate><item><title>Using EventBus to Transfer Data</title><link>http://fatminmin.com/why-eventbus-is-good.html</link><description>&lt;p&gt;When developing Android apps, it is common to use &lt;code&gt;intent&lt;/code&gt; to transfer objects between different components in the same app. For example:&lt;/p&gt;
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>FatMinMin</title><link>http://fatminmin.com/</link><description>"A computer and a dream can take you anywhere."</description><atom:link href="http://fatminmin.com/feeds/rss.xml" rel="self"></atom:link><lastBuildDate>Sat, 12 Dec 2015 19:28:00 +0800</lastBuildDate><item><title>Qemu Direct Kernel Boot without bootloader(Grub)</title><link>http://fatminmin.com/blog/direct-kernel-boot.html</link><description>&lt;p&gt;Recently, I was doing a project on Android x86 and I found the image created by Android x86 livecd using NTFS file system format cannot be booted by Qemu.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&amp;gt; &lt;span class="nv"&gt;$ &lt;/span&gt;qemu-system-x86_64 -hda base.img --enable-kvm -serial stdio &lt;span class="se"&gt;\&lt;/span&gt;
+-m 4G -smp &lt;span class="m"&gt;4&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+-net nic,vlan&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+-net user,hostfwd&lt;span class="o"&gt;=&lt;/span&gt;tcp:127.0.0.1:8001-:8001,hostfwd&lt;span class="o"&gt;=&lt;/span&gt;tcp:127.0.0.1:5555-:5555 &lt;span class="se"&gt;\&lt;/span&gt;
+-soundhw all &lt;span class="se"&gt;\&lt;/span&gt;
+-vga std
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;And I suspected the problem may be caused by the grub bootloader can not be executed correctly. So I tried extracting the kernel and initrd(it is initramfs actually) and passed it to Qemu directly. And it just booted successfully :). Following is my steps:&lt;/p&gt;
+&lt;p&gt;1. Check the length of the bootloader (The first 63 sectors)  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&amp;gt; &lt;span class="nv"&gt;$ &lt;/span&gt;fdisk -lu 
+Disk base.img: &lt;span class="m"&gt;5&lt;/span&gt; GiB, &lt;span class="m"&gt;5368709120&lt;/span&gt; bytes, &lt;span class="m"&gt;10485760&lt;/span&gt; sectors
+Units: sectors of &lt;span class="m"&gt;1&lt;/span&gt; * &lt;span class="nv"&gt;512&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;512&lt;/span&gt; bytes
+Sector size &lt;span class="o"&gt;(&lt;/span&gt;logical/physical&lt;span class="o"&gt;)&lt;/span&gt;: &lt;span class="m"&gt;512&lt;/span&gt; bytes / &lt;span class="m"&gt;512&lt;/span&gt; bytes
+I/O size &lt;span class="o"&gt;(&lt;/span&gt;minimum/optimal&lt;span class="o"&gt;)&lt;/span&gt;: &lt;span class="m"&gt;512&lt;/span&gt; bytes / &lt;span class="m"&gt;512&lt;/span&gt; bytes
+Disklabel &lt;span class="nb"&gt;type&lt;/span&gt;: dos
+Disk identifier: 0x00000000
+
+Device     Boot Start      End  Sectors Size Id Type
+base.img1          &lt;span class="m"&gt;63&lt;/span&gt; &lt;span class="m"&gt;10474379&lt;/span&gt; &lt;span class="m"&gt;10474317&lt;/span&gt;   5G &lt;span class="m"&gt;83&lt;/span&gt; Linux
+
+&amp;gt; &lt;span class="nv"&gt;$ &lt;/span&gt;python -c &lt;span class="s2"&gt;&amp;quot;print 63*512&amp;quot;&lt;/span&gt;
+32256
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;2. Mount the images with offset 32256 bytes  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&amp;gt; &lt;span class="nv"&gt;$ &lt;/span&gt;mkdir &lt;span class="nb"&gt;test&lt;/span&gt;
+&amp;gt; &lt;span class="nv"&gt;$ &lt;/span&gt;sudo mount -o loop,offset&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;32256&lt;/span&gt; base.img &lt;span class="nb"&gt;test&lt;/span&gt;
+&amp;gt; &lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;cd test&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; tree                                                                                                                                                                            
+.
+├── android-2015-12-07
+│   ├── data.img
+│   ├── initrd.img
+│   ├── kernel
+│   ├── ramdisk.img
+│   └── system.img
+├── efi
+│   └── boot
+│       ├── bootia32.efi
+│       ├── bootx64.efi
+│       └── grub.cfg
+└── grub
+    ├── android-x86.xpm.gz
+    ├── device.map
+    ├── e2fs_stage1_5
+    ├── fat_stage1_5
+    ├── iso9660_stage1_5
+    ├── menu.lst
+    ├── ntfs_stage1_5
+    ├── stage1
+    ├── stage2
+    └── stage2_eltorito
+
+&lt;span class="m"&gt;4&lt;/span&gt; directories, &lt;span class="m"&gt;18&lt;/span&gt; files
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;3. Check the grub kernel options  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&amp;gt; &lt;span class="nv"&gt;$ &lt;/span&gt;cat grub/menu.lst                                                                                                                                                                        
+&lt;span class="nv"&gt;default&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;0
+&lt;span class="nv"&gt;timeout&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;6
+&lt;span class="nv"&gt;splashimage&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/grub/android-x86.xpm.gz
+root &lt;span class="o"&gt;(&lt;/span&gt;hd0,0&lt;span class="o"&gt;)&lt;/span&gt;
+
+title Android-x86 2015-12-07
+        kernel /android-2015-12-07/kernel quiet &lt;span class="nv"&gt;root&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/dev/ram0 androidboot.hardware&lt;span class="o"&gt;=&lt;/span&gt;sense_svmp &lt;span class="nv"&gt;SRC&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/android-2015-12-07
+        initrd /android-2015-12-07/initrd.img
+
+title Android-x86 2015-12-07 &lt;span class="o"&gt;(&lt;/span&gt;Debug mode&lt;span class="o"&gt;)&lt;/span&gt;
+        kernel /android-2015-12-07/kernel &lt;span class="nv"&gt;root&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/dev/ram0 androidboot.hardware&lt;span class="o"&gt;=&lt;/span&gt;sense_svmp &lt;span class="nv"&gt;DEBUG&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt; &lt;span class="nv"&gt;SRC&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/android-2015-12-07
+        initrd /android-2015-12-07/initrd.img
+
+title Android-x86 2015-12-07 &lt;span class="o"&gt;(&lt;/span&gt;Debug nomodeset&lt;span class="o"&gt;)&lt;/span&gt;
+        kernel /android-2015-12-07/kernel nomodeset &lt;span class="nv"&gt;root&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/dev/ram0 androidboot.hardware&lt;span class="o"&gt;=&lt;/span&gt;sense_svmp &lt;span class="nv"&gt;DEBUG&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt; &lt;span class="nv"&gt;SRC&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/android-2015-12-07
+        initrd /android-2015-12-07/initrd.img
+
+title Android-x86 2015-12-07 &lt;span class="o"&gt;(&lt;/span&gt;Debug &lt;span class="nv"&gt;video&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;LVDS-1:d&lt;span class="o"&gt;)&lt;/span&gt;
+        kernel /android-2015-12-07/kernel &lt;span class="nv"&gt;video&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;LVDS-1:d &lt;span class="nv"&gt;root&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/dev/ram0 androidboot.hardware&lt;span class="o"&gt;=&lt;/span&gt;sense_svmp &lt;span class="nv"&gt;DEBUG&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt; &lt;span class="nv"&gt;SRC&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/android-2015-12-07
+        initrd /android-2015-12-07/initrd.img
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;4. Pass the parameter and boot it!  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&amp;gt; &lt;span class="nv"&gt;$ &lt;/span&gt;qemu-system-x86_64 -hda base.img --enable-kvm &lt;span class="se"&gt;\&lt;/span&gt;
+-kernel kernel -initrd initrd.img &lt;span class="se"&gt;\&lt;/span&gt;
+-append &lt;span class="s2"&gt;&amp;quot;root=/dev/ram0 androidboot.hardware=sense_svmp SRC=android-2015-12-07&amp;quot;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+-serial stdio &lt;span class="se"&gt;\&lt;/span&gt;
+-m 4G -smp &lt;span class="m"&gt;4&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+-net nic,vlan&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+-net user,hostfwd&lt;span class="o"&gt;=&lt;/span&gt;tcp:127.0.0.1:8001-:8001,hostfwd&lt;span class="o"&gt;=&lt;/span&gt;tcp:127.0.0.1:5555-:5555 &lt;span class="se"&gt;\&lt;/span&gt;
+-soundhw all &lt;span class="se"&gt;\&lt;/span&gt;
+-vga std
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="Result" src="http://fatminmin.com/images/direct_kernel_boot.png" /&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">FatMinMin</dc:creator><pubDate>Sat, 12 Dec 2015 19:28:00 +0800</pubDate><guid>tag:fatminmin.com,2015-12-12:blog/direct-kernel-boot.html</guid></item><item><title>Using EventBus to Transfer Data</title><link>http://fatminmin.com/blog/why-eventbus-is-good.html</link><description>&lt;p&gt;When developing Android apps, it is common to use &lt;code&gt;intent&lt;/code&gt; to transfer objects between different components in the same app. For example:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Intent&lt;/span&gt; &lt;span class="n"&gt;it&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Intent&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;TargetActivity&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
 &lt;span class="n"&gt;it&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;putExtra&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;key&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
 &lt;span class="n"&gt;startActivity&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;it&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
@@ -23,9 +121,9 @@
 &lt;p&gt;This approach is fast and easy, however when the project comes big, managing all the field in the 
 Application object may be messy.&lt;/p&gt;
 &lt;h2&gt;Here comes to EventBus&lt;/h2&gt;
-&lt;p&gt;&lt;a href="https://github.com/greenrobot/EventBus"&gt;EventBus&lt;/a&gt; is made by &lt;strong&gt;greenrobot&lt;/strong&gt;. &lt;strong&gt;Greenrobot&lt;/strong&gt; has another very useful project called &lt;a href="https://github.com/greenrobot/greenDAO"&gt;greenDAO&lt;/a&gt; which is a easy-to-use ORM library for android developers to manipulate database in a very simple way(Just like ORM in Django and other popular frameworks). EventBus can let you transfer data between different components(in the same app/process) in a very fast and bautiful way. You can take a look at their &lt;a href="https://github.com/greenrobot/EventBus/blob/master/HOWTO.md"&gt;docs&lt;/a&gt; and I am sure you will love it:).&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">FatMinMin</dc:creator><pubDate>Wed, 02 Dec 2015 23:17:00 +0800</pubDate><guid>tag:fatminmin.com,2015-12-02:why-eventbus-is-good.html</guid></item><item><title>Pebble Time!!</title><link>http://fatminmin.com/got-my-pebble-time.html</link><description>&lt;p&gt;從暑假的時候就一直很想要有一隻智慧錶，不過一直覺得很貴下不了手，加上借了阿凡實驗室的LG G Watch來試用了一下後，覺得那電池續航力真的是有夠差，而且手錶的螢幕沒有辦法always on(原本續航力就很差了，開always on電池噴更快)，所以一度考慮乾脆買個有偵測心率功能的健身錶（fitbit、tomtom、garmin）那類型的，但是每次想在expansys下單fitbit surge的時候卻又覺得健身錶就是缺乏智慧錶上面可以跑app的魅力，所以還是放棄了，想說在等等看有沒有性價比更高、續航力至少可以撐1.5天的智慧錶出來。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/greenrobot/EventBus"&gt;EventBus&lt;/a&gt; is made by &lt;strong&gt;greenrobot&lt;/strong&gt;. &lt;strong&gt;Greenrobot&lt;/strong&gt; has another very useful project called &lt;a href="https://github.com/greenrobot/greenDAO"&gt;greenDAO&lt;/a&gt; which is a easy-to-use ORM library for android developers to manipulate database in a very simple way(Just like ORM in Django and other popular frameworks). EventBus can let you transfer data between different components(in the same app/process) in a very fast and bautiful way. You can take a look at their &lt;a href="https://github.com/greenrobot/EventBus/blob/master/HOWTO.md"&gt;docs&lt;/a&gt; and I am sure you will love it:).&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">FatMinMin</dc:creator><pubDate>Wed, 02 Dec 2015 23:17:00 +0800</pubDate><guid>tag:fatminmin.com,2015-12-02:blog/why-eventbus-is-good.html</guid></item><item><title>Pebble Time!!</title><link>http://fatminmin.com/blog/got-my-pebble-time.html</link><description>&lt;p&gt;從暑假的時候就一直很想要有一隻智慧錶，不過一直覺得很貴下不了手，加上借了阿凡實驗室的LG G Watch來試用了一下後，覺得那電池續航力真的是有夠差，而且手錶的螢幕沒有辦法always on(原本續航力就很差了，開always on電池噴更快)，所以一度考慮乾脆買個有偵測心率功能的健身錶（fitbit、tomtom、garmin）那類型的，但是每次想在expansys下單fitbit surge的時候卻又覺得健身錶就是缺乏智慧錶上面可以跑app的魅力，所以還是放棄了，想說在等等看有沒有性價比更高、續航力至少可以撐1.5天的智慧錶出來。&lt;/p&gt;
 &lt;p&gt;這期間推出了moto 360二代，功能完整，但是那價格也是有夠貴，zenwatch 2 九月發表，但是看來是要12月之後才會在台灣正式上市，而且華碩品質也是令人不太放心XD，結果禮拜天的時候一如往常的看看智慧手錶的最新售價的時候突然發現我一直以來最想要的pebble time居然在限時特價！！從原價199鎂降到149鎂，就二話不說立馬訂了一隻，不過我是從Amazon上面訂而不是直接從官網訂(這又是另一段複雜的故事了XD)，不過後來覺得還好是從Amazon上面訂，官網DHL的運費要25鎂，Amazon只要15鎂，雖然Amazon會收import fee（我的pebble time被收了10鎂），但是也避免如果到時候被海關查到，可能會卡關卡很久還要補關稅的情況(有查到不少悲劇的心得文XD)，而且Amazon的速度也是有夠快，禮拜天晚上下單，禮拜四下午就收到了，一整個超棒的！&lt;/p&gt;
 &lt;p&gt;&lt;img alt="collage" src="http://fatminmin.com/images/pebble_collage.jpg" /&gt;&lt;/p&gt;
 &lt;h2&gt;為什麼我選擇買Pebble&lt;/h2&gt;
 &lt;p&gt;再來就說說為什麼要買這個很多人都認為很雞肋的智慧錶XD，目前市面上續航力好的健身錶(fitbit surge可以撐七天)應該賣的比智慧錶還好很多，不過我覺得智慧錶上面可以跑app就可以有無限的可能XD，除了基本的activity tracking、timer之類的基本功能，我覺得智慧錶最大的好處就可以提供你另外一種操作手機的方式（大部份智慧手錶沒有直接聯網的能力的大部分的資訊都是從手機來），chromecast之類的產品是讓你把手機的資訊帶到大螢幕上，而智慧手錶反過來則是將手機的資訊帶到手上的小螢幕，其實真的很多時候去把手機拿出來操作是個很麻煩的行為，譬如說騎機車的時候就不可能拿出手機看gps導航，但是透過手錶就可以即時看到你目前的位置，甚至可以幫你導航，或者是你走路走到一半想看一下下一班公車時間，這種非常即時且短暫的需求你就不會想在將手機從包包取出來然後看個兩秒在放回包包裡，但是有了智慧錶這些事情就可以變得非常方便！&lt;/p&gt;
-&lt;p&gt;不過續航力就是智慧錶的死穴，所以我從一開始最想要的就是pebble了！pebble是用e-paper的螢幕，螢幕可以always on、不反光，pebble time續航力可以到七天，pebble time steel甚至可以到10天，雖然沒有GPS和heart rate sensor，不過光是這個續航力就值得了，而且pebble還具有&lt;a href="https://developer.getpebble.com/guides/hardware/"&gt;smart strap&lt;/a&gt;的擴充功能，可以讓第三方開發商製作智慧錶帶，上面就可能搭載GPS和heart rate sensor，不過目前只有&lt;a href="http://www.smartwatch.me/t/introducing-fitpay-payment-smartstrap-for-pebble-time/1278/"&gt;fitpay&lt;/a&gt;這個智慧錶帶，不過還滿期待之後會有更多智慧錶帶出來XD(所以其實我覺得&lt;a href="https://www.kickstarter.com/projects/2106691934/blocks-the-worlds-first-modular-smartwatch"&gt;Blocks&lt;/a&gt;的概念也是致敬pebble這功能就是了)&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">FatMinMin</dc:creator><pubDate>Fri, 13 Nov 2015 21:50:00 +0800</pubDate><guid>tag:fatminmin.com,2015-11-13:got-my-pebble-time.html</guid></item><item><title>Hi, I am FatMinMin</title><link>http://fatminmin.com/hi-i-am-fatminmin.html</link><description>&lt;p&gt;Hi, I am FatMinMin. Welcome to my blog :).&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">FatMinMin</dc:creator><pubDate>Wed, 28 Oct 2015 13:20:00 +0800</pubDate><guid>tag:fatminmin.com,2015-10-28:hi-i-am-fatminmin.html</guid></item></channel></rss>
+&lt;p&gt;不過續航力就是智慧錶的死穴，所以我從一開始最想要的就是pebble了！pebble是用e-paper的螢幕，螢幕可以always on、不反光，pebble time續航力可以到七天，pebble time steel甚至可以到10天，雖然沒有GPS和heart rate sensor，不過光是這個續航力就值得了，而且pebble還具有&lt;a href="https://developer.getpebble.com/guides/hardware/"&gt;smart strap&lt;/a&gt;的擴充功能，可以讓第三方開發商製作智慧錶帶，上面就可能搭載GPS和heart rate sensor，不過目前只有&lt;a href="http://www.smartwatch.me/t/introducing-fitpay-payment-smartstrap-for-pebble-time/1278/"&gt;fitpay&lt;/a&gt;這個智慧錶帶，不過還滿期待之後會有更多智慧錶帶出來XD(所以其實我覺得&lt;a href="https://www.kickstarter.com/projects/2106691934/blocks-the-worlds-first-modular-smartwatch"&gt;Blocks&lt;/a&gt;的概念也是致敬pebble這功能就是了)&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">FatMinMin</dc:creator><pubDate>Fri, 13 Nov 2015 21:50:00 +0800</pubDate><guid>tag:fatminmin.com,2015-11-13:blog/got-my-pebble-time.html</guid></item><item><title>Hi, I am FatMinMin</title><link>http://fatminmin.com/blog/hi-i-am-fatminmin.html</link><description>&lt;p&gt;Hi, I am FatMinMin. Welcome to my blog :).&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">FatMinMin</dc:creator><pubDate>Wed, 28 Oct 2015 13:20:00 +0800</pubDate><guid>tag:fatminmin.com,2015-10-28:blog/hi-i-am-fatminmin.html</guid></item></channel></rss>
