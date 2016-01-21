@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>FatMinMin</title><link>http://fatminmin.com/</link><description>"A computer and a dream can take you anywhere."</description><atom:link href="http://fatminmin.com/feeds/rss.xml" rel="self"></atom:link><lastBuildDate>Sat, 26 Dec 2015 22:34:00 +0800</lastBuildDate><item><title>OOP in C</title><link>http://fatminmin.com/blog/oop-in-c.html</link><description>&lt;p&gt;Despite C does not support OOP like C++ or Java, OOP concepts is still used in Android HAL module and GTK+ programs.&lt;/p&gt;
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>FatMinMin</title><link>http://fatminmin.com/</link><description>"A computer and a dream can take you anywhere."</description><atom:link href="http://fatminmin.com/feeds/rss.xml" rel="self"></atom:link><lastBuildDate>Thu, 21 Jan 2016 16:02:00 +0800</lastBuildDate><item><title>Running Win10 in QEMU/KVM</title><link>http://fatminmin.com/blog/run-win10-qemu-kvm.html</link><description>&lt;p&gt;I installed a win10 virtual machine using the &lt;a href="https://virt-manager.org/"&gt;Virt-Manager&lt;/a&gt;. However, when I switched to command line to launch the virtual machine. I found the win10 always showing me the following error message.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&amp;gt; &lt;span class="nv"&gt;$ &lt;/span&gt;qemu-system-x86_64 --enable-kvm &lt;span class="se"&gt;\ &lt;/span&gt;
+-drive &lt;span class="nv"&gt;file&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;./win10.img,if&lt;span class="o"&gt;=&lt;/span&gt;virtio &lt;span class="se"&gt;\&lt;/span&gt;
+-smp &lt;span class="m"&gt;4&lt;/span&gt; -m &lt;span class="m"&gt;4096&lt;/span&gt; -vga qxl &lt;span class="se"&gt;\&lt;/span&gt;
+-net nic,model&lt;span class="o"&gt;=&lt;/span&gt;virtio -net user &lt;span class="se"&gt;\&lt;/span&gt;
+-soundhw hda
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="win10_error" src="http://fatminmin.com/images/win10_error.png" /&gt;&lt;/p&gt;
+&lt;p&gt;After some trial and error, I found if I pass &lt;code&gt;-cpu host&lt;/code&gt; option (default is &lt;em&gt;qemu64&lt;/em&gt;), the win10 virtual machine can finally be successfully booted up! I think win10 may only allow whitelisted cpu model to run to prevent old cpu without advance features from running.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&amp;gt; &lt;span class="nv"&gt;$ &lt;/span&gt;qemu-system-x86_64 --enable-kvm &lt;span class="se"&gt;\&lt;/span&gt;
+-drive &lt;span class="nv"&gt;file&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;./win10.img,if&lt;span class="o"&gt;=&lt;/span&gt;virtio &lt;span class="se"&gt;\&lt;/span&gt;
+-smp &lt;span class="m"&gt;4&lt;/span&gt; -cpu host -m &lt;span class="m"&gt;4096&lt;/span&gt; -vga qxl &lt;span class="se"&gt;\&lt;/span&gt;
+-net nic,model&lt;span class="o"&gt;=&lt;/span&gt;virtio -net user &lt;span class="se"&gt;\&lt;/span&gt;
+-soundhw hda
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="win10" src="http://fatminmin.com/images/win10.png" /&gt;&lt;/p&gt;
+&lt;p&gt;ps: The performance of win10 with &lt;em&gt;virtio driver&lt;/em&gt; is really amazing! I am very exciting to see virtio_gpu driver appearing on Windows platform.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="win10_performance" src="http://fatminmin.com/images/win10_performance.png" /&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">FatMinMin</dc:creator><pubDate>Thu, 21 Jan 2016 16:02:00 +0800</pubDate><guid>tag:fatminmin.com,2016-01-21:blog/run-win10-qemu-kvm.html</guid></item><item><title>OOP in C</title><link>http://fatminmin.com/blog/oop-in-c.html</link><description>&lt;p&gt;Despite C does not support OOP like C++ or Java, OOP concepts is still used in Android HAL module and GTK+ programs.&lt;/p&gt;
 &lt;h1&gt;Inheretance&lt;/h1&gt;
 &lt;p&gt;Simulating inheretance feature in C is done by simply putting the parent class as the first field in the structure. In this way, we can get all the parent fields in the child class and transform it to the parent type by using a simple pointer conversion.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;typedef&lt;/span&gt; &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
@@ -160,25 +181,4 @@ Application object may be messy.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="collage" src="http://fatminmin.com/images/pebble_collage.jpg" /&gt;&lt;/p&gt;
 &lt;h2&gt;為什麼我選擇買Pebble&lt;/h2&gt;
 &lt;p&gt;再來就說說為什麼要買這個很多人都認為很雞肋的智慧錶XD，目前市面上續航力好的健身錶(fitbit surge可以撐七天)應該賣的比智慧錶還好很多，不過我覺得智慧錶上面可以跑app就可以有無限的可能XD，除了基本的activity tracking、timer之類的基本功能，我覺得智慧錶最大的好處就可以提供你另外一種操作手機的方式（大部份智慧手錶沒有直接聯網的能力的大部分的資訊都是從手機來），chromecast之類的產品是讓你把手機的資訊帶到大螢幕上，而智慧手錶反過來則是將手機的資訊帶到手上的小螢幕，其實真的很多時候去把手機拿出來操作是個很麻煩的行為，譬如說騎機車的時候就不可能拿出手機看gps導航，但是透過手錶就可以即時看到你目前的位置，甚至可以幫你導航，或者是你走路走到一半想看一下下一班公車時間，這種非常即時且短暫的需求你就不會想在將手機從包包取出來然後看個兩秒在放回包包裡，但是有了智慧錶這些事情就可以變得非常方便！&lt;/p&gt;
-&lt;p&gt;不過續航力就是智慧錶的死穴，所以我從一開始最想要的就是pebble了！pebble是用e-paper的螢幕，螢幕可以always on、不反光，pebble time續航力可以到七天，pebble time steel甚至可以到10天，雖然沒有GPS和heart rate sensor，不過光是這個續航力就值得了，而且pebble還具有&lt;a href="https://developer.getpebble.com/guides/hardware/"&gt;smart strap&lt;/a&gt;的擴充功能，可以讓第三方開發商製作智慧錶帶，上面就可能搭載GPS和heart rate sensor，不過目前只有&lt;a href="http://www.smartwatch.me/t/introducing-fitpay-payment-smartstrap-for-pebble-time/1278/"&gt;fitpay&lt;/a&gt;這個智慧錶帶，不過還滿期待之後會有更多智慧錶帶出來XD(所以其實我覺得&lt;a href="https://www.kickstarter.com/projects/2106691934/blocks-the-worlds-first-modular-smartwatch"&gt;Blocks&lt;/a&gt;的概念也是致敬pebble這功能就是了)&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">FatMinMin</dc:creator><pubDate>Fri, 13 Nov 2015 21:50:00 +0800</pubDate><guid>tag:fatminmin.com,2015-11-13:blog/got-my-pebble-time.html</guid></item><item><title>Hi, I am FatMinMin</title><link>http://fatminmin.com/blog/hi-i-am-fatminmin.html</link><description>&lt;p&gt;Hi, I am FatMinMin. Welcome to my blog :).&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">FatMinMin</dc:creator><pubDate>Wed, 28 Oct 2015 13:20:00 +0800</pubDate><guid>tag:fatminmin.com,2015-10-28:blog/hi-i-am-fatminmin.html</guid></item><item><title>Running Win10 in QEMU/KVM</title><link>http://fatminmin.com/blog/run-win10-qemu-kvm.html</link><description>&lt;p&gt;I installed a win10 virtual machine using the &lt;a href="https://virt-manager.org/"&gt;Virt-Manager&lt;/a&gt;. However, when I switched to command line to launch the virtual machine. I found the win10 always showing me the following error message.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&amp;gt; &lt;span class="nv"&gt;$ &lt;/span&gt;qemu-system-x86_64 --enable-kvm &lt;span class="se"&gt;\ &lt;/span&gt;
--drive &lt;span class="nv"&gt;file&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;./win10.img,if&lt;span class="o"&gt;=&lt;/span&gt;virtio &lt;span class="se"&gt;\&lt;/span&gt;
--smp &lt;span class="m"&gt;4&lt;/span&gt; -m &lt;span class="m"&gt;4096&lt;/span&gt; -vga qxl &lt;span class="se"&gt;\&lt;/span&gt;
--net nic,model&lt;span class="o"&gt;=&lt;/span&gt;virtio -net user &lt;span class="se"&gt;\&lt;/span&gt;
--soundhw hda
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;&lt;img alt="win10_error" src="http://fatminmin.com/images/win10_error.png" /&gt;&lt;/p&gt;
-&lt;p&gt;After some trial and error, I found if I pass &lt;code&gt;-cpu host&lt;/code&gt; option. (default is &lt;em&gt;qemu64&lt;/em&gt;) The win10 virtual machine can finally be successfully boot up! I think win10 may only allow whitelisted cpu model to run to prevent old cpu without advance features from running.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&amp;gt; &lt;span class="nv"&gt;$ &lt;/span&gt;qemu-system-x86_64 --enable-kvm &lt;span class="se"&gt;\&lt;/span&gt;
--drive &lt;span class="nv"&gt;file&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;./win10.img,if&lt;span class="o"&gt;=&lt;/span&gt;virtio &lt;span class="se"&gt;\&lt;/span&gt;
--smp &lt;span class="m"&gt;4&lt;/span&gt; -cpu host -m &lt;span class="m"&gt;4096&lt;/span&gt; -vga qxl &lt;span class="se"&gt;\&lt;/span&gt;
--net nic,model&lt;span class="o"&gt;=&lt;/span&gt;virtio -net user &lt;span class="se"&gt;\&lt;/span&gt;
--soundhw hda
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;&lt;img alt="win10" src="http://fatminmin.com/images/win10.png" /&gt;&lt;/p&gt;
-&lt;p&gt;ps: The performance of win10 with &lt;em&gt;virtio driver&lt;/em&gt; is really amazing! I am very exciting to see virtio_gpu driver appearing on Windows platform.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="win10_performance" src="http://fatminmin.com/images/win10_performance.png" /&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">FatMinMin</dc:creator><pubDate>Wed, 21 Jan 2015 16:02:00 +0800</pubDate><guid>tag:fatminmin.com,2015-01-21:blog/run-win10-qemu-kvm.html</guid></item></channel></rss>
+&lt;p&gt;不過續航力就是智慧錶的死穴，所以我從一開始最想要的就是pebble了！pebble是用e-paper的螢幕，螢幕可以always on、不反光，pebble time續航力可以到七天，pebble time steel甚至可以到10天，雖然沒有GPS和heart rate sensor，不過光是這個續航力就值得了，而且pebble還具有&lt;a href="https://developer.getpebble.com/guides/hardware/"&gt;smart strap&lt;/a&gt;的擴充功能，可以讓第三方開發商製作智慧錶帶，上面就可能搭載GPS和heart rate sensor，不過目前只有&lt;a href="http://www.smartwatch.me/t/introducing-fitpay-payment-smartstrap-for-pebble-time/1278/"&gt;fitpay&lt;/a&gt;這個智慧錶帶，不過還滿期待之後會有更多智慧錶帶出來XD(所以其實我覺得&lt;a href="https://www.kickstarter.com/projects/2106691934/blocks-the-worlds-first-modular-smartwatch"&gt;Blocks&lt;/a&gt;的概念也是致敬pebble這功能就是了)&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">FatMinMin</dc:creator><pubDate>Fri, 13 Nov 2015 21:50:00 +0800</pubDate><guid>tag:fatminmin.com,2015-11-13:blog/got-my-pebble-time.html</guid></item><item><title>Hi, I am FatMinMin</title><link>http://fatminmin.com/blog/hi-i-am-fatminmin.html</link><description>&lt;p&gt;Hi, I am FatMinMin. Welcome to my blog :).&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">FatMinMin</dc:creator><pubDate>Wed, 28 Oct 2015 13:20:00 +0800</pubDate><guid>tag:fatminmin.com,2015-10-28:blog/hi-i-am-fatminmin.html</guid></item></channel></rss>
