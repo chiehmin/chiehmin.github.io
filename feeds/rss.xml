@@ -42,10 +42,7 @@ Formatting &lt;span class="s1"&gt;&amp;#39;win10.img&amp;#39;&lt;/span&gt;, &lt;
 &lt;p&gt;Then, after the installation process completed. I have to installed the virtio driver for network and qxl vga driver.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="virtio_disk_driver" src="http://fatminmin.com/images/virtio_network.png" /&gt;
 &lt;img alt="virtio_disk_driver" src="http://fatminmin.com/images/qxl.png" /&gt;&lt;/p&gt;
-&lt;p&gt;Finally, the VM is ready to used :).&lt;/p&gt;
-&lt;p&gt;ps: &lt;br /&gt;
-&lt;em&gt; -usbdevice tablet: mouse integration
-&lt;/em&gt; -usbdevice host:vendor_id:product_id: usb passthrough&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">FatMinMin</dc:creator><pubDate>Fri, 22 Jan 2016 16:34:00 +0800</pubDate><guid>tag:fatminmin.com,2016-01-22:blog/install-win10-with-virtio.html</guid></item><item><title>Running Win10 in QEMU/KVM</title><link>http://fatminmin.com/blog/run-win10-qemu-kvm.html</link><description>&lt;p&gt;I installed a win10 virtual machine using the &lt;a href="https://virt-manager.org/"&gt;Virt-Manager&lt;/a&gt;. However, when I switched to command line to launch the virtual machine. I found the win10 always showing me the following error message.&lt;/p&gt;
+&lt;p&gt;Finally, the VM is ready to used :).&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">FatMinMin</dc:creator><pubDate>Fri, 22 Jan 2016 16:34:00 +0800</pubDate><guid>tag:fatminmin.com,2016-01-22:blog/install-win10-with-virtio.html</guid></item><item><title>Running Win10 in QEMU/KVM</title><link>http://fatminmin.com/blog/run-win10-qemu-kvm.html</link><description>&lt;p&gt;I installed a win10 virtual machine using the &lt;a href="https://virt-manager.org/"&gt;Virt-Manager&lt;/a&gt;. However, when I switched to command line to launch the virtual machine. I found the win10 always showing me the following error message.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&amp;gt; &lt;span class="nv"&gt;$ &lt;/span&gt;qemu-system-x86_64 --enable-kvm &lt;span class="se"&gt;\ &lt;/span&gt;
 -drive &lt;span class="nv"&gt;file&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;./win10.img,if&lt;span class="o"&gt;=&lt;/span&gt;virtio &lt;span class="se"&gt;\&lt;/span&gt;
 -smp &lt;span class="m"&gt;4&lt;/span&gt; -m &lt;span class="m"&gt;4096&lt;/span&gt; -vga qxl &lt;span class="se"&gt;\&lt;/span&gt;
