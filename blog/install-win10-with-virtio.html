@@ -88,7 +88,7 @@ Formatting <span class="s1">&#39;win10.img&#39;</span>, <span class="nv">fmt</sp
 
 <p>Then, started the VM and began the installation process. Here, I specified the disk interface to be virtio.</p>
 <div class="highlight"><pre>qemu-system-x86_64 --enable-kvm <span class="se">\ </span>
--smp <span class="m">4</span> -m <span class="m">4096</span> -vga std <span class="se">\</span>
+-smp <span class="m">4</span> -m <span class="m">4096</span> -cpu host -vga qxl <span class="se">\</span>
 -drive <span class="nv">file</span><span class="o">=</span>./Sync/iso_images/win10.iso,index<span class="o">=</span>1,media<span class="o">=</span>cdrom <span class="se">\</span>
 -drive <span class="nv">file</span><span class="o">=</span>./Sync/iso_images/virtio-win.iso,index<span class="o">=</span>2,media<span class="o">=</span>cdrom <span class="se">\</span>
 -drive <span class="nv">file</span><span class="o">=</span>./win10.img,if<span class="o">=</span>virtio <span class="se">\</span>

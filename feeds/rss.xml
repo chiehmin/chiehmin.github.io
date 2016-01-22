@@ -12,7 +12,7 @@ Formatting &lt;span class="s1"&gt;&amp;#39;win10.img&amp;#39;&lt;/span&gt;, &lt;
 
 &lt;p&gt;Then, started the VM and began the installation process. Here, I specified the disk interface to be virtio.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;qemu-system-x86_64 --enable-kvm &lt;span class="se"&gt;\ &lt;/span&gt;
--smp &lt;span class="m"&gt;4&lt;/span&gt; -m &lt;span class="m"&gt;4096&lt;/span&gt; -vga std &lt;span class="se"&gt;\&lt;/span&gt;
+-smp &lt;span class="m"&gt;4&lt;/span&gt; -m &lt;span class="m"&gt;4096&lt;/span&gt; -cpu host -vga qxl &lt;span class="se"&gt;\&lt;/span&gt;
 -drive &lt;span class="nv"&gt;file&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;./Sync/iso_images/win10.iso,index&lt;span class="o"&gt;=&lt;/span&gt;1,media&lt;span class="o"&gt;=&lt;/span&gt;cdrom &lt;span class="se"&gt;\&lt;/span&gt;
 -drive &lt;span class="nv"&gt;file&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;./Sync/iso_images/virtio-win.iso,index&lt;span class="o"&gt;=&lt;/span&gt;2,media&lt;span class="o"&gt;=&lt;/span&gt;cdrom &lt;span class="se"&gt;\&lt;/span&gt;
 -drive &lt;span class="nv"&gt;file&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;./win10.img,if&lt;span class="o"&gt;=&lt;/span&gt;virtio &lt;span class="se"&gt;\&lt;/span&gt;
