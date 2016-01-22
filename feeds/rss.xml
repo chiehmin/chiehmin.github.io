@@ -1,5 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>FatMinMin</title><link>http://fatminmin.com/</link><description>"A computer and a dream can take you anywhere."</description><atom:link href="http://fatminmin.com/feeds/rss.xml" rel="self"></atom:link><lastBuildDate>Thu, 21 Jan 2016 16:02:00 +0800</lastBuildDate><item><title>Running Win10 in QEMU/KVM</title><link>http://fatminmin.com/blog/run-win10-qemu-kvm.html</link><description>&lt;p&gt;I installed a win10 virtual machine using the &lt;a href="https://virt-manager.org/"&gt;Virt-Manager&lt;/a&gt;. However, when I switched to command line to launch the virtual machine. I found the win10 always showing me the following error message.&lt;/p&gt;
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>FatMinMin</title><link>http://fatminmin.com/</link><description>"A computer and a dream can take you anywhere."</description><atom:link href="http://fatminmin.com/feeds/rss.xml" rel="self"></atom:link><lastBuildDate>Fri, 22 Jan 2016 15:17:00 +0800</lastBuildDate><item><title>Installing Win10 with Virtio</title><link>http://fatminmin.com/blog/install-win10-with-virtio.html</link><description>&lt;p&gt;Here, I will record the steps of how I created a win10 virtual machine via QEMU/KVM command line with virtio drivers installed.  &lt;/p&gt;
+&lt;p&gt;First, I created a disk image of &lt;em&gt;qcow2&lt;/em&gt; format and downloaded the virtio image from fedora's website.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;# Create iso image&lt;/span&gt;
+&amp;gt; &lt;span class="nv"&gt;$ &lt;/span&gt;qemu-img create -f qcow2 win10.img 30G  
+Formatting &lt;span class="s1"&gt;&amp;#39;win10.img&amp;#39;&lt;/span&gt;, &lt;span class="nv"&gt;fmt&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;qcow2 &lt;span class="nv"&gt;size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;32212254720&lt;/span&gt; &lt;span class="nv"&gt;encryption&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;off &lt;span class="nv"&gt;cluster_size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;65536&lt;/span&gt; &lt;span class="nv"&gt;lazy_refcounts&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;off &lt;span class="nv"&gt;refcount_bits&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;16
+
+&lt;span class="c"&gt;# download latest virtio iso image&lt;/span&gt;
+&amp;gt;&lt;span class="nv"&gt;$ &lt;/span&gt;wget https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/latest-virtio/virtio-win.iso
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Then, started the VM and began the installation process. Here, I specified the disk interface to be virtio.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;qemu-system-x86_64 --enable-kvm &lt;span class="se"&gt;\ &lt;/span&gt;
+-smp &lt;span class="m"&gt;4&lt;/span&gt; -m &lt;span class="m"&gt;4096&lt;/span&gt; -vga std &lt;span class="se"&gt;\&lt;/span&gt;
+-drive &lt;span class="nv"&gt;file&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;./Sync/iso_images/win10.iso,index&lt;span class="o"&gt;=&lt;/span&gt;1,media&lt;span class="o"&gt;=&lt;/span&gt;cdrom &lt;span class="se"&gt;\&lt;/span&gt;
+-drive &lt;span class="nv"&gt;file&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;./Sync/iso_images/virtio-win.iso,index&lt;span class="o"&gt;=&lt;/span&gt;2,media&lt;span class="o"&gt;=&lt;/span&gt;cdrom &lt;span class="se"&gt;\&lt;/span&gt;
+-drive &lt;span class="nv"&gt;file&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;./win10.img,if&lt;span class="o"&gt;=&lt;/span&gt;virtio &lt;span class="se"&gt;\&lt;/span&gt;
+ -net nic,model&lt;span class="o"&gt;=&lt;/span&gt;virtio,vlan&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt; -net user
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Windows 10 does not have virtio driver builtin, so we have to install the virtio driver from the virtio-win.iso first.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="virtio_disk_driver" src="http://fatminmin.com/images/virtio_disk0.png" /&gt;&lt;/p&gt;
+&lt;p&gt;There are a lot of pv drivers contain inside the virtio-win.iso. &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;NetKVM/: Virtio Network driver&lt;/li&gt;
+&lt;li&gt;viostor/: Virtio Block driver&lt;/li&gt;
+&lt;li&gt;vioscsi/: Virtio SCSI driver&lt;/li&gt;
+&lt;li&gt;viorng/: Virtio RNG driver&lt;/li&gt;
+&lt;li&gt;vioser/: Virtio serial driver&lt;/li&gt;
+&lt;li&gt;Balloon/: Virtio Memory Balloon driver&lt;/li&gt;
+&lt;li&gt;qxl/: QXL graphics driver for Windows 7 and earlier. (build virtio-win-0.1.103-1 and later)&lt;/li&gt;
+&lt;li&gt;qxldod/: QXL graphics driver for Windows 8 and later. (build virtio-win-0.1.103-2 and later)&lt;/li&gt;
+&lt;li&gt;pvpanic/: QEMU pvpanic device driver (build virtio-win-0.1.103-2 and later)&lt;/li&gt;
+&lt;li&gt;guest-agent/: QEMU Guest Agent 32bit and 64bit MSI installers&lt;/li&gt;
+&lt;li&gt;qemupciserial/: QEMU PCI serial device driver&lt;/li&gt;
+&lt;li&gt;*.vfd: VFD floppy images for using during install of Windows XP&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;So here I selected the Virtio Block driver for win10.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="virtio_disk_driver" src="http://fatminmin.com/images/virtio_disk1.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Then, after the installation process completed. I have to installed the virtio driver for network and qxl vga driver.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="virtio_disk_driver" src="http://fatminmin.com/images/virtio_network.png" /&gt;
+&lt;img alt="virtio_disk_driver" src="http://fatminmin.com/images/qxl.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Finally, the VM is ready to used :).&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">FatMinMin</dc:creator><pubDate>Fri, 22 Jan 2016 15:17:00 +0800</pubDate><guid>tag:fatminmin.com,2016-01-22:blog/install-win10-with-virtio.html</guid></item><item><title>Running Win10 in QEMU/KVM</title><link>http://fatminmin.com/blog/run-win10-qemu-kvm.html</link><description>&lt;p&gt;I installed a win10 virtual machine using the &lt;a href="https://virt-manager.org/"&gt;Virt-Manager&lt;/a&gt;. However, when I switched to command line to launch the virtual machine. I found the win10 always showing me the following error message.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&amp;gt; &lt;span class="nv"&gt;$ &lt;/span&gt;qemu-system-x86_64 --enable-kvm &lt;span class="se"&gt;\ &lt;/span&gt;
 -drive &lt;span class="nv"&gt;file&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;./win10.img,if&lt;span class="o"&gt;=&lt;/span&gt;virtio &lt;span class="se"&gt;\&lt;/span&gt;
 -smp &lt;span class="m"&gt;4&lt;/span&gt; -m &lt;span class="m"&gt;4096&lt;/span&gt; -vga qxl &lt;span class="se"&gt;\&lt;/span&gt;
