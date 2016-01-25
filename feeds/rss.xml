@@ -1,5 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>FatMinMin</title><link>http://fatminmin.com/</link><description>"A computer and a dream can take you anywhere."</description><atom:link href="http://fatminmin.com/feeds/rss.xml" rel="self"></atom:link><lastBuildDate>Fri, 22 Jan 2016 16:34:00 +0800</lastBuildDate><item><title>Installing Win10 with Virtio</title><link>http://fatminmin.com/blog/install-win10-with-virtio.html</link><description>&lt;p&gt;Here, I will record the steps of how I created a win10 virtual machine via QEMU/KVM command line with virtio drivers installed.  &lt;/p&gt;
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>FatMinMin</title><link>http://fatminmin.com/</link><description>"A computer and a dream can take you anywhere."</description><atom:link href="http://fatminmin.com/feeds/rss.xml" rel="self"></atom:link><lastBuildDate>Mon, 25 Jan 2016 20:19:00 +0800</lastBuildDate><item><title>Install Remix OS using Android x86 Installer</title><link>http://fatminmin.com/blog/install-remix-os-to-disk.html</link><description>&lt;p&gt;I recently installed the popular desktop Android environment &lt;a href="http://www.jide.com/en/remixos"&gt;Remix OS&lt;/a&gt; into my usb disk. However I found the data partition(it is data.img actually) created by Remis OS installation process is soooo small! I can not even install HearthStone in it. And I don't know why it format the usb disk into fat32, ext4 should be better. &lt;/p&gt;
+&lt;p&gt;I found actually I can invoke the traditional Android x86 installer that can help you install remix os into any disk, using ext4 and getting larger data partition. I can invoke it by simply adding &lt;code&gt;INSTALL=1&lt;/code&gt; into boot time parameter list. This parameter will be check by the initrd script as follow:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="android_x86_initrd" src="http://fatminmin.com/images/android_x86_initrd.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Here I used QEMU/KVM and usb passthrough to install remix os into my 16GB usb disk.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;qemu-system-x86_64 --enable-kvm -boot d &lt;span class="se"&gt;\&lt;/span&gt;
+-cdrom ./Remix_OS_for_PC_64_B2016011402_Alpha_Legacy.iso &lt;span class="se"&gt;\&lt;/span&gt;
+-smp &lt;span class="m"&gt;4&lt;/span&gt; -m &lt;span class="m"&gt;4096&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+-vga std -usbdevice tablet -soundhw hda &lt;span class="se"&gt;\ &lt;/span&gt;
+-usb -device usb-host,hostbus&lt;span class="o"&gt;=&lt;/span&gt;3,hostaddr&lt;span class="o"&gt;=&lt;/span&gt;8
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;First, press tab to edit boot parameter at GRUB menu.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="grub_tab" src="http://fatminmin.com/images/grub_tab.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Add &lt;code&gt;INSTALL=1&lt;/code&gt; to the parameter list&lt;/p&gt;
+&lt;p&gt;&lt;img alt="grub_edit" src="http://fatminmin.com/images/grub_edit.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Here we get the traditional Android x86 installation program invoked. And I have to press &lt;em&gt;detect devices&lt;/em&gt; first to let the installation program to probe my usb device.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="android_x86_install" src="http://fatminmin.com/images/android_x86_install.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Create a partition and mark it as bootable.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="fdisk" src="http://fatminmin.com/images/fdisk.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Select the partition just created.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="start_install" src="http://fatminmin.com/images/start_install.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Choose ext4 as disk format type and start the installation!&lt;/p&gt;
+&lt;p&gt;&lt;img alt="installing" src="http://fatminmin.com/images/installing.png" /&gt;&lt;/p&gt;
+&lt;p&gt;After installation is complete, I plugged my usb disk into my laptop and remix os is working great with ext4 and can access the full storage of my 16GB usb disk now.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="grub_remix" src="http://fatminmin.com/images/grub_remix.jpg" /&gt;
+&lt;img alt="full_storage" src="http://fatminmin.com/images/full_storage.jpg" /&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">FatMinMin</dc:creator><pubDate>Mon, 25 Jan 2016 20:19:00 +0800</pubDate><guid>tag:fatminmin.com,2016-01-25:blog/install-remix-os-to-disk.html</guid></item><item><title>Installing Win10 with Virtio</title><link>http://fatminmin.com/blog/install-win10-with-virtio.html</link><description>&lt;p&gt;Here, I will record the steps of how I created a win10 virtual machine via QEMU/KVM command line with virtio drivers installed.  &lt;/p&gt;
 &lt;p&gt;First, I created a disk image of &lt;em&gt;qcow2&lt;/em&gt; format and downloaded the virtio image from fedora's website.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;# Create iso image&lt;/span&gt;
 &amp;gt; &lt;span class="nv"&gt;$ &lt;/span&gt;qemu-img create -f qcow2 win10.img 30G  
