@@ -1,5 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>FatMinMin</title><link>http://fatminmin.com/</link><description>"A computer and a dream can take you anywhere."</description><atom:link href="http://fatminmin.com/feeds/rss.xml" rel="self"></atom:link><lastBuildDate>Mon, 25 Jan 2016 20:19:00 +0800</lastBuildDate><item><title>Install Remix OS using Android x86 Installer</title><link>http://fatminmin.com/blog/install-remix-os-to-disk.html</link><description>&lt;p&gt;I recently installed the popular desktop Android environment &lt;a href="http://www.jide.com/en/remixos"&gt;Remix OS&lt;/a&gt; into my usb disk. However I found the data partition(it is data.img actually) created by Remis OS installation process is soooo small! I can not even install HearthStone in it. And I don't know why it format the usb disk into fat32, ext4 should be better. &lt;/p&gt;
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>FatMinMin</title><link>http://fatminmin.com/</link><description>"A computer and a dream can take you anywhere."</description><atom:link href="http://fatminmin.com/feeds/rss.xml" rel="self"></atom:link><lastBuildDate>Sat, 20 Feb 2016 21:15:00 +0800</lastBuildDate><item><title>Configuring NAT Network for VM</title><link>http://fatminmin.com/blog/qemu-nat.html</link><description>&lt;p&gt;I just went to a &lt;a href="http://hcsm.kktix.cc/events/160218"&gt;meetup&lt;/a&gt; talking about netfilter, conntrack and sip in Linux kernel. I used to use &lt;a href="https://virt-manager.org/"&gt;Virt-Manager&lt;/a&gt; to setup NAT+DHCP for me. I think it is a good time to practice setting up the NAT network and playing with iptables. So the following is my setting notes.&lt;/p&gt;
+&lt;h2&gt;Create a tap device&lt;/h2&gt;
+&lt;p&gt;TUN and TAP are virtual network devices. Here I create a &lt;code&gt;tap0&lt;/code&gt; device and set its ip to &lt;code&gt;192.168.123.1&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo tunctl -u fatminmin -t tap0
+&lt;span class="nv"&gt;$ &lt;/span&gt;sudo ifconfig tap0 192.168.123.1 up
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Configuring NAT with iptables&lt;/h2&gt;
+&lt;p&gt;I enabled ip_forward feature and accept all forwarding packets send from/to tap0. Then, the most important thing to do is to set &lt;code&gt;MASQUERADE&lt;/code&gt; mode for SNAT and the NAT starts working after issuing &lt;code&gt;iptable-save&lt;/code&gt;. &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;echo &lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; sudo tee /proc/sys/net/ipv4/ip_forward
+&lt;span class="nv"&gt;$ &lt;/span&gt;sudo iptables -A FORWARD -i tap0 -j ACCEPT
+&lt;span class="nv"&gt;$ &lt;/span&gt;sudo iptables -A FORWARD -o tap0 -j ACCEPT
+&lt;span class="nv"&gt;$ &lt;/span&gt;sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+&lt;span class="nv"&gt;$ &lt;/span&gt;sudo iptables-save
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Starting VMs&lt;/h2&gt;
+&lt;p&gt;Finally, I can just start the VM by specifying using tap0 as tap device and set up the ip settings in the VM manually.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo qemu-system-x86_64 --enable-kvm &lt;span class="se"&gt;\ &lt;/span&gt;                                                                                                                                                  
+-smp &lt;span class="m"&gt;4&lt;/span&gt; -m &lt;span class="m"&gt;4096&lt;/span&gt; -cpu host -vga std &lt;span class="se"&gt;\&lt;/span&gt;
+-drive &lt;span class="nv"&gt;file&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;./kali.img,if&lt;span class="o"&gt;=&lt;/span&gt;virtio &lt;span class="se"&gt;\&lt;/span&gt;
+-net nic,model&lt;span class="o"&gt;=&lt;/span&gt;virtio -net tap,ifname&lt;span class="o"&gt;=&lt;/span&gt;tap0,script&lt;span class="o"&gt;=&lt;/span&gt;no &lt;span class="se"&gt;\&lt;/span&gt;
+-boot d &lt;span class="se"&gt;\&lt;/span&gt;
+-usbdevice tablet
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;IP settings in VM
+ * IP: 192.168.123.100
+ * Netmask: 255.255.255.0
+ * Gateway: 192.168.123.1&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">FatMinMin</dc:creator><pubDate>Sat, 20 Feb 2016 21:15:00 +0800</pubDate><guid>tag:fatminmin.com,2016-02-20:blog/qemu-nat.html</guid></item><item><title>Install Remix OS using Android x86 Installer</title><link>http://fatminmin.com/blog/install-remix-os-to-disk.html</link><description>&lt;p&gt;I recently installed the popular desktop Android environment &lt;a href="http://www.jide.com/en/remixos"&gt;Remix OS&lt;/a&gt; into my usb disk. However I found the data partition(it is data.img actually) created by Remis OS installation process is soooo small! I can not even install HearthStone in it. And I don't know why it format the usb disk into fat32, ext4 should be better. &lt;/p&gt;
 &lt;p&gt;I found actually I can invoke the traditional Android x86 installer that can help you install remix os into any disk, using ext4 and getting larger data partition. I can invoke it by simply adding &lt;code&gt;INSTALL=1&lt;/code&gt; into boot time parameter list. This parameter will be check by the initrd script as follow:&lt;/p&gt;
 &lt;p&gt;&lt;img alt="android_x86_initrd" src="http://fatminmin.com/images/android_x86_initrd.png" /&gt;&lt;/p&gt;
 &lt;p&gt;Here I used QEMU/KVM and usb passthrough to install remix os into my 16GB usb disk.&lt;/p&gt;
