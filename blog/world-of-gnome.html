@@ -62,54 +62,39 @@
 <section class="content">
 
   <h3 class="posttitle">
-    <a class="nodec" href="/blog/install-remix-os-to-disk.html" rel="bookmark" title="Permalink to Install Remix OS using Android x86 Installer">
-      Install Remix OS using Android x86 Installer
+    <a class="nodec" href="/blog/world-of-gnome.html" rel="bookmark" title="Permalink to The World of GNOME">
+      The World of GNOME
     </a>
   </h3>
 
   <div class="postinfo">
-    <p class="published" title="2016-01-25T20:19:00+08:00">
-      On 2016/01/25 at 20:19
+    <p class="published" title="2016-03-24T13:56:00+08:00">
+      On 2016/03/24 at 13:56
     </p>
 
   </div><!-- .postinfo -->
 
     <div class="article">
-      <p>I recently installed the popular desktop Android environment <a href="http://www.jide.com/en/remixos">Remix OS</a> into my usb disk. However I found the data partition(it is data.img actually) created by Remis OS installation process is soooo small! I can not even install HearthStone in it. And I don't know why it format the usb disk into fat32, ext4 should be better. </p>
-<p>I found actually I can invoke the traditional Android x86 installer that can help you install remix os into any disk, using ext4 and getting larger data partition. I can invoke it by simply adding <code>INSTALL=1</code> into boot time parameter list. This parameter will be check by the initrd script as follow:</p>
-<p><img alt="android_x86_initrd" src="http://fatminmin.com/images/android_x86_initrd.png" /></p>
-<p>Here I used QEMU/KVM and usb passthrough to install remix os into my 16GB usb disk.</p>
-<div class="highlight"><pre><span></span>qemu-system-x86_64 --enable-kvm -boot d <span class="se">\</span>
--cdrom ./Remix_OS_for_PC_64_B2016011402_Alpha_Legacy.iso <span class="se">\</span>
--smp <span class="m">4</span> -m <span class="m">4096</span> <span class="se">\</span>
--vga std -usbdevice tablet -soundhw hda <span class="se">\ </span>
--usb -device usb-host,hostbus<span class="o">=</span>3,hostaddr<span class="o">=</span>8
-</pre></div>
-
-
-<p>First, press tab to edit boot parameter at GRUB menu.</p>
-<p><img alt="grub_tab" src="http://fatminmin.com/images/grub_tab.png" /></p>
-<p>Add <code>INSTALL=1</code> to the parameter list</p>
-<p><img alt="grub_edit" src="http://fatminmin.com/images/grub_edit.png" /></p>
-<p>Here we get the traditional Android x86 installation program invoked. And I have to press <em>detect devices</em> first to let the installation program to probe my usb device.</p>
-<p><img alt="android_x86_install" src="http://fatminmin.com/images/android_x86_install.png" /></p>
-<p>Create a partition and mark it as bootable.</p>
-<p><img alt="fdisk" src="http://fatminmin.com/images/fdisk.png" /></p>
-<p>Select the partition just created.</p>
-<p><img alt="start_install" src="http://fatminmin.com/images/start_install.png" /></p>
-<p>Choose ext4 as disk format type and start the installation!</p>
-<p><img alt="installing" src="http://fatminmin.com/images/installing.png" /></p>
-<p>After installation is complete, I plugged my usb disk into my laptop and remix os is working great with ext4 and can access the full storage of my 16GB usb disk now.</p>
-<p><img alt="grub_remix" src="http://fatminmin.com/images/grub_remix.jpg" />
-<img alt="full_storage" src="http://fatminmin.com/images/full_storage.jpg" /></p>
+      <p>Recently, I was planning to apply GSOC 2016 for GNOME project. However, I am a bit too late for preparing the whole thing. Other active candidates already fixed plenty of bugs while I am still tracing the code of projects I am interested. Even though I have little chance of getting chosen, I still feel worthy for preparing all this. </p>
+<p>I am pretty amazed by the <a href="https://wiki.gnome.org/action/show/Projects/GObjectIntrospection?action=show&amp;redirect=GObjectIntrospection">GObject Introspection</a> project. It allows other runtimes to access GTK, GLib and other GObject-based libraries effeciently. I am surprised that large portion of <a href="https://en.wikipedia.org/wiki/GNOME_Shell">GNOME Shell</a> is written with javascript but still have such wonderful animations and fluency. This is a <a href="https://www.reddit.com/r/gnome/comments/l3gbu/gnome_3_why_javascript_and_not_python/">post</a> explaining about why GNOME Shell choose javascript to create its UI.</p>
+<p>The project I am interested is GNOME Music which uses Python(PyGI) as its runtime. I wish to get scrolling lyrics feature for my daily used music player and I hope I can implement this feature by myself. The new goal for myself is to become a GNOME contributor. Hope I can finnaly submit some patch to it someday soon :)</p>
+<ul>
+<li><a href="https://wiki.gnome.org/action/show/Projects/PyGObject?action=show&amp;redirect=PyGObject">PyGObject (aka PyGI)</a></li>
+<li><a href="https://developer.gnome.org/gnome-devel-demos/stable/js.html.en">GNOME javascript</a></li>
+</ul>
+<p>ps: I become a Fedora user after having a lot of dependency issue when building GNOME apps on Ubuntu. And I found Fedora is a really nice distribution to use. It's package management tool <code>dnf</code> is more easy to use than <code>apt-get</code> and almost every package is at the newest version. Even though I have to fix some font and mp3 codec issue after installation(Because of some legal issue, Fedora does not include those by default), Fedora is still very nice to use and I really love it :). </p>
+<ul>
+<li><a href="https://www.reddit.com/r/Fedora/comments/3o6ijr/trying_fedora_23_for_the_first_time_why_do_fonts/">solution for ugly font issue</a></li>
+<li><a href="https://ask.fedoraproject.org/en/question/42073/how-i-can-install-audio-codecs-like-mp3/">mp3 codec installation</a></li>
+</ul>
     </div><!-- .content -->
 
     <h2>Comments</h2>
     <div id="disqus_thread"></div>
     <script type="text/javascript">
        var disqus_shortname = 'fatminmin';
-       var disqus_identifier = 'blog/install-remix-os-to-disk.html';
-       var disqus_url = 'http://fatminmin.com/blog/install-remix-os-to-disk.html';
+       var disqus_identifier = 'blog/world-of-gnome.html';
+       var disqus_url = 'http://fatminmin.com/blog/world-of-gnome.html';
        (function() {
             var dsq = document.createElement('script');
             dsq.type = 'text/javascript'; dsq.async = true;

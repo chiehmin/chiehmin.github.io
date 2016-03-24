@@ -1,25 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>FatMinMin</title><link>http://fatminmin.com/</link><description>"A computer and a dream can take you anywhere."</description><atom:link href="http://fatminmin.com/feeds/rss.xml" rel="self"></atom:link><lastBuildDate>Sat, 20 Feb 2016 21:15:00 +0800</lastBuildDate><item><title>Configuring NAT Network for VM</title><link>http://fatminmin.com/blog/qemu-nat.html</link><description>&lt;p&gt;I just went to a &lt;a href="http://hcsm.kktix.cc/events/160218"&gt;meetup&lt;/a&gt; talking about netfilter, conntrack and sip in Linux kernel. I used to use &lt;a href="https://virt-manager.org/"&gt;Virt-Manager&lt;/a&gt; to setup NAT+DHCP for me. I think it is a good time to practice setting up the NAT network and playing with iptables. So the following is my setting notes.&lt;/p&gt;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>FatMinMin</title><link>http://fatminmin.com/</link><description>"A computer and a dream can take you anywhere."</description><atom:link href="http://fatminmin.com/feeds/rss.xml" rel="self"></atom:link><lastBuildDate>Thu, 24 Mar 2016 13:56:00 +0800</lastBuildDate><item><title>The World of GNOME</title><link>http://fatminmin.com/blog/world-of-gnome.html</link><description>&lt;p&gt;Recently, I was planning to apply GSOC 2016 for GNOME project. However, I am a bit too late for preparing the whole thing. Other active candidates already fixed plenty of bugs while I am still tracing the code of projects I am interested. Even though I have little chance of getting chosen, I still feel worthy for preparing all this. &lt;/p&gt;
+&lt;p&gt;I am pretty amazed by the &lt;a href="https://wiki.gnome.org/action/show/Projects/GObjectIntrospection?action=show&amp;amp;redirect=GObjectIntrospection"&gt;GObject Introspection&lt;/a&gt; project. It allows other runtimes to access GTK, GLib and other GObject-based libraries effeciently. I am surprised that large portion of &lt;a href="https://en.wikipedia.org/wiki/GNOME_Shell"&gt;GNOME Shell&lt;/a&gt; is written with javascript but still have such wonderful animations and fluency. This is a &lt;a href="https://www.reddit.com/r/gnome/comments/l3gbu/gnome_3_why_javascript_and_not_python/"&gt;post&lt;/a&gt; explaining about why GNOME Shell choose javascript to create its UI.&lt;/p&gt;
+&lt;p&gt;The project I am interested is GNOME Music which uses Python(PyGI) as its runtime. I wish to get scrolling lyrics feature for my daily used music player and I hope I can implement this feature by myself. The new goal for myself is to become a GNOME contributor. Hope I can finnaly submit some patch to it someday soon :)&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://wiki.gnome.org/action/show/Projects/PyGObject?action=show&amp;amp;redirect=PyGObject"&gt;PyGObject (aka PyGI)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://developer.gnome.org/gnome-devel-demos/stable/js.html.en"&gt;GNOME javascript&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;ps: I become a Fedora user after having a lot of dependency issue when building GNOME apps on Ubuntu. And I found Fedora is a really nice distribution to use. It's package management tool &lt;code&gt;dnf&lt;/code&gt; is more easy to use than &lt;code&gt;apt-get&lt;/code&gt; and almost every package is at the newest version. Even though I have to fix some font and mp3 codec issue after installation(Because of some legal issue, Fedora does not include those by default), Fedora is still very nice to use and I really love it :). &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.reddit.com/r/Fedora/comments/3o6ijr/trying_fedora_23_for_the_first_time_why_do_fonts/"&gt;solution for ugly font issue&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://ask.fedoraproject.org/en/question/42073/how-i-can-install-audio-codecs-like-mp3/"&gt;mp3 codec installation&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">FatMinMin</dc:creator><pubDate>Thu, 24 Mar 2016 13:56:00 +0800</pubDate><guid>tag:fatminmin.com,2016-03-24:blog/world-of-gnome.html</guid></item><item><title>Configuring NAT Network for VM</title><link>http://fatminmin.com/blog/qemu-nat.html</link><description>&lt;p&gt;I just went to a &lt;a href="http://hcsm.kktix.cc/events/160218"&gt;meetup&lt;/a&gt; talking about netfilter, conntrack and sip in Linux kernel. I used to use &lt;a href="https://virt-manager.org/"&gt;Virt-Manager&lt;/a&gt; to setup NAT+DHCP for me. I think it is a good time to practice setting up the NAT network and playing with iptables. So the following is my setting notes.&lt;/p&gt;
 &lt;h2&gt;Create a tap device&lt;/h2&gt;
 &lt;p&gt;TUN and TAP are virtual network devices. Here I create a &lt;code&gt;tap0&lt;/code&gt; device and set its ip to &lt;code&gt;192.168.123.1&lt;/code&gt;.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo tunctl -u fatminmin -t tap0
-&lt;span class="nv"&gt;$ &lt;/span&gt;sudo ifconfig tap0 192.168.123.1 up
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo tunctl -u fatminmin -t tap0
+$ sudo ifconfig tap0 192.168.123.1 up
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h2&gt;Configuring NAT with iptables&lt;/h2&gt;
 &lt;p&gt;I enabled ip_forward feature and accept all forwarding packets send from/to tap0. Then, the most important thing to do is to set &lt;code&gt;MASQUERADE&lt;/code&gt; mode for SNAT and the NAT starts working after issuing &lt;code&gt;iptable-save&lt;/code&gt;. &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;echo &lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; sudo tee /proc/sys/net/ipv4/ip_forward
-&lt;span class="nv"&gt;$ &lt;/span&gt;sudo iptables -A FORWARD -i tap0 -j ACCEPT
-&lt;span class="nv"&gt;$ &lt;/span&gt;sudo iptables -A FORWARD -o tap0 -j ACCEPT
-&lt;span class="nv"&gt;$ &lt;/span&gt;sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-&lt;span class="nv"&gt;$ &lt;/span&gt;sudo iptables-save
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; sudo tee /proc/sys/net/ipv4/ip_forward
+$ sudo iptables -A FORWARD -i tap0 -j ACCEPT
+$ sudo iptables -A FORWARD -o tap0 -j ACCEPT
+$ sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+$ sudo iptables-save
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h2&gt;Starting VMs&lt;/h2&gt;
 &lt;p&gt;Finally, I can just start the VM by specifying using tap0 as tap device and set up the ip settings in the VM manually.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo qemu-system-x86_64 --enable-kvm &lt;span class="se"&gt;\ &lt;/span&gt;                                                                                                                                                  
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo qemu-system-x86_64 --enable-kvm &lt;span class="se"&gt;\ &lt;/span&gt;                                                                                                                                                  
 -smp &lt;span class="m"&gt;4&lt;/span&gt; -m &lt;span class="m"&gt;4096&lt;/span&gt; -cpu host -vga std &lt;span class="se"&gt;\&lt;/span&gt;
 -drive &lt;span class="nv"&gt;file&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;./kali.img,if&lt;span class="o"&gt;=&lt;/span&gt;virtio &lt;span class="se"&gt;\&lt;/span&gt;
 -net nic,model&lt;span class="o"&gt;=&lt;/span&gt;virtio -net tap,ifname&lt;span class="o"&gt;=&lt;/span&gt;tap0,script&lt;span class="o"&gt;=&lt;/span&gt;no &lt;span class="se"&gt;\&lt;/span&gt;
@@ -35,7 +46,7 @@
 &lt;p&gt;I found actually I can invoke the traditional Android x86 installer that can help you install remix os into any disk, using ext4 and getting larger data partition. I can invoke it by simply adding &lt;code&gt;INSTALL=1&lt;/code&gt; into boot time parameter list. This parameter will be check by the initrd script as follow:&lt;/p&gt;
 &lt;p&gt;&lt;img alt="android_x86_initrd" src="http://fatminmin.com/images/android_x86_initrd.png" /&gt;&lt;/p&gt;
 &lt;p&gt;Here I used QEMU/KVM and usb passthrough to install remix os into my 16GB usb disk.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;qemu-system-x86_64 --enable-kvm -boot d &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;qemu-system-x86_64 --enable-kvm -boot d &lt;span class="se"&gt;\&lt;/span&gt;
 -cdrom ./Remix_OS_for_PC_64_B2016011402_Alpha_Legacy.iso &lt;span class="se"&gt;\&lt;/span&gt;
 -smp &lt;span class="m"&gt;4&lt;/span&gt; -m &lt;span class="m"&gt;4096&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
 -vga std -usbdevice tablet -soundhw hda &lt;span class="se"&gt;\ &lt;/span&gt;
@@ -59,17 +70,17 @@
 &lt;p&gt;&lt;img alt="grub_remix" src="http://fatminmin.com/images/grub_remix.jpg" /&gt;
 &lt;img alt="full_storage" src="http://fatminmin.com/images/full_storage.jpg" /&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">FatMinMin</dc:creator><pubDate>Mon, 25 Jan 2016 20:19:00 +0800</pubDate><guid>tag:fatminmin.com,2016-01-25:blog/install-remix-os-to-disk.html</guid></item><item><title>Installing Win10 with Virtio</title><link>http://fatminmin.com/blog/install-win10-with-virtio.html</link><description>&lt;p&gt;Here, I will record the steps of how I created a win10 virtual machine via QEMU/KVM command line with virtio drivers installed.  &lt;/p&gt;
 &lt;p&gt;First, I created a disk image of &lt;em&gt;qcow2&lt;/em&gt; format and downloaded the virtio image from fedora's website.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;# Create iso image&lt;/span&gt;
-&amp;gt; &lt;span class="nv"&gt;$ &lt;/span&gt;qemu-img create -f qcow2 win10.img 30G  
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Create iso image&lt;/span&gt;
+&amp;gt; $ qemu-img create -f qcow2 win10.img 30G  
 Formatting &lt;span class="s1"&gt;&amp;#39;win10.img&amp;#39;&lt;/span&gt;, &lt;span class="nv"&gt;fmt&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;qcow2 &lt;span class="nv"&gt;size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;32212254720&lt;/span&gt; &lt;span class="nv"&gt;encryption&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;off &lt;span class="nv"&gt;cluster_size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;65536&lt;/span&gt; &lt;span class="nv"&gt;lazy_refcounts&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;off &lt;span class="nv"&gt;refcount_bits&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;16
 
-&lt;span class="c"&gt;# download latest virtio iso image&lt;/span&gt;
-&amp;gt;&lt;span class="nv"&gt;$ &lt;/span&gt;wget https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/latest-virtio/virtio-win.iso
+&lt;span class="c1"&gt;# download latest virtio iso image&lt;/span&gt;
+&amp;gt;$ wget https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/latest-virtio/virtio-win.iso
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Then, started the VM and began the installation process. Here, I specified the disk interface to be virtio.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;qemu-system-x86_64 --enable-kvm &lt;span class="se"&gt;\ &lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;qemu-system-x86_64 --enable-kvm &lt;span class="se"&gt;\ &lt;/span&gt;
 -smp &lt;span class="m"&gt;4&lt;/span&gt; -m &lt;span class="m"&gt;4096&lt;/span&gt; -cpu host -vga qxl &lt;span class="se"&gt;\&lt;/span&gt;
 -drive &lt;span class="nv"&gt;file&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;./Sync/iso_images/win10.iso,index&lt;span class="o"&gt;=&lt;/span&gt;1,media&lt;span class="o"&gt;=&lt;/span&gt;cdrom &lt;span class="se"&gt;\&lt;/span&gt;
 -drive &lt;span class="nv"&gt;file&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;./Sync/iso_images/virtio-win.iso,index&lt;span class="o"&gt;=&lt;/span&gt;2,media&lt;span class="o"&gt;=&lt;/span&gt;cdrom &lt;span class="se"&gt;\&lt;/span&gt;
@@ -101,7 +112,7 @@ Formatting &lt;span class="s1"&gt;&amp;#39;win10.img&amp;#39;&lt;/span&gt;, &lt;
 &lt;p&gt;&lt;img alt="virtio_disk_driver" src="http://fatminmin.com/images/virtio_network.png" /&gt;
 &lt;img alt="virtio_disk_driver" src="http://fatminmin.com/images/qxl.png" /&gt;&lt;/p&gt;
 &lt;p&gt;Finally, the VM is ready to used :).&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">FatMinMin</dc:creator><pubDate>Fri, 22 Jan 2016 16:34:00 +0800</pubDate><guid>tag:fatminmin.com,2016-01-22:blog/install-win10-with-virtio.html</guid></item><item><title>Running Win10 in QEMU/KVM</title><link>http://fatminmin.com/blog/run-win10-qemu-kvm.html</link><description>&lt;p&gt;I installed a win10 virtual machine using the &lt;a href="https://virt-manager.org/"&gt;Virt-Manager&lt;/a&gt;. However, when I switched to command line to launch the virtual machine. I found the win10 always showing me the following error message.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&amp;gt; &lt;span class="nv"&gt;$ &lt;/span&gt;qemu-system-x86_64 --enable-kvm &lt;span class="se"&gt;\ &lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;gt; $ qemu-system-x86_64 --enable-kvm &lt;span class="se"&gt;\ &lt;/span&gt;
 -drive &lt;span class="nv"&gt;file&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;./win10.img,if&lt;span class="o"&gt;=&lt;/span&gt;virtio &lt;span class="se"&gt;\&lt;/span&gt;
 -smp &lt;span class="m"&gt;4&lt;/span&gt; -m &lt;span class="m"&gt;4096&lt;/span&gt; -vga qxl &lt;span class="se"&gt;\&lt;/span&gt;
 -net nic,model&lt;span class="o"&gt;=&lt;/span&gt;virtio -net user &lt;span class="se"&gt;\&lt;/span&gt;
@@ -111,7 +122,7 @@ Formatting &lt;span class="s1"&gt;&amp;#39;win10.img&amp;#39;&lt;/span&gt;, &lt;
 
 &lt;p&gt;&lt;img alt="win10_error" src="http://fatminmin.com/images/win10_error.png" /&gt;&lt;/p&gt;
 &lt;p&gt;After some trial and error, I found if I pass &lt;code&gt;-cpu host&lt;/code&gt; option (default is &lt;em&gt;qemu64&lt;/em&gt;), the win10 virtual machine can finally be successfully booted up! I think win10 may only allow whitelisted cpu model to run to prevent old cpu without advance features from running.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&amp;gt; &lt;span class="nv"&gt;$ &lt;/span&gt;qemu-system-x86_64 --enable-kvm &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;gt; $ qemu-system-x86_64 --enable-kvm &lt;span class="se"&gt;\&lt;/span&gt;
 -drive &lt;span class="nv"&gt;file&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;./win10.img,if&lt;span class="o"&gt;=&lt;/span&gt;virtio &lt;span class="se"&gt;\&lt;/span&gt;
 -smp &lt;span class="m"&gt;4&lt;/span&gt; -cpu host -m &lt;span class="m"&gt;4096&lt;/span&gt; -vga qxl &lt;span class="se"&gt;\&lt;/span&gt;
 -net nic,model&lt;span class="o"&gt;=&lt;/span&gt;virtio -net user &lt;span class="se"&gt;\&lt;/span&gt;
@@ -124,7 +135,7 @@ Formatting &lt;span class="s1"&gt;&amp;#39;win10.img&amp;#39;&lt;/span&gt;, &lt;
 &lt;p&gt;&lt;img alt="win10_performance" src="http://fatminmin.com/images/win10_performance.png" /&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">FatMinMin</dc:creator><pubDate>Thu, 21 Jan 2016 16:02:00 +0800</pubDate><guid>tag:fatminmin.com,2016-01-21:blog/run-win10-qemu-kvm.html</guid></item><item><title>OOP in C</title><link>http://fatminmin.com/blog/oop-in-c.html</link><description>&lt;p&gt;Despite C does not support OOP like C++ or Java, OOP concepts is still used in Android HAL module and GTK+ programs.&lt;/p&gt;
 &lt;h1&gt;Inheretance&lt;/h1&gt;
 &lt;p&gt;Simulating inheretance feature in C is done by simply putting the parent class as the first field in the structure. In this way, we can get all the parent fields in the child class and transform it to the parent type by using a simple pointer conversion.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;typedef&lt;/span&gt; &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;typedef&lt;/span&gt; &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
     &lt;span class="p"&gt;...&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="n"&gt;Animal&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 
@@ -146,17 +157,17 @@ Formatting &lt;span class="s1"&gt;&amp;#39;win10.img&amp;#39;&lt;/span&gt;, &lt;
 &lt;h2&gt;GTK+&lt;/h2&gt;
 &lt;p&gt;GTK+ programs use more OOP concepts for developing. The inheretance structure is this &lt;code&gt;GObject &amp;lt;- GInitiallyUnowned &amp;lt;- GtkObject &amp;lt;- GtkWidget &amp;lt;- GtkContainer &amp;lt;- GtkBin &amp;lt;- GtkWindow&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;For most GTK functions, the first argument works as the &lt;code&gt;this&lt;/code&gt; pointer for OOP language.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;GtkWidget&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;window&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;gtk_window_new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;GTK_WINDOW_TOPLEVEL&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;GtkWidget&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;window&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;gtk_window_new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;GTK_WINDOW_TOPLEVEL&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;span class="n"&gt;gtk_window_set_title&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;GTK_WINDOW&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;window&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;title&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;span class="c1"&gt;// this works like access gtk window member function&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;code&gt;GTK_WINDOW&lt;/code&gt; is a macro for type checking and casting&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#define GTK_WINDOW(obj)&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#define GTK_WINDOW(obj)&lt;/span&gt;
           &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;G_TYPE_CHECK_INSTANCE_CAST&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;obj&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;GTK_TYPE_WINDOW&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;GtkWindow&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">FatMinMin</dc:creator><pubDate>Sat, 26 Dec 2015 22:34:00 +0800</pubDate><guid>tag:fatminmin.com,2015-12-26:blog/oop-in-c.html</guid></item><item><title>Qemu Direct Kernel Boot without bootloader(Grub)</title><link>http://fatminmin.com/blog/direct-kernel-boot.html</link><description>&lt;p&gt;Recently, I was doing a project on Android x86 and I found the image created by Android x86 livecd using NTFS file system format cannot be booted by Qemu.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&amp;gt; &lt;span class="nv"&gt;$ &lt;/span&gt;qemu-system-x86_64 -hda base.img --enable-kvm -serial stdio &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;gt; $ qemu-system-x86_64 -hda base.img --enable-kvm -serial stdio &lt;span class="se"&gt;\&lt;/span&gt;
 -m 4G -smp &lt;span class="m"&gt;4&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
 -net nic,vlan&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
 -net user,hostfwd&lt;span class="o"&gt;=&lt;/span&gt;tcp:127.0.0.1:8001-:8001,hostfwd&lt;span class="o"&gt;=&lt;/span&gt;tcp:127.0.0.1:5555-:5555 &lt;span class="se"&gt;\&lt;/span&gt;
@@ -167,26 +178,26 @@ Formatting &lt;span class="s1"&gt;&amp;#39;win10.img&amp;#39;&lt;/span&gt;, &lt;
 
 &lt;p&gt;And I suspected the problem may be caused by the grub bootloader can not be executed correctly. So I tried extracting the kernel and initrd(it is initramfs actually) and passed it to Qemu directly. And it just booted successfully :). Following is my steps:&lt;/p&gt;
 &lt;p&gt;1. Check the length of the bootloader (The first 63 sectors)  &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&amp;gt; &lt;span class="nv"&gt;$ &lt;/span&gt;fdisk -lu 
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;gt; $ fdisk -lu 
 Disk base.img: &lt;span class="m"&gt;5&lt;/span&gt; GiB, &lt;span class="m"&gt;5368709120&lt;/span&gt; bytes, &lt;span class="m"&gt;10485760&lt;/span&gt; sectors
 Units: sectors of &lt;span class="m"&gt;1&lt;/span&gt; * &lt;span class="nv"&gt;512&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;512&lt;/span&gt; bytes
 Sector size &lt;span class="o"&gt;(&lt;/span&gt;logical/physical&lt;span class="o"&gt;)&lt;/span&gt;: &lt;span class="m"&gt;512&lt;/span&gt; bytes / &lt;span class="m"&gt;512&lt;/span&gt; bytes
 I/O size &lt;span class="o"&gt;(&lt;/span&gt;minimum/optimal&lt;span class="o"&gt;)&lt;/span&gt;: &lt;span class="m"&gt;512&lt;/span&gt; bytes / &lt;span class="m"&gt;512&lt;/span&gt; bytes
-Disklabel &lt;span class="nb"&gt;type&lt;/span&gt;: dos
+Disklabel type: dos
 Disk identifier: 0x00000000
 
 Device     Boot Start      End  Sectors Size Id Type
 base.img1          &lt;span class="m"&gt;63&lt;/span&gt; &lt;span class="m"&gt;10474379&lt;/span&gt; &lt;span class="m"&gt;10474317&lt;/span&gt;   5G &lt;span class="m"&gt;83&lt;/span&gt; Linux
 
-&amp;gt; &lt;span class="nv"&gt;$ &lt;/span&gt;python -c &lt;span class="s2"&gt;&amp;quot;print 63*512&amp;quot;&lt;/span&gt;
+&amp;gt; $ python -c &lt;span class="s2"&gt;&amp;quot;print 63*512&amp;quot;&lt;/span&gt;
 32256
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;2. Mount the images with offset 32256 bytes  &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&amp;gt; &lt;span class="nv"&gt;$ &lt;/span&gt;mkdir &lt;span class="nb"&gt;test&lt;/span&gt;
-&amp;gt; &lt;span class="nv"&gt;$ &lt;/span&gt;sudo mount -o loop,offset&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;32256&lt;/span&gt; base.img &lt;span class="nb"&gt;test&lt;/span&gt;
-&amp;gt; &lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;cd test&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; tree                                                                                                                                                                            
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;gt; $ mkdir &lt;span class="nb"&gt;test&lt;/span&gt;
+&amp;gt; $ sudo mount -o loop,offset&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;32256&lt;/span&gt; base.img &lt;span class="nb"&gt;test&lt;/span&gt;
+&amp;gt; $ &lt;span class="nb"&gt;cd&lt;/span&gt; test&lt;span class="p"&gt;;&lt;/span&gt; tree                                                                                                                                                                            
 .
 ├── android-2015-12-07
 │   ├── data.img
@@ -216,7 +227,7 @@ base.img1          &lt;span class="m"&gt;63&lt;/span&gt; &lt;span class="m"&gt;1
 
 
 &lt;p&gt;3. Check the grub kernel options  &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&amp;gt; &lt;span class="nv"&gt;$ &lt;/span&gt;cat grub/menu.lst                                                                                                                                                                        
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;gt; $ cat grub/menu.lst                                                                                                                                                                        
 &lt;span class="nv"&gt;default&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;0
 &lt;span class="nv"&gt;timeout&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;6
 &lt;span class="nv"&gt;splashimage&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/grub/android-x86.xpm.gz
@@ -241,7 +252,7 @@ title Android-x86 2015-12-07 &lt;span class="o"&gt;(&lt;/span&gt;Debug &lt;span 
 
 
 &lt;p&gt;4. Pass the parameter and boot it!  &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&amp;gt; &lt;span class="nv"&gt;$ &lt;/span&gt;qemu-system-x86_64 -hda base.img --enable-kvm &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;gt; $ qemu-system-x86_64 -hda base.img --enable-kvm &lt;span class="se"&gt;\&lt;/span&gt;
 -kernel kernel -initrd initrd.img &lt;span class="se"&gt;\&lt;/span&gt;
 -append &lt;span class="s2"&gt;&amp;quot;root=/dev/ram0 androidboot.hardware=sense_svmp SRC=android-2015-12-07&amp;quot;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
 -serial stdio &lt;span class="se"&gt;\&lt;/span&gt;
@@ -254,7 +265,7 @@ title Android-x86 2015-12-07 &lt;span class="o"&gt;(&lt;/span&gt;Debug &lt;span 
 
 
 &lt;p&gt;&lt;img alt="Result" src="http://fatminmin.com/images/direct_kernel_boot.png" /&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">FatMinMin</dc:creator><pubDate>Sat, 12 Dec 2015 19:28:00 +0800</pubDate><guid>tag:fatminmin.com,2015-12-12:blog/direct-kernel-boot.html</guid></item><item><title>Using EventBus to Transfer Data</title><link>http://fatminmin.com/blog/why-eventbus-is-good.html</link><description>&lt;p&gt;When developing Android apps, it is common to use &lt;code&gt;intent&lt;/code&gt; to transfer objects between different components in the same app. For example:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Intent&lt;/span&gt; &lt;span class="n"&gt;it&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Intent&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;TargetActivity&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;Intent&lt;/span&gt; &lt;span class="n"&gt;it&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Intent&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;TargetActivity&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
 &lt;span class="n"&gt;it&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;putExtra&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;key&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
 &lt;span class="n"&gt;startActivity&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;it&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -265,7 +276,7 @@ title Android-x86 2015-12-07 &lt;span class="o"&gt;(&lt;/span&gt;Debug &lt;span 
 &lt;p&gt;Whenever you call startAcitvity, you are actually calling &lt;code&gt;startActivity&lt;/code&gt; method in &lt;strong&gt;AMS&lt;/strong&gt;(ActivityManagerService) through &lt;strong&gt;binder IPC&lt;/strong&gt;. Binder is an RPC(Remote Procedure Call) mechanism, binder servers(ie. ActivityManagerService) expose their method for client to use. And the data to be transfered is carried by &lt;code&gt;Parcel&lt;/code&gt;. &lt;code&gt;Intent&lt;/code&gt; called &lt;code&gt;writeToParcel&lt;/code&gt; to write all its data into a parcel and then transfer it into the AMS. So the whole procedure works like this, app opened &lt;code&gt;/dev/binder&lt;/code&gt;, binder driver uses &lt;code&gt;copy_from_user&lt;/code&gt; to copy the data to be transfered into binder driver, AMS uses &lt;code&gt;mmap&lt;/code&gt; call to binder device to access the page that contains the data. Then AMS starts the targetActivity and uses the same way to send the data into the targetActivity. &lt;/p&gt;
 &lt;h2&gt;Passing data in the same app through IPC is very weird and slow&lt;/h2&gt;
 &lt;p&gt;Different components in the same app are reside in the same process(unless you specify &lt;code&gt;process&lt;/code&gt; attribute in the xml), so we don't need to use IPC the transfer the data. So a common model is using &lt;code&gt;Application Singleton&lt;/code&gt; to access data. For example:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c1"&gt;// srcActivity&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;// srcActivity&lt;/span&gt;
 &lt;span class="n"&gt;getApplication&lt;/span&gt;&lt;span class="o"&gt;().&lt;/span&gt;&lt;span class="na"&gt;xxxData&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
 &lt;span class="n"&gt;startActivity&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Intent&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;TargetActivity&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;));&lt;/span&gt;
 
