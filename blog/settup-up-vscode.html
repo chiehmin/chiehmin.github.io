@@ -68,15 +68,16 @@
   </h3>
 
   <div class="postinfo">
-    <p class="published" title="2016-06-13T14:37:00+08:00">
-      On 2016/06/13 at 14:37
+    <p class="published" title="2016-06-13T16:12:00+08:00">
+      On 2016/06/13 at 16:12
     </p>
 
   </div><!-- .postinfo -->
 
     <div class="article">
       <p>I tried <a href="https://code.visualstudio.com/">Visual Studio Code</a> the other day and I found it really good for simple coding jobs(ie. competing in hackerrank). Realtime symbol tagging and debugging can be done in vscode by installing cpptools plugins which makes vscode acting as a lightweight IDE for me. Here I will show how to set up the vscode for simple C/C++ development. The <a href="https://blogs.msdn.microsoft.com/vcblog/2016/03/31/cc-extension-for-visual-studio-code/">tutorial in the official blog</a> is a bit incomplete in my opion. </p>
-<p>First thing is to make the <strong>code-editing aids</strong> feature work, it does not automatically generate the browse.VC.db file on my Fedora 23. I have to press <code>F1</code> to brings up the command palette and type <code>C/Cpp Edit configuration</code>. It will open a <code>c_cpp_properties.json</code> file and simply press <code>ctrl+s</code> you can save it to the <code>.vscode</code> folder under your project folder(You may need to point the <code>includePath</code> to the correct path). After the generating the <code>c_cpp_properties.json</code>, the symbol will start to be tagged and the <strong>code-editing aids</strong> feature will work.</p>
+<p>We have to install <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools">cpptools</a> and <a href="https://marketplace.visualstudio.com/items?itemName=austin.code-gnu-global">C++ Intellisense</a> first. In order to use C++ Intellisense, we have also to install <a href="https://www.gnu.org/software/global/">GNU Global tools</a>. (In fedora, I can simply install GNU Global tools by <code>dnf install global</code>.)</p>
+<p>Second thing is to make the <strong>code-editing aids</strong> feature work, it does not automatically generate the browse.VC.db file on my Fedora 23. I have to press <code>F1</code> to brings up the command palette and type <code>C/Cpp Edit configuration</code>. It will open a <code>c_cpp_properties.json</code> file and simply press <code>ctrl+s</code> you can save it to the <code>.vscode</code> folder under your project folder(You may need to point the <code>includePath</code> to the correct path). After the generating the <code>c_cpp_properties.json</code>, the symbol will start to be tagged and the <strong>code-editing aids</strong> feature will work.</p>
 <p>The next thing is to generate the <code>task.json</code> for automatic build after you press <code>ctrl+shift+b</code>. The first time you press <code>ctrl+shift+b</code> there will be a dialog prompt up asking you edit build configuration. Here I used the <em>other</em> option to manualy use external command to build my code. The second element in the args array means using the current file name as the argument. After setting up the <code>task.json</code>, we can build our code by simply pressing <code>ctrl+shift+b</code>. </p>
 <div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;0.1.0&quot;</span><span class="p">,</span>
