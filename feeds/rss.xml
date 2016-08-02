@@ -1,5 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>FatMinMin</title><link>http://fatminmin.com/</link><description>"A computer and a dream can take you anywhere."</description><atom:link href="http://fatminmin.com/feeds/rss.xml" rel="self"></atom:link><lastBuildDate>Mon, 13 Jun 2016 16:12:00 +0800</lastBuildDate><item><title>Setting up Visual Studio Code for Simple C/C++ development</title><link>http://fatminmin.com/blog/settup-up-vscode.html</link><description>&lt;p&gt;I tried &lt;a href="https://code.visualstudio.com/"&gt;Visual Studio Code&lt;/a&gt; the other day and I found it really good for simple coding jobs(ie. competing in hackerrank). Realtime symbol tagging and debugging can be done in vscode by installing cpptools plugins which makes vscode acting as a lightweight IDE for me. Here I will show how to set up the vscode for simple C/C++ development. The &lt;a href="https://blogs.msdn.microsoft.com/vcblog/2016/03/31/cc-extension-for-visual-studio-code/"&gt;tutorial in the official blog&lt;/a&gt; is a bit incomplete in my opion. &lt;/p&gt;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>FatMinMin</title><link>http://fatminmin.com/</link><description>"A computer and a dream can take you anywhere."</description><atom:link href="http://fatminmin.com/feeds/rss.xml" rel="self"></atom:link><lastBuildDate>Tue, 02 Aug 2016 13:38:00 +0800</lastBuildDate><item><title>Writing Nautilus Scripts</title><link>http://fatminmin.com/blog/writing-nautilus-scripts.html</link><description>&lt;p&gt;Recently, I was trying to add a menu item to Nautilus context menu for easily converting encoding of a subtitle files. Because some default encodings of downloaded subtitles can not be accepted by the VLC player. I found there is a cool feature of Nautilus called nautilus script. Users can simply write and save a script into &lt;code&gt;/.local/share/nautilus/scripts&lt;/code&gt; and the script can be executed by simply clicking a menu item in Nautilus context menu.&lt;/p&gt;
+&lt;p&gt;There are 4 environment variables Nautilus will set for ths cripts to get the information of current files/directories.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;NAUTILUS_SCRIPT_SELECTED_FILE_PATHS:&lt;br /&gt;
+    paths for selected files&lt;/li&gt;
+&lt;li&gt;NAUTILUS_SCRIPT_SELECTED_URIS:&lt;br /&gt;
+    URIs for selected files&lt;/li&gt;
+&lt;li&gt;NAUTILUS_SCRIPT_CURRENT_URI:&lt;br /&gt;
+    current location&lt;/li&gt;
+&lt;li&gt;NAUTILUS_SCRIPT_WINDOW_GEOMETRY:&lt;br /&gt;
+    position and size of current window&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Therefore, I can simply wrote a ruby script to convert the encoding of selected files from simplified chinese/utf16 to traditional chinese/utf8 as following: &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/usr/bin/env ruby&lt;/span&gt;
+
+&lt;span class="c1"&gt;#log = open(&amp;#39;ruby.log&amp;#39;, &amp;#39;w&amp;#39;)&lt;/span&gt;
+
+&lt;span class="n"&gt;paths&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;ENV&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;NAUTILUS_SCRIPT_SELECTED_FILE_PATHS&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;paths&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;each&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+&lt;span class="c1"&gt;#   log.print path + &amp;quot;\n&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;tmpPath&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;path&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;.tmp&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;newPath&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dup&lt;/span&gt;
+    &lt;span class="n"&gt;newPath&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;newPath&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rindex&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;.&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;..&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;.new&amp;quot;&lt;/span&gt;
+    &lt;span class="sx"&gt;%x[ iconv -f utf16 -t gb2312//TRANSLIT &amp;#39;&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="sx"&gt;&amp;#39; | &lt;/span&gt;
+&lt;span class="sx"&gt;        iconv -f gb2312 -t big5//TRANSLIT | &lt;/span&gt;
+&lt;span class="sx"&gt;        iconv -f big5 -t utf8//TRANSLIT &amp;gt; &amp;#39;&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="n"&gt;tmpPath&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="sx"&gt;&amp;#39; ]&lt;/span&gt;
+    &lt;span class="sx"&gt;%x[ tr -d &amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\r&lt;/span&gt;&lt;span class="sx"&gt;&amp;#39; &amp;lt; &amp;#39;&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="n"&gt;tmpPath&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="sx"&gt;&amp;#39; &amp;gt; &amp;#39;&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="n"&gt;newPath&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="sx"&gt;&amp;#39; ]&lt;/span&gt;  &lt;span class="c1"&gt;# converting CRLF to LF&lt;/span&gt;
+    &lt;span class="sx"&gt;%x[ rm &amp;#39;&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="n"&gt;tmpPath&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="sx"&gt;&amp;#39; ]&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Finally, I can easily execute the nautilus script by clicking the menu item in the context menu.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="script in context menu" src="http://fatminmin.com/images/script_context_menu.png" /&gt;&lt;/p&gt;
+&lt;h3&gt;Reference&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://help.ubuntu.com/community/NautilusScriptsHowto"&gt;NautilusScriptsHowto&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">FatMinMin</dc:creator><pubDate>Tue, 02 Aug 2016 13:38:00 +0800</pubDate><guid>tag:fatminmin.com,2016-08-02:blog/writing-nautilus-scripts.html</guid></item><item><title>Setting up Visual Studio Code for Simple C/C++ development</title><link>http://fatminmin.com/blog/settup-up-vscode.html</link><description>&lt;p&gt;I tried &lt;a href="https://code.visualstudio.com/"&gt;Visual Studio Code&lt;/a&gt; the other day and I found it really good for simple coding jobs(ie. competing in hackerrank). Realtime symbol tagging and debugging can be done in vscode by installing cpptools plugins which makes vscode acting as a lightweight IDE for me. Here I will show how to set up the vscode for simple C/C++ development. The &lt;a href="https://blogs.msdn.microsoft.com/vcblog/2016/03/31/cc-extension-for-visual-studio-code/"&gt;tutorial in the official blog&lt;/a&gt; is a bit incomplete in my opion. &lt;/p&gt;
 &lt;p&gt;We have to install &lt;a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools"&gt;cpptools&lt;/a&gt; and &lt;a href="https://marketplace.visualstudio.com/items?itemName=austin.code-gnu-global"&gt;C++ Intellisense&lt;/a&gt; first. In order to use C++ Intellisense, we have also to install &lt;a href="https://www.gnu.org/software/global/"&gt;GNU Global tools&lt;/a&gt;. (In fedora, I can simply install GNU Global tools by &lt;code&gt;dnf install global&lt;/code&gt;.)&lt;/p&gt;
 &lt;p&gt;Second thing is to make the &lt;strong&gt;code-editing aids&lt;/strong&gt; feature work, it does not automatically generate the browse.VC.db file on my Fedora 23. I have to press &lt;code&gt;F1&lt;/code&gt; to brings up the command palette and type &lt;code&gt;C/Cpp Edit configuration&lt;/code&gt;. It will open a &lt;code&gt;c_cpp_properties.json&lt;/code&gt; file and simply press &lt;code&gt;ctrl+s&lt;/code&gt; you can save it to the &lt;code&gt;.vscode&lt;/code&gt; folder under your project folder(You may need to point the &lt;code&gt;includePath&lt;/code&gt; to the correct path). After the generating the &lt;code&gt;c_cpp_properties.json&lt;/code&gt;, the symbol will start to be tagged and the &lt;strong&gt;code-editing aids&lt;/strong&gt; feature will work.&lt;/p&gt;
 &lt;p&gt;The next thing is to generate the &lt;code&gt;task.json&lt;/code&gt; for automatic build after you press &lt;code&gt;ctrl+shift+b&lt;/code&gt;. The first time you press &lt;code&gt;ctrl+shift+b&lt;/code&gt; there will be a dialog prompt up asking you edit build configuration. Here I used the &lt;em&gt;other&lt;/em&gt; option to manualy use external command to build my code. The second element in the args array means using the current file name as the argument. After setting up the &lt;code&gt;task.json&lt;/code&gt;, we can build our code by simply pressing &lt;code&gt;ctrl+shift+b&lt;/code&gt;. &lt;/p&gt;
@@ -186,102 +223,4 @@ Formatting &lt;span class="s1"&gt;&amp;#39;win10.img&amp;#39;&lt;/span&gt;, &lt;
 &lt;p&gt;&lt;code&gt;GTK_WINDOW&lt;/code&gt; is a macro for type checking and casting&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#define GTK_WINDOW(obj)&lt;/span&gt;
           &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;G_TYPE_CHECK_INSTANCE_CAST&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;obj&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;GTK_TYPE_WINDOW&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;GtkWindow&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">FatMinMin</dc:creator><pubDate>Sat, 26 Dec 2015 22:34:00 +0800</pubDate><guid>tag:fatminmin.com,2015-12-26:blog/oop-in-c.html</guid></item><item><title>Qemu Direct Kernel Boot without bootloader(Grub)</title><link>http://fatminmin.com/blog/direct-kernel-boot.html</link><description>&lt;p&gt;Recently, I was doing a project on Android x86 and I found the image created by Android x86 livecd using NTFS file system format cannot be booted by Qemu.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;gt; $ qemu-system-x86_64 -hda base.img --enable-kvm -serial stdio &lt;span class="se"&gt;\&lt;/span&gt;
--m 4G -smp &lt;span class="m"&gt;4&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
--net nic,vlan&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
--net user,hostfwd&lt;span class="o"&gt;=&lt;/span&gt;tcp:127.0.0.1:8001-:8001,hostfwd&lt;span class="o"&gt;=&lt;/span&gt;tcp:127.0.0.1:5555-:5555 &lt;span class="se"&gt;\&lt;/span&gt;
--soundhw all &lt;span class="se"&gt;\&lt;/span&gt;
--vga std
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;And I suspected the problem may be caused by the grub bootloader can not be executed correctly. So I tried extracting the kernel and initrd(it is initramfs actually) and passed it to Qemu directly. And it just booted successfully :). Following is my steps:&lt;/p&gt;
-&lt;p&gt;1. Check the length of the bootloader (The first 63 sectors)  &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;gt; $ fdisk -lu 
-Disk base.img: &lt;span class="m"&gt;5&lt;/span&gt; GiB, &lt;span class="m"&gt;5368709120&lt;/span&gt; bytes, &lt;span class="m"&gt;10485760&lt;/span&gt; sectors
-Units: sectors of &lt;span class="m"&gt;1&lt;/span&gt; * &lt;span class="nv"&gt;512&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;512&lt;/span&gt; bytes
-Sector size &lt;span class="o"&gt;(&lt;/span&gt;logical/physical&lt;span class="o"&gt;)&lt;/span&gt;: &lt;span class="m"&gt;512&lt;/span&gt; bytes / &lt;span class="m"&gt;512&lt;/span&gt; bytes
-I/O size &lt;span class="o"&gt;(&lt;/span&gt;minimum/optimal&lt;span class="o"&gt;)&lt;/span&gt;: &lt;span class="m"&gt;512&lt;/span&gt; bytes / &lt;span class="m"&gt;512&lt;/span&gt; bytes
-Disklabel type: dos
-Disk identifier: 0x00000000
-
-Device     Boot Start      End  Sectors Size Id Type
-base.img1          &lt;span class="m"&gt;63&lt;/span&gt; &lt;span class="m"&gt;10474379&lt;/span&gt; &lt;span class="m"&gt;10474317&lt;/span&gt;   5G &lt;span class="m"&gt;83&lt;/span&gt; Linux
-
-&amp;gt; $ python -c &lt;span class="s2"&gt;&amp;quot;print 63*512&amp;quot;&lt;/span&gt;
-32256
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;2. Mount the images with offset 32256 bytes  &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;gt; $ mkdir &lt;span class="nb"&gt;test&lt;/span&gt;
-&amp;gt; $ sudo mount -o loop,offset&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;32256&lt;/span&gt; base.img &lt;span class="nb"&gt;test&lt;/span&gt;
-&amp;gt; $ &lt;span class="nb"&gt;cd&lt;/span&gt; test&lt;span class="p"&gt;;&lt;/span&gt; tree                                                                                                                                                                            
-.
-├── android-2015-12-07
-│   ├── data.img
-│   ├── initrd.img
-│   ├── kernel
-│   ├── ramdisk.img
-│   └── system.img
-├── efi
-│   └── boot
-│       ├── bootia32.efi
-│       ├── bootx64.efi
-│       └── grub.cfg
-└── grub
-    ├── android-x86.xpm.gz
-    ├── device.map
-    ├── e2fs_stage1_5
-    ├── fat_stage1_5
-    ├── iso9660_stage1_5
-    ├── menu.lst
-    ├── ntfs_stage1_5
-    ├── stage1
-    ├── stage2
-    └── stage2_eltorito
-
-&lt;span class="m"&gt;4&lt;/span&gt; directories, &lt;span class="m"&gt;18&lt;/span&gt; files
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;3. Check the grub kernel options  &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;gt; $ cat grub/menu.lst                                                                                                                                                                        
-&lt;span class="nv"&gt;default&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;0
-&lt;span class="nv"&gt;timeout&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;6
-&lt;span class="nv"&gt;splashimage&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/grub/android-x86.xpm.gz
-root &lt;span class="o"&gt;(&lt;/span&gt;hd0,0&lt;span class="o"&gt;)&lt;/span&gt;
-
-title Android-x86 2015-12-07
-        kernel /android-2015-12-07/kernel quiet &lt;span class="nv"&gt;root&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/dev/ram0 androidboot.hardware&lt;span class="o"&gt;=&lt;/span&gt;sense_svmp &lt;span class="nv"&gt;SRC&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/android-2015-12-07
-        initrd /android-2015-12-07/initrd.img
-
-title Android-x86 2015-12-07 &lt;span class="o"&gt;(&lt;/span&gt;Debug mode&lt;span class="o"&gt;)&lt;/span&gt;
-        kernel /android-2015-12-07/kernel &lt;span class="nv"&gt;root&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/dev/ram0 androidboot.hardware&lt;span class="o"&gt;=&lt;/span&gt;sense_svmp &lt;span class="nv"&gt;DEBUG&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt; &lt;span class="nv"&gt;SRC&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/android-2015-12-07
-        initrd /android-2015-12-07/initrd.img
-
-title Android-x86 2015-12-07 &lt;span class="o"&gt;(&lt;/span&gt;Debug nomodeset&lt;span class="o"&gt;)&lt;/span&gt;
-        kernel /android-2015-12-07/kernel nomodeset &lt;span class="nv"&gt;root&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/dev/ram0 androidboot.hardware&lt;span class="o"&gt;=&lt;/span&gt;sense_svmp &lt;span class="nv"&gt;DEBUG&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt; &lt;span class="nv"&gt;SRC&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/android-2015-12-07
-        initrd /android-2015-12-07/initrd.img
-
-title Android-x86 2015-12-07 &lt;span class="o"&gt;(&lt;/span&gt;Debug &lt;span class="nv"&gt;video&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;LVDS-1:d&lt;span class="o"&gt;)&lt;/span&gt;
-        kernel /android-2015-12-07/kernel &lt;span class="nv"&gt;video&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;LVDS-1:d &lt;span class="nv"&gt;root&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/dev/ram0 androidboot.hardware&lt;span class="o"&gt;=&lt;/span&gt;sense_svmp &lt;span class="nv"&gt;DEBUG&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt; &lt;span class="nv"&gt;SRC&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/android-2015-12-07
-        initrd /android-2015-12-07/initrd.img
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;4. Pass the parameter and boot it!  &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;gt; $ qemu-system-x86_64 -hda base.img --enable-kvm &lt;span class="se"&gt;\&lt;/span&gt;
--kernel kernel -initrd initrd.img &lt;span class="se"&gt;\&lt;/span&gt;
--append &lt;span class="s2"&gt;&amp;quot;root=/dev/ram0 androidboot.hardware=sense_svmp SRC=android-2015-12-07&amp;quot;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
--serial stdio &lt;span class="se"&gt;\&lt;/span&gt;
--m 4G -smp &lt;span class="m"&gt;4&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
--net nic,vlan&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
--net user,hostfwd&lt;span class="o"&gt;=&lt;/span&gt;tcp:127.0.0.1:8001-:8001,hostfwd&lt;span class="o"&gt;=&lt;/span&gt;tcp:127.0.0.1:5555-:5555 &lt;span class="se"&gt;\&lt;/span&gt;
--soundhw all &lt;span class="se"&gt;\&lt;/span&gt;
--vga std
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;&lt;img alt="Result" src="http://fatminmin.com/images/direct_kernel_boot.png" /&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">FatMinMin</dc:creator><pubDate>Sat, 12 Dec 2015 19:28:00 +0800</pubDate><guid>tag:fatminmin.com,2015-12-12:blog/direct-kernel-boot.html</guid></item></channel></rss>
+&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">FatMinMin</dc:creator><pubDate>Sat, 26 Dec 2015 22:34:00 +0800</pubDate><guid>tag:fatminmin.com,2015-12-26:blog/oop-in-c.html</guid></item></channel></rss>
