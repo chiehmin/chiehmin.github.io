@@ -11,7 +11,7 @@
 &lt;li&gt;NAUTILUS_SCRIPT_WINDOW_GEOMETRY:&lt;br /&gt;
     position and size of current window&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Therefore, I can simply wrote a ruby script to convert the encoding of selected files from simplified chinese/utf16 to traditional chinese/utf8 as following: &lt;/p&gt;
+&lt;p&gt;Therefore, I simply wrote a ruby script to convert the encoding of selected files from simplified chinese/utf16 to traditional chinese/utf8 as following: &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/usr/bin/env ruby&lt;/span&gt;
 
 &lt;span class="c1"&gt;#log = open(&amp;#39;ruby.log&amp;#39;, &amp;#39;w&amp;#39;)&lt;/span&gt;
