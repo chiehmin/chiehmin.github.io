@@ -134,7 +134,7 @@
 
 <p>When building on the Travis CI platform, the keystore and key password will be passed through the environment variables. The environment variables setting on Travis CI can be done in the setting panel easily:</p>
 <p><img alt="Travis environment variable setting" src="https://fatminmin.com/images/travis_keystore_pass.png" /></p>
-<p>When no environment variables is set, I use the <a href="http://docs.groovy-lang.org/latest/html/documentation/index.html#_elvis_operator">groovy's Elvis operator</a> for detection and ask user to input the passwords instead:</p>
+<p>When no environment variable is set, I use the <a href="http://docs.groovy-lang.org/latest/html/documentation/index.html#_elvis_operator">groovy's Elvis operator</a> for detection and ask user to input the passwords instead:</p>
 <p><img alt="Entering keystore password in command line" src="https://fatminmin.com/images/gradle_keystore_pass.png" /></p>
 <p>The <code>System.console()?</code> is used for null dection during gradle sync in the Android studio.</p>
 <h2>References</h2>
