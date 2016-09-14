@@ -90,7 +90,7 @@
 <span class="l l-Scalar l-Scalar-Plain">jdk</span><span class="p p-Indicator">:</span>
 <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">oraclejdk8</span>
 <span class="l l-Scalar l-Scalar-Plain">script</span><span class="p p-Indicator">:</span>
-<span class="p p-Indicator">-</span> <span class="s">&quot;./gradlew</span><span class="nv"> </span><span class="s">assembleRelease&quot;</span>
+<span class="p p-Indicator">-</span> <span class="s">&#39;[</span><span class="nv"> </span><span class="s">&quot;${TRAVIS_PULL_REQUEST}&quot;</span><span class="nv"> </span><span class="s">==</span><span class="nv"> </span><span class="s">&quot;false&quot;</span><span class="nv"> </span><span class="s">]</span><span class="nv"> </span><span class="s">&amp;&amp;</span><span class="nv"> </span><span class="s">./gradlew</span><span class="nv"> </span><span class="s">assembleRelease</span><span class="nv"> </span><span class="s">||</span><span class="nv"> </span><span class="s">./gradlew</span><span class="nv"> </span><span class="s">assembleDebug&#39;</span>
 <span class="l l-Scalar l-Scalar-Plain">before_deploy</span><span class="p p-Indicator">:</span>
 <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">mv app/build/outputs/apk/app-release.apk app/build/outputs/apk/MinMinGuard.apk</span>
 <span class="l l-Scalar l-Scalar-Plain">deploy</span><span class="p p-Indicator">:</span>
@@ -137,11 +137,13 @@
 <p>When no environment variable is set, I use the <a href="http://docs.groovy-lang.org/latest/html/documentation/index.html#_elvis_operator">groovy's Elvis operator</a> for detection and ask user to input the passwords instead:</p>
 <p><img alt="Entering keystore password in command line" src="https://fatminmin.com/images/gradle_keystore_pass.png" /></p>
 <p>The <code>System.console()?</code> is used for null dection during gradle sync in the Android studio.</p>
+<p>The last thing to do is using a different script for building pull requests. Because building upon pull requests can not access the environment varible, I have to run <code>./gradlew assembleDebug</code> to prevent using keystore. When Travis CI building pull requests, the <code>$TRAVIS_PULL_REQUEST</code> variable will be set to true. I can simply check the value of <code>$TRAVIS_PULL_REQUEST</code> to determine which script to run.</p>
 <h2>References</h2>
 <ul>
 <li><a href="https://docs.travis-ci.com/user/languages/android">Travis CI: Building an Android Project</a></li>
 <li><a href="https://docs.travis-ci.com/user/deployment/releases/">Travis CI: GitHub Releases Uploading</a></li>
 <li><a href="http://stackoverflow.com/questions/29919066/what-is-the-best-practice-to-use-keystores-to-sign-release-version-of-an-android">Stack Overflow: What is the best practice to use keystores to sign release version of an Android app on Travis CI?</a></li>
+<li><a href="http://denysdovhan.com/building-pull-requests-using-travis/">Building pull requests differently using Travis CI</a></li>
 </ul>
     </div><!-- .content -->
 
