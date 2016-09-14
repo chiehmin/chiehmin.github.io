@@ -33,23 +33,30 @@
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;android {
   signingConfigs {
     release {
-      try {
-        keyAlias &amp;#39;minminguard&amp;#39;
-        keyPassword System.getenv(&amp;quot;KEYSTORE_PASS&amp;quot;) ?: System.console()?.readLine(&amp;quot;KeyStore password: &amp;quot;)
-        storeFile file(&amp;#39;minminguard.keystore&amp;#39;)
-        storePassword System.getenv(&amp;quot;KEY_PASS&amp;quot;) ?: System.console()?.readLine(&amp;quot;Key password: &amp;quot;)
-      } catch (ex) {
-          throw new InvalidUserDataException(&amp;quot;You should define KEYSTORE_PASS and KEY_PASS environment variables&amp;quot;)
-      }
+      keyAlias &amp;#39;minminguard&amp;#39;
+      keyPassword System.getenv(&amp;quot;KEYSTORE_PASS&amp;quot;)
+      storeFile file(&amp;#39;minminguard.keystore&amp;#39;)
+      storePassword System.getenv(&amp;quot;KEY_PASS&amp;quot;)
+    }
+    debug {
+      storeFile file(&amp;quot;debug.keystore&amp;quot;)
+      storePassword = &amp;quot;android&amp;quot;
+      keyAlias = &amp;quot;androiddebugkey&amp;quot;
+      keyPassword = &amp;quot;android&amp;quot;
     }
   }
   buildTypes {
     release {
-      minifyEnabled false
+      minifyEnabled true
+      zipAlignEnabled true
       proguardFiles getDefaultProguardFile(&amp;#39;proguard-android.txt&amp;#39;), &amp;#39;proguard-rules.pro&amp;#39;
       signingConfig signingConfigs.release
     }
-    debug {}
+    debug {
+      debuggable true
+      jniDebuggable true
+      signingConfig signingConfigs.debug
+    }
   }
   // blablah
 }

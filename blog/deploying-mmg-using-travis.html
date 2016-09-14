@@ -109,23 +109,30 @@
 <div class="highlight"><pre><span></span>android {
   signingConfigs {
     release {
-      try {
-        keyAlias &#39;minminguard&#39;
-        keyPassword System.getenv(&quot;KEYSTORE_PASS&quot;) ?: System.console()?.readLine(&quot;KeyStore password: &quot;)
-        storeFile file(&#39;minminguard.keystore&#39;)
-        storePassword System.getenv(&quot;KEY_PASS&quot;) ?: System.console()?.readLine(&quot;Key password: &quot;)
-      } catch (ex) {
-          throw new InvalidUserDataException(&quot;You should define KEYSTORE_PASS and KEY_PASS environment variables&quot;)
-      }
+      keyAlias &#39;minminguard&#39;
+      keyPassword System.getenv(&quot;KEYSTORE_PASS&quot;)
+      storeFile file(&#39;minminguard.keystore&#39;)
+      storePassword System.getenv(&quot;KEY_PASS&quot;)
+    }
+    debug {
+      storeFile file(&quot;debug.keystore&quot;)
+      storePassword = &quot;android&quot;
+      keyAlias = &quot;androiddebugkey&quot;
+      keyPassword = &quot;android&quot;
     }
   }
   buildTypes {
     release {
-      minifyEnabled false
+      minifyEnabled true
+      zipAlignEnabled true
       proguardFiles getDefaultProguardFile(&#39;proguard-android.txt&#39;), &#39;proguard-rules.pro&#39;
       signingConfig signingConfigs.release
     }
-    debug {}
+    debug {
+      debuggable true
+      jniDebuggable true
+      signingConfig signingConfigs.debug
+    }
   }
   // blablah
 }
