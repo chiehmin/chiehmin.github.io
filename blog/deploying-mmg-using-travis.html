@@ -137,7 +137,12 @@
 <p>When no environment variable is set, I use the <a href="http://docs.groovy-lang.org/latest/html/documentation/index.html#_elvis_operator">groovy's Elvis operator</a> for detection and ask user to input the passwords instead:</p>
 <p><img alt="Entering keystore password in command line" src="https://fatminmin.com/images/gradle_keystore_pass.png" /></p>
 <p>The <code>System.console()?</code> is used for null dection during gradle sync in the Android studio.</p>
-<p>The last thing to do is using a different script for building pull requests. Because building upon pull requests can not access the environment varible, I have to run <code>./gradlew assembleDebug</code> to prevent using keystore. When Travis CI building pull requests, the <code>$TRAVIS_PULL_REQUEST</code> variable will be set to true. I can simply check the value of <code>$TRAVIS_PULL_REQUEST</code> to determine which script to run.</p>
+<p>The last thing to do is using a different script for building pull requests. Because building upon pull requests can not access the environment varible, I have to run <code>./gradlew assembleDebug</code> to prevent using keystore. I use the following script to differentiate the two scenarios:  </p>
+<div class="highlight"><pre><span></span><span class="o">[</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">TRAVIS_PULL_REQUEST</span><span class="si">}</span><span class="s2">&quot;</span> <span class="o">==</span> <span class="s2">&quot;false&quot;</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> ./gradlew assembleRelease <span class="o">||</span> ./gradlew assembleDebug
+</pre></div>
+
+
+<p>When Travis CI building pull requests, the <code>$TRAVIS_PULL_REQUEST</code> variable will be set to true. I can simply check the value of <code>$TRAVIS_PULL_REQUEST</code> to determine which script to run.</p>
 <h2>References</h2>
 <ul>
 <li><a href="https://docs.travis-ci.com/user/languages/android">Travis CI: Building an Android Project</a></li>

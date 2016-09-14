@@ -61,7 +61,12 @@
 &lt;p&gt;When no environment variable is set, I use the &lt;a href="http://docs.groovy-lang.org/latest/html/documentation/index.html#_elvis_operator"&gt;groovy's Elvis operator&lt;/a&gt; for detection and ask user to input the passwords instead:&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Entering keystore password in command line" src="https://fatminmin.com/images/gradle_keystore_pass.png" /&gt;&lt;/p&gt;
 &lt;p&gt;The &lt;code&gt;System.console()?&lt;/code&gt; is used for null dection during gradle sync in the Android studio.&lt;/p&gt;
-&lt;p&gt;The last thing to do is using a different script for building pull requests. Because building upon pull requests can not access the environment varible, I have to run &lt;code&gt;./gradlew assembleDebug&lt;/code&gt; to prevent using keystore. When Travis CI building pull requests, the &lt;code&gt;$TRAVIS_PULL_REQUEST&lt;/code&gt; variable will be set to true. I can simply check the value of &lt;code&gt;$TRAVIS_PULL_REQUEST&lt;/code&gt; to determine which script to run.&lt;/p&gt;
+&lt;p&gt;The last thing to do is using a different script for building pull requests. Because building upon pull requests can not access the environment varible, I have to run &lt;code&gt;./gradlew assembleDebug&lt;/code&gt; to prevent using keystore. I use the following script to differentiate the two scenarios:  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;TRAVIS_PULL_REQUEST&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;false&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; ./gradlew assembleRelease &lt;span class="o"&gt;||&lt;/span&gt; ./gradlew assembleDebug
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;When Travis CI building pull requests, the &lt;code&gt;$TRAVIS_PULL_REQUEST&lt;/code&gt; variable will be set to true. I can simply check the value of &lt;code&gt;$TRAVIS_PULL_REQUEST&lt;/code&gt; to determine which script to run.&lt;/p&gt;
 &lt;h2&gt;References&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://docs.travis-ci.com/user/languages/android"&gt;Travis CI: Building an Android Project&lt;/a&gt;&lt;/li&gt;
