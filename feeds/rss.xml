@@ -66,7 +66,7 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;When Travis CI building pull requests, the &lt;code&gt;$TRAVIS_PULL_REQUEST&lt;/code&gt; variable will be set to true. I can simply check the value of &lt;code&gt;$TRAVIS_PULL_REQUEST&lt;/code&gt; to determine which script to run.&lt;/p&gt;
+&lt;p&gt;When Travis CI builds pull requests, the &lt;code&gt;$TRAVIS_PULL_REQUEST&lt;/code&gt; variable will be set to true. I can simply check the value of &lt;code&gt;$TRAVIS_PULL_REQUEST&lt;/code&gt; to determine which script to run.&lt;/p&gt;
 &lt;h2&gt;References&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://docs.travis-ci.com/user/languages/android"&gt;Travis CI: Building an Android Project&lt;/a&gt;&lt;/li&gt;
