@@ -1,5 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>FatMinMin</title><link>https://fatminmin.com/</link><description>"A computer and a dream can take you anywhere."</description><atom:link href="https://fatminmin.com/feeds/rss.xml" rel="self"></atom:link><lastBuildDate>Tue, 02 Aug 2016 13:38:00 +0800</lastBuildDate><item><title>Writing Nautilus Scripts</title><link>https://fatminmin.com/blog/writing-nautilus-scripts.html</link><description>&lt;p&gt;I was trying to add a menu item to Nautilus context menu for easily converting encoding of a subtitle files. Because some default encodings of downloaded subtitles can not be accepted by the VLC player. I found there is a cool feature of Nautilus called nautilus script. Users can simply write and save a script into &lt;code&gt;/.local/share/nautilus/scripts&lt;/code&gt; and the script can be executed by simply clicking a menu item in Nautilus context menu.&lt;/p&gt;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>FatMinMin</title><link>https://fatminmin.com/</link><description>"A computer and a dream can take you anywhere."</description><atom:link href="https://fatminmin.com/feeds/rss.xml" rel="self"></atom:link><lastBuildDate>Wed, 14 Sep 2016 16:34:00 +0800</lastBuildDate><item><title>Deploying MinMinGuard using Travis CI</title><link>https://fatminmin.com/blog/deploying-mmg-using-travis.html</link><description>&lt;p&gt;I just learned and applied Travis CI to do continuous integration for MinMinGuard. For now, I am just using travis to automatically build release apk. The settings for travis is fairly easy to setup by just following the official tutorial. Following is my &lt;code&gt;.travis.yml&lt;/code&gt;: &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;language&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;android&lt;/span&gt;
+&lt;span class="l l-Scalar l-Scalar-Plain"&gt;android&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
+  &lt;span class="l l-Scalar l-Scalar-Plain"&gt;components&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
+  &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;platform-tools&lt;/span&gt;
+  &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;tools&lt;/span&gt;
+  &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;build-tools-23.0.3&lt;/span&gt;
+  &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;android-23&lt;/span&gt;
+  &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;extra-google-google_play_services&lt;/span&gt;
+  &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;extra-google-m2repository&lt;/span&gt;
+  &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;extra-android-m2repository&lt;/span&gt;
+  &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;addon-google_apis-google-19&lt;/span&gt;
+&lt;span class="l l-Scalar l-Scalar-Plain"&gt;jdk&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
+&lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;oraclejdk8&lt;/span&gt;
+&lt;span class="l l-Scalar l-Scalar-Plain"&gt;script&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
+&lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;./gradlew&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;assembleRelease&amp;quot;&lt;/span&gt;
+&lt;span class="l l-Scalar l-Scalar-Plain"&gt;before_deploy&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
+&lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;mv app/build/outputs/apk/app-release.apk app/build/outputs/apk/MinMinGuard.apk&lt;/span&gt;
+&lt;span class="l l-Scalar l-Scalar-Plain"&gt;deploy&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
+  &lt;span class="l l-Scalar l-Scalar-Plain"&gt;provider&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;releases&lt;/span&gt;
+  &lt;span class="l l-Scalar l-Scalar-Plain"&gt;api_key&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
+    &lt;span class="l l-Scalar l-Scalar-Plain"&gt;secure&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="p p-Indicator"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;my secure github oauth key&lt;/span&gt;&lt;span class="p p-Indicator"&gt;]&lt;/span&gt;
+  &lt;span class="l l-Scalar l-Scalar-Plain"&gt;file&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;app/build/outputs/apk/MinMinGuard.apk&lt;/span&gt;
+  &lt;span class="l l-Scalar l-Scalar-Plain"&gt;skip_cleanup&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;true&lt;/span&gt;
+  &lt;span class="l l-Scalar l-Scalar-Plain"&gt;on&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
+    &lt;span class="l l-Scalar l-Scalar-Plain"&gt;tags&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;true&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Because I only want travis to build the release apk for me, the script section is needed to change to &lt;code&gt;./gradlew assembleRelease&lt;/code&gt; (The default one is &lt;code&gt;./gradlew build connectedCheck&lt;/code&gt; which is not what I want). The most important part is the deploy section and it can be automatically generated by using &lt;code&gt;travis setup releases&lt;/code&gt; command (&lt;code&gt;travis&lt;/code&gt; command line tool can be get from ruby gem). Then, whenever I push a new tag onto github, Travis CI will build the release apk and deploy it to the github release page automatically.&lt;/p&gt;
+&lt;p&gt;The only hassle part is to sign the apk without revealing my keystore password. After some searching, I changed my gradle file to the following:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;android {
+  signingConfigs {
+    release {
+      try {
+        keyAlias &amp;#39;minminguard&amp;#39;
+        keyPassword System.getenv(&amp;quot;KEYSTORE_PASS&amp;quot;) ?: System.console()?.readLine(&amp;quot;KeyStore password: &amp;quot;)
+        storeFile file(&amp;#39;minminguard.keystore&amp;#39;)
+        storePassword System.getenv(&amp;quot;KEY_PASS&amp;quot;) ?: System.console()?.readLine(&amp;quot;Key password: &amp;quot;)
+      } catch (ex) {
+          throw new InvalidUserDataException(&amp;quot;You should define KEYSTORE_PASS and KEY_PASS environment variables&amp;quot;)
+      }
+    }
+  }
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile(&amp;#39;proguard-android.txt&amp;#39;), &amp;#39;proguard-rules.pro&amp;#39;
+      signingConfig signingConfigs.release
+    }
+    debug {}
+  }
+  // blablah
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;When building on the Travis CI platform, the keystore and key password will be passed through the environment variables. The environment variables setting on Travis CI can be done easily as following:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Travis environment variable setting" src="https://fatminmin.com/images/travis_keystore_pass.png" /&gt;&lt;/p&gt;
+&lt;p&gt;When no environment variables is set, I use the &lt;a href="http://docs.groovy-lang.org/latest/html/documentation/index.html#_elvis_operator"&gt;groovy's Elvis operator&lt;/a&gt; for detection and ask user to input password instead:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Entering keystore password in command line" src="https://fatminmin.com/images/gradle_keystore_pass.png" /&gt;&lt;/p&gt;
+&lt;h2&gt;References&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://docs.travis-ci.com/user/languages/android"&gt;Travis CI: Building an Android Project&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.travis-ci.com/user/deployment/releases/"&gt;Travis CI: GitHub Releases Uploading&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://stackoverflow.com/questions/29919066/what-is-the-best-practice-to-use-keystores-to-sign-release-version-of-an-android"&gt;Stack Overflow: What is the best practice to use keystores to sign release version of an Android app on Travis CI?&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">FatMinMin</dc:creator><pubDate>Wed, 14 Sep 2016 16:34:00 +0800</pubDate><guid>tag:fatminmin.com,2016-09-14:blog/deploying-mmg-using-travis.html</guid></item><item><title>Writing Nautilus Scripts</title><link>https://fatminmin.com/blog/writing-nautilus-scripts.html</link><description>&lt;p&gt;I was trying to add a menu item to Nautilus context menu for easily converting encoding of a subtitle files. Because some default encodings of downloaded subtitles can not be accepted by the VLC player. I found there is a cool feature of Nautilus called nautilus script. Users can simply write and save a script into &lt;code&gt;/.local/share/nautilus/scripts&lt;/code&gt; and the script can be executed by simply clicking a menu item in Nautilus context menu.&lt;/p&gt;
 &lt;p&gt;There are 4 environment variables Nautilus will set for ths cripts to get the information of current files/directories.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;NAUTILUS_SCRIPT_SELECTED_FILE_PATHS:&lt;br /&gt;
@@ -189,38 +255,4 @@ Formatting &lt;span class="s1"&gt;&amp;#39;win10.img&amp;#39;&lt;/span&gt;, &lt;
 
 &lt;p&gt;&lt;img alt="win10" src="https://fatminmin.com/images/win10.png" /&gt;&lt;/p&gt;
 &lt;p&gt;ps: The performance of win10 with &lt;em&gt;virtio driver&lt;/em&gt; is really amazing! I am very exciting to see virtio_gpu driver appearing on Windows platform.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="win10_performance" src="https://fatminmin.com/images/win10_performance.png" /&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">FatMinMin</dc:creator><pubDate>Thu, 21 Jan 2016 16:02:00 +0800</pubDate><guid>tag:fatminmin.com,2016-01-21:blog/run-win10-qemu-kvm.html</guid></item><item><title>OOP in C</title><link>https://fatminmin.com/blog/oop-in-c.html</link><description>&lt;p&gt;Despite C does not support OOP like C++ or Java, OOP concepts is still used in Android HAL module and GTK+ programs.&lt;/p&gt;
-&lt;h1&gt;Inheretance&lt;/h1&gt;
-&lt;p&gt;Simulating inheretance feature in C is done by simply putting the parent class as the first field in the structure. In this way, we can get all the parent fields in the child class and transform it to the parent type by using a simple pointer conversion.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;typedef&lt;/span&gt; &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-    &lt;span class="p"&gt;...&lt;/span&gt;
-&lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="n"&gt;Animal&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-
-&lt;span class="k"&gt;typedef&lt;/span&gt; &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-    &lt;span class="n"&gt;Animal&lt;/span&gt; &lt;span class="n"&gt;parent&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;dogAttribute1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-    &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="n"&gt;dogAttribute2&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-    &lt;span class="p"&gt;...&lt;/span&gt; 
-&lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="n"&gt;Dog&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-
-&lt;span class="n"&gt;Dog&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;dog&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new_dog&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
-&lt;span class="n"&gt;Animal&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;animal&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Animal&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;dog&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="c1"&gt;// access dog&amp;#39;s inhereted field&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;h2&gt;Android HAL module&lt;/h2&gt;
-&lt;p&gt;In Android, every HAL module must have &lt;code&gt;hw_module_t&lt;/code&gt; as the first field. For example, &lt;a href="https://source.android.com/devices/halref/sensors_8h_source.html#l00840"&gt;sensors_moudle_t&lt;/a&gt;. &lt;/p&gt;
-&lt;h2&gt;GTK+&lt;/h2&gt;
-&lt;p&gt;GTK+ programs use more OOP concepts for developing. The inheretance structure is this &lt;code&gt;GObject &amp;lt;- GInitiallyUnowned &amp;lt;- GtkObject &amp;lt;- GtkWidget &amp;lt;- GtkContainer &amp;lt;- GtkBin &amp;lt;- GtkWindow&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;For most GTK functions, the first argument works as the &lt;code&gt;this&lt;/code&gt; pointer for OOP language.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;GtkWidget&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;window&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;gtk_window_new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;GTK_WINDOW_TOPLEVEL&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-&lt;span class="n"&gt;gtk_window_set_title&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;GTK_WINDOW&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;window&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;title&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-&lt;span class="c1"&gt;// this works like access gtk window member function&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;&lt;code&gt;GTK_WINDOW&lt;/code&gt; is a macro for type checking and casting&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#define GTK_WINDOW(obj)&lt;/span&gt;
-          &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;G_TYPE_CHECK_INSTANCE_CAST&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;obj&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;GTK_TYPE_WINDOW&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;GtkWindow&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">FatMinMin</dc:creator><pubDate>Sat, 26 Dec 2015 22:34:00 +0800</pubDate><guid>tag:fatminmin.com,2015-12-26:blog/oop-in-c.html</guid></item></channel></rss>
+&lt;p&gt;&lt;img alt="win10_performance" src="https://fatminmin.com/images/win10_performance.png" /&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">FatMinMin</dc:creator><pubDate>Thu, 21 Jan 2016 16:02:00 +0800</pubDate><guid>tag:fatminmin.com,2016-01-21:blog/run-win10-qemu-kvm.html</guid></item></channel></rss>
