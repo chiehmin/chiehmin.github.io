@@ -47,7 +47,6 @@
   &lt;span class="o"&gt;}&lt;/span&gt;
   &lt;span class="n"&gt;buildTypes&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
     &lt;span class="n"&gt;release&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
-      &lt;span class="n"&gt;minifyEnabled&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt;
       &lt;span class="n"&gt;zipAlignEnabled&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt;
       &lt;span class="n"&gt;proguardFiles&lt;/span&gt; &lt;span class="nf"&gt;getDefaultProguardFile&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;proguard-android.txt&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;),&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;proguard-rules.pro&amp;#39;&lt;/span&gt;
       &lt;span class="n"&gt;signingConfig&lt;/span&gt; &lt;span class="n"&gt;signingConfigs&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;release&lt;/span&gt;
