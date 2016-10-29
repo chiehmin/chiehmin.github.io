@@ -3,14 +3,14 @@
 
   <head>
       <title>FatMinMin</title>
-      <link rel="shortcut icon" href="http://fatminmin.com/favicon.ico">
-      <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,400,600,700' rel='stylesheet' type='text/css' />
-      <link href='http://fonts.googleapis.com/css?family=Merriweather:300' rel='stylesheet' type='text/css'/>
-      <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro:200,400,700' rel='stylesheet' type='text/css'/>
+      <link rel="shortcut icon" href="https://fatminmin.com/favicon.ico">
+      <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,400,600,700' rel='stylesheet' type='text/css' />
+      <link href='https://fonts.googleapis.com/css?family=Merriweather:300' rel='stylesheet' type='text/css'/>
+      <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro:200,400,700' rel='stylesheet' type='text/css'/>
 	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-      <link rel="stylesheet" type="text/css" href="http://fatminmin.com/theme/css/icons.css"/>
-      <link rel="stylesheet" type="text/css" href="http://fatminmin.com/theme/css/styles.css"/>
-      <link rel="stylesheet" type="text/css" href="http://fatminmin.com/theme/css/minmin_styles.css"/>
+      <link rel="stylesheet" type="text/css" href="https://fatminmin.com/theme/css/icons.css"/>
+      <link rel="stylesheet" type="text/css" href="https://fatminmin.com/theme/css/styles.css"/>
+      <link rel="stylesheet" type="text/css" href="https://fatminmin.com/theme/css/minmin_styles.css"/>
       <meta charset="utf-8" />
         <link href="/feeds/rss.xml" type="application/rss+xml" rel="alternate" title="FatMinMin RSS Feed" />
       <script>
@@ -37,7 +37,7 @@
         </div>
 
       <div class = "sitebanner">
-        <h1><a class="sitetitle nodec" href="http://fatminmin.com">FatMinMin</a></h1>
+        <h1><a class="sitetitle nodec" href="https://fatminmin.com">FatMinMin</a></h1>
         <h3 class ="sitesubtitle">"A computer and a dream can take you anywhere."</h3>
         <!-- nav -->
         <nav class="menu">
@@ -45,8 +45,8 @@
             <!-- menu items-->
               <li><a class="nodec" href="/">BLOG</a></li>
             <!--pages-->
-                <li><a class="nodec" href="http://fatminmin.com/pages/minminguard.html">MINMINGUARD</a></li>
-                <li><a class="nodec" href="http://fatminmin.com/pages/about.html">ABOUT</a></li>
+                <li><a class="nodec" href="https://fatminmin.com/pages/minminguard.html">MINMINGUARD</a></li>
+                <li><a class="nodec" href="https://fatminmin.com/pages/about.html">ABOUT</a></li>
             <!-- services icons -->
               <li><a class="nodec icon-github" href="https://github.com/chiehmin/"></a></li>
               <li><a class="nodec icon-facebook" href="https://www.facebook.com/fatminmin"></a></li>
@@ -78,24 +78,24 @@
       <p>I just went to a <a href="http://hcsm.kktix.cc/events/160218">meetup</a> talking about netfilter, conntrack and sip in Linux kernel. I used to use <a href="https://virt-manager.org/">Virt-Manager</a> to setup NAT+DHCP for me. I think it is a good time to practice setting up the NAT network and playing with iptables. So the following is my setting notes.</p>
 <h2>Create a tap device</h2>
 <p>TUN and TAP are virtual network devices. Here I create a <code>tap0</code> device and set its ip to <code>192.168.123.1</code>.</p>
-<div class="highlight"><pre><span></span>$ sudo tunctl -u fatminmin -t tap0
-$ sudo ifconfig tap0 192.168.123.1 up
+<div class="highlight"><pre><span class="nv">$ </span>sudo tunctl -u fatminmin -t tap0
+<span class="nv">$ </span>sudo ifconfig tap0 192.168.123.1 up
 </pre></div>
 
 
 <h2>Configuring NAT with iptables</h2>
 <p>I enabled ip_forward feature and accept all forwarding packets send from/to tap0. Then, the most important thing to do is to set <code>MASQUERADE</code> mode for SNAT and the NAT starts working after issuing <code>iptable-save</code>. </p>
-<div class="highlight"><pre><span></span>$ <span class="nb">echo</span> <span class="m">1</span> <span class="p">|</span> sudo tee /proc/sys/net/ipv4/ip_forward
-$ sudo iptables -A FORWARD -i tap0 -j ACCEPT
-$ sudo iptables -A FORWARD -o tap0 -j ACCEPT
-$ sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-$ sudo iptables-save
+<div class="highlight"><pre><span class="nv">$ </span><span class="nb">echo </span><span class="m">1</span> <span class="p">|</span> sudo tee /proc/sys/net/ipv4/ip_forward
+<span class="nv">$ </span>sudo iptables -A FORWARD -i tap0 -j ACCEPT
+<span class="nv">$ </span>sudo iptables -A FORWARD -o tap0 -j ACCEPT
+<span class="nv">$ </span>sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+<span class="nv">$ </span>sudo iptables-save
 </pre></div>
 
 
 <h2>Starting VMs</h2>
 <p>Finally, I can just start the VM by specifying using tap0 as tap device and set up the ip settings in the VM manually.</p>
-<div class="highlight"><pre><span></span>$ sudo qemu-system-x86_64 --enable-kvm <span class="se">\ </span>                                                                                                                                                  
+<div class="highlight"><pre><span class="nv">$ </span>sudo qemu-system-x86_64 --enable-kvm <span class="se">\ </span>                                                                                                                                                  
 -smp <span class="m">4</span> -m <span class="m">4096</span> -cpu host -vga std <span class="se">\</span>
 -drive <span class="nv">file</span><span class="o">=</span>./kali.img,if<span class="o">=</span>virtio <span class="se">\</span>
 -net nic,model<span class="o">=</span>virtio -net tap,ifname<span class="o">=</span>tap0,script<span class="o">=</span>no <span class="se">\</span>
@@ -115,11 +115,11 @@ $ sudo iptables-save
     <script type="text/javascript">
        var disqus_shortname = 'fatminmin';
        var disqus_identifier = 'blog/qemu-nat.html';
-       var disqus_url = 'http://fatminmin.com/blog/qemu-nat.html';
+       var disqus_url = 'https://fatminmin.com/blog/qemu-nat.html';
        (function() {
             var dsq = document.createElement('script');
             dsq.type = 'text/javascript'; dsq.async = true;
-            dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
             (document.getElementsByTagName('head')[0] ||
              document.getElementsByTagName('body')[0]).appendChild(dsq);
       })();

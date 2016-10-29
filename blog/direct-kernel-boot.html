@@ -3,14 +3,14 @@
 
   <head>
       <title>FatMinMin</title>
-      <link rel="shortcut icon" href="http://fatminmin.com/favicon.ico">
-      <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,400,600,700' rel='stylesheet' type='text/css' />
-      <link href='http://fonts.googleapis.com/css?family=Merriweather:300' rel='stylesheet' type='text/css'/>
-      <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro:200,400,700' rel='stylesheet' type='text/css'/>
+      <link rel="shortcut icon" href="https://fatminmin.com/favicon.ico">
+      <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,400,600,700' rel='stylesheet' type='text/css' />
+      <link href='https://fonts.googleapis.com/css?family=Merriweather:300' rel='stylesheet' type='text/css'/>
+      <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro:200,400,700' rel='stylesheet' type='text/css'/>
 	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-      <link rel="stylesheet" type="text/css" href="http://fatminmin.com/theme/css/icons.css"/>
-      <link rel="stylesheet" type="text/css" href="http://fatminmin.com/theme/css/styles.css"/>
-      <link rel="stylesheet" type="text/css" href="http://fatminmin.com/theme/css/minmin_styles.css"/>
+      <link rel="stylesheet" type="text/css" href="https://fatminmin.com/theme/css/icons.css"/>
+      <link rel="stylesheet" type="text/css" href="https://fatminmin.com/theme/css/styles.css"/>
+      <link rel="stylesheet" type="text/css" href="https://fatminmin.com/theme/css/minmin_styles.css"/>
       <meta charset="utf-8" />
         <link href="/feeds/rss.xml" type="application/rss+xml" rel="alternate" title="FatMinMin RSS Feed" />
       <script>
@@ -37,7 +37,7 @@
         </div>
 
       <div class = "sitebanner">
-        <h1><a class="sitetitle nodec" href="http://fatminmin.com">FatMinMin</a></h1>
+        <h1><a class="sitetitle nodec" href="https://fatminmin.com">FatMinMin</a></h1>
         <h3 class ="sitesubtitle">"A computer and a dream can take you anywhere."</h3>
         <!-- nav -->
         <nav class="menu">
@@ -45,8 +45,8 @@
             <!-- menu items-->
               <li><a class="nodec" href="/">BLOG</a></li>
             <!--pages-->
-                <li><a class="nodec" href="http://fatminmin.com/pages/minminguard.html">MINMINGUARD</a></li>
-                <li><a class="nodec" href="http://fatminmin.com/pages/about.html">ABOUT</a></li>
+                <li><a class="nodec" href="https://fatminmin.com/pages/minminguard.html">MINMINGUARD</a></li>
+                <li><a class="nodec" href="https://fatminmin.com/pages/about.html">ABOUT</a></li>
             <!-- services icons -->
               <li><a class="nodec icon-github" href="https://github.com/chiehmin/"></a></li>
               <li><a class="nodec icon-facebook" href="https://www.facebook.com/fatminmin"></a></li>
@@ -76,7 +76,7 @@
 
     <div class="article">
       <p>Recently, I was doing a project on Android x86 and I found the image created by Android x86 livecd using NTFS file system format cannot be booted by Qemu.</p>
-<div class="highlight"><pre><span></span>&gt; $ qemu-system-x86_64 -hda base.img --enable-kvm -serial stdio <span class="se">\</span>
+<div class="highlight"><pre>&gt; <span class="nv">$ </span>qemu-system-x86_64 -hda base.img --enable-kvm -serial stdio <span class="se">\</span>
 -m 4G -smp <span class="m">4</span> <span class="se">\</span>
 -net nic,vlan<span class="o">=</span><span class="m">0</span> <span class="se">\</span>
 -net user,hostfwd<span class="o">=</span>tcp:127.0.0.1:8001-:8001,hostfwd<span class="o">=</span>tcp:127.0.0.1:5555-:5555 <span class="se">\</span>
@@ -87,26 +87,26 @@
 
 <p>And I suspected the problem may be caused by the grub bootloader can not be executed correctly. So I tried extracting the kernel and initrd(it is initramfs actually) and passed it to Qemu directly. And it just booted successfully :). Following is my steps:</p>
 <p>1. Check the length of the bootloader (The first 63 sectors)  </p>
-<div class="highlight"><pre><span></span>&gt; $ fdisk -lu 
+<div class="highlight"><pre>&gt; <span class="nv">$ </span>fdisk -lu 
 Disk base.img: <span class="m">5</span> GiB, <span class="m">5368709120</span> bytes, <span class="m">10485760</span> sectors
 Units: sectors of <span class="m">1</span> * <span class="nv">512</span> <span class="o">=</span> <span class="m">512</span> bytes
 Sector size <span class="o">(</span>logical/physical<span class="o">)</span>: <span class="m">512</span> bytes / <span class="m">512</span> bytes
 I/O size <span class="o">(</span>minimum/optimal<span class="o">)</span>: <span class="m">512</span> bytes / <span class="m">512</span> bytes
-Disklabel type: dos
+Disklabel <span class="nb">type</span>: dos
 Disk identifier: 0x00000000
 
 Device     Boot Start      End  Sectors Size Id Type
 base.img1          <span class="m">63</span> <span class="m">10474379</span> <span class="m">10474317</span>   5G <span class="m">83</span> Linux
 
-&gt; $ python -c <span class="s2">&quot;print 63*512&quot;</span>
+&gt; <span class="nv">$ </span>python -c <span class="s2">&quot;print 63*512&quot;</span>
 32256
 </pre></div>
 
 
 <p>2. Mount the images with offset 32256 bytes  </p>
-<div class="highlight"><pre><span></span>&gt; $ mkdir <span class="nb">test</span>
-&gt; $ sudo mount -o loop,offset<span class="o">=</span><span class="m">32256</span> base.img <span class="nb">test</span>
-&gt; $ <span class="nb">cd</span> test<span class="p">;</span> tree                                                                                                                                                                            
+<div class="highlight"><pre>&gt; <span class="nv">$ </span>mkdir <span class="nb">test</span>
+&gt; <span class="nv">$ </span>sudo mount -o loop,offset<span class="o">=</span><span class="m">32256</span> base.img <span class="nb">test</span>
+&gt; <span class="nv">$ </span><span class="nb">cd test</span><span class="p">;</span> tree                                                                                                                                                                            
 .
 ├── android-2015-12-07
 │   ├── data.img
@@ -136,7 +136,7 @@ base.img1          <span class="m">63</span> <span class="m">10474379</span> <sp
 
 
 <p>3. Check the grub kernel options  </p>
-<div class="highlight"><pre><span></span>&gt; $ cat grub/menu.lst                                                                                                                                                                        
+<div class="highlight"><pre>&gt; <span class="nv">$ </span>cat grub/menu.lst                                                                                                                                                                        
 <span class="nv">default</span><span class="o">=</span>0
 <span class="nv">timeout</span><span class="o">=</span>6
 <span class="nv">splashimage</span><span class="o">=</span>/grub/android-x86.xpm.gz
@@ -161,7 +161,7 @@ title Android-x86 2015-12-07 <span class="o">(</span>Debug <span class="nv">vide
 
 
 <p>4. Pass the parameter and boot it!  </p>
-<div class="highlight"><pre><span></span>&gt; $ qemu-system-x86_64 -hda base.img --enable-kvm <span class="se">\</span>
+<div class="highlight"><pre>&gt; <span class="nv">$ </span>qemu-system-x86_64 -hda base.img --enable-kvm <span class="se">\</span>
 -kernel kernel -initrd initrd.img <span class="se">\</span>
 -append <span class="s2">&quot;root=/dev/ram0 androidboot.hardware=sense_svmp SRC=android-2015-12-07&quot;</span> <span class="se">\</span>
 -serial stdio <span class="se">\</span>
@@ -173,7 +173,7 @@ title Android-x86 2015-12-07 <span class="o">(</span>Debug <span class="nv">vide
 </pre></div>
 
 
-<p><img alt="Result" src="http://fatminmin.com/images/direct_kernel_boot.png" /></p>
+<p><img alt="Result" src="https://fatminmin.com/images/direct_kernel_boot.png" /></p>
     </div><!-- .content -->
 
     <h2>Comments</h2>
@@ -181,11 +181,11 @@ title Android-x86 2015-12-07 <span class="o">(</span>Debug <span class="nv">vide
     <script type="text/javascript">
        var disqus_shortname = 'fatminmin';
        var disqus_identifier = 'blog/direct-kernel-boot.html';
-       var disqus_url = 'http://fatminmin.com/blog/direct-kernel-boot.html';
+       var disqus_url = 'https://fatminmin.com/blog/direct-kernel-boot.html';
        (function() {
             var dsq = document.createElement('script');
             dsq.type = 'text/javascript'; dsq.async = true;
-            dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
             (document.getElementsByTagName('head')[0] ||
              document.getElementsByTagName('body')[0]).appendChild(dsq);
       })();

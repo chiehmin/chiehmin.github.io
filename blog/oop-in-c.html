@@ -3,14 +3,14 @@
 
   <head>
       <title>FatMinMin</title>
-      <link rel="shortcut icon" href="http://fatminmin.com/favicon.ico">
-      <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,400,600,700' rel='stylesheet' type='text/css' />
-      <link href='http://fonts.googleapis.com/css?family=Merriweather:300' rel='stylesheet' type='text/css'/>
-      <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro:200,400,700' rel='stylesheet' type='text/css'/>
+      <link rel="shortcut icon" href="https://fatminmin.com/favicon.ico">
+      <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,400,600,700' rel='stylesheet' type='text/css' />
+      <link href='https://fonts.googleapis.com/css?family=Merriweather:300' rel='stylesheet' type='text/css'/>
+      <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro:200,400,700' rel='stylesheet' type='text/css'/>
 	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-      <link rel="stylesheet" type="text/css" href="http://fatminmin.com/theme/css/icons.css"/>
-      <link rel="stylesheet" type="text/css" href="http://fatminmin.com/theme/css/styles.css"/>
-      <link rel="stylesheet" type="text/css" href="http://fatminmin.com/theme/css/minmin_styles.css"/>
+      <link rel="stylesheet" type="text/css" href="https://fatminmin.com/theme/css/icons.css"/>
+      <link rel="stylesheet" type="text/css" href="https://fatminmin.com/theme/css/styles.css"/>
+      <link rel="stylesheet" type="text/css" href="https://fatminmin.com/theme/css/minmin_styles.css"/>
       <meta charset="utf-8" />
         <link href="/feeds/rss.xml" type="application/rss+xml" rel="alternate" title="FatMinMin RSS Feed" />
       <script>
@@ -37,7 +37,7 @@
         </div>
 
       <div class = "sitebanner">
-        <h1><a class="sitetitle nodec" href="http://fatminmin.com">FatMinMin</a></h1>
+        <h1><a class="sitetitle nodec" href="https://fatminmin.com">FatMinMin</a></h1>
         <h3 class ="sitesubtitle">"A computer and a dream can take you anywhere."</h3>
         <!-- nav -->
         <nav class="menu">
@@ -45,8 +45,8 @@
             <!-- menu items-->
               <li><a class="nodec" href="/">BLOG</a></li>
             <!--pages-->
-                <li><a class="nodec" href="http://fatminmin.com/pages/minminguard.html">MINMINGUARD</a></li>
-                <li><a class="nodec" href="http://fatminmin.com/pages/about.html">ABOUT</a></li>
+                <li><a class="nodec" href="https://fatminmin.com/pages/minminguard.html">MINMINGUARD</a></li>
+                <li><a class="nodec" href="https://fatminmin.com/pages/about.html">ABOUT</a></li>
             <!-- services icons -->
               <li><a class="nodec icon-github" href="https://github.com/chiehmin/"></a></li>
               <li><a class="nodec icon-facebook" href="https://www.facebook.com/fatminmin"></a></li>
@@ -78,7 +78,7 @@
       <p>Despite C does not support OOP like C++ or Java, OOP concepts is still used in Android HAL module and GTK+ programs.</p>
 <h1>Inheretance</h1>
 <p>Simulating inheretance feature in C is done by simply putting the parent class as the first field in the structure. In this way, we can get all the parent fields in the child class and transform it to the parent type by using a simple pointer conversion.</p>
-<div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+<div class="highlight"><pre><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
     <span class="p">...</span>
 <span class="p">}</span> <span class="n">Animal</span><span class="p">;</span>
 
@@ -100,14 +100,14 @@
 <h2>GTK+</h2>
 <p>GTK+ programs use more OOP concepts for developing. The inheretance structure is this <code>GObject &lt;- GInitiallyUnowned &lt;- GtkObject &lt;- GtkWidget &lt;- GtkContainer &lt;- GtkBin &lt;- GtkWindow</code></p>
 <p>For most GTK functions, the first argument works as the <code>this</code> pointer for OOP language.</p>
-<div class="highlight"><pre><span></span><span class="n">GtkWidget</span><span class="o">*</span> <span class="n">window</span> <span class="o">=</span> <span class="n">gtk_window_new</span><span class="p">(</span><span class="n">GTK_WINDOW_TOPLEVEL</span><span class="p">);</span>
+<div class="highlight"><pre><span class="n">GtkWidget</span><span class="o">*</span> <span class="n">window</span> <span class="o">=</span> <span class="n">gtk_window_new</span><span class="p">(</span><span class="n">GTK_WINDOW_TOPLEVEL</span><span class="p">);</span>
 <span class="n">gtk_window_set_title</span><span class="p">(</span><span class="n">GTK_WINDOW</span><span class="p">(</span><span class="n">window</span><span class="p">),</span> <span class="s">&quot;title&quot;</span><span class="p">);</span>
 <span class="c1">// this works like access gtk window member function</span>
 </pre></div>
 
 
 <p><code>GTK_WINDOW</code> is a macro for type checking and casting</p>
-<div class="highlight"><pre><span></span><span class="cp">#define GTK_WINDOW(obj)</span>
+<div class="highlight"><pre><span class="cp">#define GTK_WINDOW(obj)</span>
           <span class="p">(</span><span class="n">G_TYPE_CHECK_INSTANCE_CAST</span><span class="p">((</span><span class="n">obj</span><span class="p">),</span> <span class="n">GTK_TYPE_WINDOW</span><span class="p">,</span> <span class="n">GtkWindow</span><span class="p">))</span>
 </pre></div>
     </div><!-- .content -->
@@ -117,11 +117,11 @@
     <script type="text/javascript">
        var disqus_shortname = 'fatminmin';
        var disqus_identifier = 'blog/oop-in-c.html';
-       var disqus_url = 'http://fatminmin.com/blog/oop-in-c.html';
+       var disqus_url = 'https://fatminmin.com/blog/oop-in-c.html';
        (function() {
             var dsq = document.createElement('script');
             dsq.type = 'text/javascript'; dsq.async = true;
-            dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
             (document.getElementsByTagName('head')[0] ||
              document.getElementsByTagName('body')[0]).appendChild(dsq);
       })();
