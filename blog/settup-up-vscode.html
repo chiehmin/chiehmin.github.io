@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+      <title>FatMinMin</title>
+      <link rel="shortcut icon" href="https://fatminmin.com/favicon.ico">
+      <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,400,600,700' rel='stylesheet' type='text/css' />
+      <link href='https://fonts.googleapis.com/css?family=Merriweather:300' rel='stylesheet' type='text/css'/>
+      <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro:200,400,700' rel='stylesheet' type='text/css'/>
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+      <link rel="stylesheet" type="text/css" href="https://fatminmin.com/theme/css/icons.css"/>
+      <link rel="stylesheet" type="text/css" href="https://fatminmin.com/theme/css/styles.css"/>
+      <link rel="stylesheet" type="text/css" href="https://fatminmin.com/theme/css/minmin_styles.css"/>
+      <meta charset="utf-8" />
+        <link href="/feeds/rss.xml" type="application/rss+xml" rel="alternate" title="FatMinMin RSS Feed" />
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-7408997-8', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+
+  </head>
+
+  <body id="index">
+    <!-- header -->
+    <header class="siteheader">
+      <!-- site image -->
+        <div class= "siteimage">
+          <a class="nodec" href=/images/me.jpg>
+            <img width="200" height="200" src=/images/me.jpg>
+          </a>
+        </div>
+
+      <div class = "sitebanner">
+        <h1><a class="sitetitle nodec" href="https://fatminmin.com">FatMinMin</a></h1>
+        <h3 class ="sitesubtitle">"A computer and a dream can take you anywhere."</h3>
+        <!-- nav -->
+        <nav class="menu">
+          <ul>
+            <!-- menu items-->
+              <li><a class="nodec" href="/">BLOG</a></li>
+            <!--pages-->
+                <li><a class="nodec" href="https://fatminmin.com/pages/minminguard.html">MINMINGUARD</a></li>
+                <li><a class="nodec" href="https://fatminmin.com/pages/about.html">ABOUT</a></li>
+            <!-- services icons -->
+              <li><a class="nodec icon-github" href="https://github.com/chiehmin/"></a></li>
+              <li><a class="nodec icon-facebook" href="https://www.facebook.com/fatminmin"></a></li>
+              <li><a class="nodec fa fa-linkedin" href="https://tw.linkedin.com/in/fatminmin"></a></li>
+              <li><a class="nodec icon-rss" href="/feeds/rss.xml"></a></li>
+          </ul>
+        </nav>
+      </div> <!-- sitebanner -->
+    </header>
+
+    <!-- content -->
+
+<section class="content">
+
+  <h3 class="posttitle">
+    <a class="nodec" href="/blog/settup-up-vscode.html" rel="bookmark" title="Permalink to Setting up Visual Studio Code for Simple C/C++ development">
+      Setting up Visual Studio Code for Simple C/C++ development
+    </a>
+  </h3>
+
+  <div class="postinfo">
+    <p class="published" title="2016-06-13T16:12:00+08:00">
+      On 2016/06/13 at 16:12
+    </p>
+
+  </div><!-- .postinfo -->
+
+    <div class="article">
+      <p>I tried <a href="https://code.visualstudio.com/">Visual Studio Code</a> the other day and I found it really good for simple coding jobs(ie. competing in hackerrank). Realtime symbol tagging and debugging can be done in vscode by installing cpptools plugins which makes vscode acting as a lightweight IDE for me. Here I will show how to set up the vscode for simple C/C++ development. The <a href="https://blogs.msdn.microsoft.com/vcblog/2016/03/31/cc-extension-for-visual-studio-code/">tutorial in the official blog</a> is a bit incomplete in my opion. </p>
+<p>We have to install <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools">cpptools</a> and <a href="https://marketplace.visualstudio.com/items?itemName=austin.code-gnu-global">C++ Intellisense</a> first. In order to use C++ Intellisense, we have also to install <a href="https://www.gnu.org/software/global/">GNU Global tools</a>. (In fedora, I can simply install GNU Global tools by <code>dnf install global</code>.)</p>
+<p>Second thing is to make the <strong>code-editing aids</strong> feature work, it does not automatically generate the browse.VC.db file on my Fedora 23. I have to press <code>F1</code> to brings up the command palette and type <code>C/Cpp Edit configuration</code>. It will open a <code>c_cpp_properties.json</code> file and simply press <code>ctrl+s</code> you can save it to the <code>.vscode</code> folder under your project folder(You may need to point the <code>includePath</code> to the correct path). After the generating the <code>c_cpp_properties.json</code>, the symbol will start to be tagged and the <strong>code-editing aids</strong> feature will work.</p>
+<p>The next thing is to generate the <code>task.json</code> for automatic build after you press <code>ctrl+shift+b</code>. The first time you press <code>ctrl+shift+b</code> there will be a dialog prompt up asking you edit build configuration. Here I used the <em>other</em> option to manualy use external command to build my code. The second element in the args array means using the current file name as the argument. After setting up the <code>task.json</code>, we can build our code by simply pressing <code>ctrl+shift+b</code>. </p>
+<div class="highlight"><pre><span class="p">{</span>
+    <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;0.1.0&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;command&quot;</span><span class="p">:</span> <span class="s2">&quot;g++&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;isShellCommand&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nt">&quot;args&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;-g&quot;</span><span class="p">,</span> <span class="s2">&quot;${file}&quot;</span><span class="p">],</span>
+    <span class="nt">&quot;showOutput&quot;</span><span class="p">:</span> <span class="s2">&quot;always&quot;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>The last thing is to make debugging feature work. First time pressing <code>F5</code> will generate a <code>launch.json</code> under your <code>.vscode</code> folter. Just pointing the <code>program</code> attribute value to you <code>${workspaceRoot}/a.out</code> then you are done(Because our <code>task.json</code> use default output binary name for g++).</p>
+<p>After completing all the settings, you can now build the code by pressing <code>ctrl+shift+b</code> and run it by pressing <code>F5</code>. You can even set breakpoint and debug using the debug feature. The only on drawback is <code>cpptools</code> plugin can not show the content of STL containers even though my GDB supports showing content of STL container. I hope showing STL containers content feature can be added into cpptools soon :).   </p>
+    </div><!-- .content -->
+
+    <h2>Comments</h2>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+       var disqus_shortname = 'fatminmin';
+       var disqus_identifier = 'blog/settup-up-vscode.html';
+       var disqus_url = 'https://fatminmin.com/blog/settup-up-vscode.html';
+       (function() {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] ||
+             document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+
+</section>
+
+
+    <!-- footer -->
+    <footer>
+      <p>
+        © FatMinMin, license <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/"> CC BY-NC-SA 4.0</a>
+        unless otherwise noted.
+        Generated by <a href= "http://docs.getpelican.com/">Pelican</a> with
+        <a href="https://github.com/chiehmin/crowsfoot">crowsfoot</a> theme.
+      </p>
+    </footer>
+  </body>
+</html>

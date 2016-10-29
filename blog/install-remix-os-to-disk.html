@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+      <title>FatMinMin</title>
+      <link rel="shortcut icon" href="https://fatminmin.com/favicon.ico">
+      <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,400,600,700' rel='stylesheet' type='text/css' />
+      <link href='https://fonts.googleapis.com/css?family=Merriweather:300' rel='stylesheet' type='text/css'/>
+      <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro:200,400,700' rel='stylesheet' type='text/css'/>
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+      <link rel="stylesheet" type="text/css" href="https://fatminmin.com/theme/css/icons.css"/>
+      <link rel="stylesheet" type="text/css" href="https://fatminmin.com/theme/css/styles.css"/>
+      <link rel="stylesheet" type="text/css" href="https://fatminmin.com/theme/css/minmin_styles.css"/>
+      <meta charset="utf-8" />
+        <link href="/feeds/rss.xml" type="application/rss+xml" rel="alternate" title="FatMinMin RSS Feed" />
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-7408997-8', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+
+  </head>
+
+  <body id="index">
+    <!-- header -->
+    <header class="siteheader">
+      <!-- site image -->
+        <div class= "siteimage">
+          <a class="nodec" href=/images/me.jpg>
+            <img width="200" height="200" src=/images/me.jpg>
+          </a>
+        </div>
+
+      <div class = "sitebanner">
+        <h1><a class="sitetitle nodec" href="https://fatminmin.com">FatMinMin</a></h1>
+        <h3 class ="sitesubtitle">"A computer and a dream can take you anywhere."</h3>
+        <!-- nav -->
+        <nav class="menu">
+          <ul>
+            <!-- menu items-->
+              <li><a class="nodec" href="/">BLOG</a></li>
+            <!--pages-->
+                <li><a class="nodec" href="https://fatminmin.com/pages/minminguard.html">MINMINGUARD</a></li>
+                <li><a class="nodec" href="https://fatminmin.com/pages/about.html">ABOUT</a></li>
+            <!-- services icons -->
+              <li><a class="nodec icon-github" href="https://github.com/chiehmin/"></a></li>
+              <li><a class="nodec icon-facebook" href="https://www.facebook.com/fatminmin"></a></li>
+              <li><a class="nodec fa fa-linkedin" href="https://tw.linkedin.com/in/fatminmin"></a></li>
+              <li><a class="nodec icon-rss" href="/feeds/rss.xml"></a></li>
+          </ul>
+        </nav>
+      </div> <!-- sitebanner -->
+    </header>
+
+    <!-- content -->
+
+<section class="content">
+
+  <h3 class="posttitle">
+    <a class="nodec" href="/blog/install-remix-os-to-disk.html" rel="bookmark" title="Permalink to Install Remix OS using Android x86 Installer">
+      Install Remix OS using Android x86 Installer
+    </a>
+  </h3>
+
+  <div class="postinfo">
+    <p class="published" title="2016-01-25T20:19:00+08:00">
+      On 2016/01/25 at 20:19
+    </p>
+
+  </div><!-- .postinfo -->
+
+    <div class="article">
+      <p>I recently installed the popular desktop Android environment <a href="http://www.jide.com/en/remixos">Remix OS</a> into my usb disk. However I found the data partition(it is data.img actually) created by Remis OS installation process is soooo small! I can not even install HearthStone in it. And I don't know why it format the usb disk into fat32, ext4 should be better. </p>
+<p>I found actually I can invoke the traditional Android x86 installer that can help you install remix os into any disk, using ext4 and getting larger data partition. I can invoke it by simply adding <code>INSTALL=1</code> into boot time parameter list. This parameter will be check by the initrd script as follow:</p>
+<p><img alt="android_x86_initrd" src="https://fatminmin.com/images/android_x86_initrd.png" /></p>
+<p>Here I used QEMU/KVM and usb passthrough to install remix os into my 16GB usb disk.</p>
+<div class="highlight"><pre>qemu-system-x86_64 --enable-kvm -boot d <span class="se">\</span>
+-cdrom ./Remix_OS_for_PC_64_B2016011402_Alpha_Legacy.iso <span class="se">\</span>
+-smp <span class="m">4</span> -m <span class="m">4096</span> <span class="se">\</span>
+-vga std -usbdevice tablet -soundhw hda <span class="se">\ </span>
+-usb -device usb-host,hostbus<span class="o">=</span>3,hostaddr<span class="o">=</span>8
+</pre></div>
+
+
+<p>First, press tab to edit boot parameter at GRUB menu.</p>
+<p><img alt="grub_tab" src="https://fatminmin.com/images/grub_tab.png" /></p>
+<p>Add <code>INSTALL=1</code> to the parameter list</p>
+<p><img alt="grub_edit" src="https://fatminmin.com/images/grub_edit.png" /></p>
+<p>Here we get the traditional Android x86 installation program invoked. And I have to press <em>detect devices</em> first to let the installation program to probe my usb device.</p>
+<p><img alt="android_x86_install" src="https://fatminmin.com/images/android_x86_install.png" /></p>
+<p>Create a partition and mark it as bootable.</p>
+<p><img alt="fdisk" src="https://fatminmin.com/images/fdisk.png" /></p>
+<p>Select the partition just created.</p>
+<p><img alt="start_install" src="https://fatminmin.com/images/start_install.png" /></p>
+<p>Choose ext4 as disk format type and start the installation!</p>
+<p><img alt="installing" src="https://fatminmin.com/images/installing.png" /></p>
+<p>After installation is complete, I plugged my usb disk into my laptop and remix os is working great with ext4 and can access the full storage of my 16GB usb disk now.</p>
+<p><img alt="grub_remix" src="https://fatminmin.com/images/grub_remix.jpg" />
+<img alt="full_storage" src="https://fatminmin.com/images/full_storage.jpg" /></p>
+    </div><!-- .content -->
+
+    <h2>Comments</h2>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+       var disqus_shortname = 'fatminmin';
+       var disqus_identifier = 'blog/install-remix-os-to-disk.html';
+       var disqus_url = 'https://fatminmin.com/blog/install-remix-os-to-disk.html';
+       (function() {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] ||
+             document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+
+</section>
+
+
+    <!-- footer -->
+    <footer>
+      <p>
+        © FatMinMin, license <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/"> CC BY-NC-SA 4.0</a>
+        unless otherwise noted.
+        Generated by <a href= "http://docs.getpelican.com/">Pelican</a> with
+        <a href="https://github.com/chiehmin/crowsfoot">crowsfoot</a> theme.
+      </p>
+    </footer>
+  </body>
+</html>
