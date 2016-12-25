@@ -73,12 +73,20 @@
   </div><!-- .postinfo -->
 
     <div class="article_wide">
-      <p>還記得當初面試的時候還問過面試官「雖着網路的進步、頻寬越來越大，我用 google drive 等雲端空間不就好了，我檔案存在上面還不怕硬碟壞掉，對個人用戶而言 nas 這東西真的有發展性嗎？」，現在回頭看，我對於我當初這個問題給自己的回答是，隨著聯網裝置的增加，我需要一個可以「快速」在各個裝置間共享檔案的方法，雲端硬碟（公有雲）除了價格昂貴外，最大的問題是公有雲的速度真的是有夠慢，在內網和 nas 傳輸資料只要硬碟和 router 規格有到，傳輸速度都能逼近 1000 Mbps，但是想從公有雲上傳 / 下載一部電影，常常等了 30 分鐘都還沒好，尤其上傳每秒不到 20 Mbps 真的是等到我都忘了有這件事，而且之前我把手機拍的照片全部都丟 google drive 的時候，想找個之前拍的照片需要一直往下滾，但是他那照片載入速度讓我找了好久都還找不到我要的照片，等到進了公司後第一次用了我們的產品真的是有被驚豔到，各方面的功能都做的很完備而且很貼心，尤其 quickconnect 的服務讓 nas 具有穿牆能力對於我這種沒辦法自己牽網路的租屋族真的是超級實用 (不然就是得要說服房東去辦個 ipv6 讓大家都能開心拿 public ip) (不過如果裝置兩端都在 symmetric nat 後面的話就得靠公司買 turn server 的流量，為了公司好還是想辦法找天跟房東聊聊好了 XD)，所以領了第一個月的薪水後就立馬買了一臺 DS216+ 回來用 (雖然其他人都推坑我買 8G 版的 916+，但是小魯沒錢還是算一算還是買 216+)</p>
+      <p>還記得當初面試的時候還問過面試官「雖着網路的進步、頻寬越來越大，我用 google drive 等雲端空間不就好了，我檔案存在上面還不怕硬碟壞掉，對個人用戶而言 nas 這東西真的有發展性嗎？」，現在回頭看，我對於我當初這個問題給自己的回答是，隨著聯網裝置的增加，我需要一個可以「快速」在各個裝置間共享檔案的方法，雲端硬碟（公有雲）除了價格昂貴外，最大的問題是公有雲的速度真的是有夠慢，在內網和 nas 傳輸資料只要硬碟和 router 規格有到，傳輸速度都能逼近 1000 Mbps，但是想從公有雲上傳 / 下載一部電影，常常等了 30 分鐘都還沒好，尤其上傳每秒不到 20 Mbps 真的是等到我都忘了有這件事，而且之前我把手機拍的照片全部都丟 google drive 的時候，想找個之前拍的照片需要一直往下滾，但是他那照片載入速度讓我找了好久都還找不到我要的照片，等到進了公司後第一次用了我們的產品真的是有被驚豔到，各方面的功能都做的很完備而且很貼心，尤其 quickconnect 的服務讓 nas 具有穿牆能力對於我這種沒辦法自己牽網路的租屋族真的是超級實用 (不然就是得要說服房東去辦個 ipv6 讓大家都能開心拿 public ip) (不過如果裝置兩端都在 symmetric nat 後面的話就得靠公司買 turn server 的流量，為了公司好還是想辦法找天跟房東聊聊好了 XD) (如果是自己牽網路的話，nas 上還可以直接設定有 UPnP 功能的 router 免去 DMZ 的風險和一條一條設 port forwarding 的麻煩)，所以領了第一個月的薪水後就立馬買了一臺 DS216+ 回來用 (雖然其他人都推坑我買 8G 版的 916+，但是小魯沒錢還是算一算還是買 216+)，順便寫篇文章紀錄一下心得。</p>
 <h1>配置</h1>
-<p><img alt="216 in box" src="https://fatminmin.com/images/216_box.jpg">
-<img alt="216 with 1900ac" src="https://fatminmin.com/images/216_and_router.jpg"></p>
-<h1>Hyper backup (異地備份)</h1>
+<p>硬碟剛好看到 OSS lab 在賣 Toshiba MG03ACA300 3TB 的企業級硬碟，PCDIY 也有寫<a href="http://www.pcdiy.com.tw/detail/5309">文章</a>介紹這顆跳水跳很大的硬碟，就買了一顆試試看，不過買了之後時在是有點後悔，硬碟耐不耐操還不知道，但是這顆硬碟運轉的聲音實在是有夠大 (ptt 上也有<a href="https://www.ptt.cc/bbs/Storage_Zone/M.1447514313.A.65F.html">討論</a>)，實在不適合放在房間 Orz，不過都買了也只好摸摸鼻子讓繼續用了 XD。另外本來也猶豫了很久到底要不要一次買兩顆弄 RAID 1 比較安心，不過荷包空空的情況下，一次買兩顆實在是買不下去，而且剛好想到，用交大的帳號有 google drive 無上限的空間可以用，剛好拿來利用做異地備份，就不用擔心資料毀損的問題，又能夠享受到 nas 在內網的高速存取。</p>
+<p><img alt="216 in box" src="https://fatminmin.com/images/216_box.jpg"></p>
+<p>買 216+ 後就想要順便把 router 換好一點，公司同事聽到我的 murmur 後，很好心的轉了一臺 rt1900ac 給我回家玩，群暉處處有溫情阿 XD。</p>
+<p><img alt="216 with 1900ac" src="https://fatminmin.com/images/216_and_router.jpg"></p>
+<h1>Hyper Backup (異地備份)</h1>
+<p>由於硬碟很吵的關係，為了避免打擾到睡眠，所以我都設定在早上九點的上班時間開始做異地備份到 google drive 上，Hyper Backup 的介面可以透過時間軸輕鬆瀏覽各個備份版本的檔案</p>
+<p><img alt="Hyper Backup" src="https://fatminmin.com/images/hyper_backup.png"></p>
 <h1>Audio Station</h1>
+<p>Audio Station 最讓我驚豔的地方是歌詞的部分，它可以透過下載歌詞的外掛模組(網路上有很多熱心玩家已經寫好很多<a href="https://blog.ladsai.com/synology-audiostation-%E6%AD%8C%E8%A9%9E%E5%A4%96%E6%8E%9B-2.html">模組</a>) (後來發現寫了很多歌詞外掛 franklai 大大就是公司的員工，這些外掛沒有直接包進去大概是因為版權問題吧)，自動載入歌詞，甚至還可以支援動態歌詞</p>
+<p><img alt="Audio Station" src="https://fatminmin.com/images/audio_station.png"></p>
+<p>在手機上也可以支援動態歌詞的顯示</p>
+<p><img alt="Audio Station Mobile" src="https://fatminmin.com/images/audio_station_mobile.png"></p>
 <h1>Video Station</h1>
 <h1>Download Station</h1>
     </div><!-- .content -->
