@@ -45,8 +45,6 @@
             <!-- menu items-->
               <li><a class="nodec" href="/">BLOG</a></li>
             <!--pages-->
-                <li><a class="nodec" href="https://fatminmin.com/pages/minminguard.html">MINMINGUARD</a></li>
-                <li><a class="nodec" href="https://fatminmin.com/pages/about.html">ABOUT</a></li>
             <!-- services icons -->
               <li><a class="nodec icon-github" href="https://github.com/chiehmin/"></a></li>
               <li><a class="nodec icon-facebook" href="https://www.facebook.com/fatminmin"></a></li>
@@ -77,9 +75,9 @@
     <div class="article">
       <p>I recently installed the popular desktop Android environment <a href="http://www.jide.com/en/remixos">Remix OS</a> into my usb disk. However I found the data partition(it is data.img actually) created by Remis OS installation process is soooo small! I can not even install HearthStone in it. And I don't know why it format the usb disk into fat32, ext4 should be better. </p>
 <p>I found actually I can invoke the traditional Android x86 installer that can help you install remix os into any disk, using ext4 and getting larger data partition. I can invoke it by simply adding <code>INSTALL=1</code> into boot time parameter list. This parameter will be check by the initrd script as follow:</p>
-<p><img alt="android_x86_initrd" src="https://fatminmin.com/images/android_x86_initrd.png" /></p>
+<p><img alt="android_x86_initrd" src="https://fatminmin.com/images/android_x86_initrd.png"></p>
 <p>Here I used QEMU/KVM and usb passthrough to install remix os into my 16GB usb disk.</p>
-<div class="highlight"><pre>qemu-system-x86_64 --enable-kvm -boot d <span class="se">\</span>
+<div class="highlight"><pre><span></span>qemu-system-x86_64 --enable-kvm -boot d <span class="se">\</span>
 -cdrom ./Remix_OS_for_PC_64_B2016011402_Alpha_Legacy.iso <span class="se">\</span>
 -smp <span class="m">4</span> -m <span class="m">4096</span> <span class="se">\</span>
 -vga std -usbdevice tablet -soundhw hda <span class="se">\ </span>
@@ -88,20 +86,20 @@
 
 
 <p>First, press tab to edit boot parameter at GRUB menu.</p>
-<p><img alt="grub_tab" src="https://fatminmin.com/images/grub_tab.png" /></p>
+<p><img alt="grub_tab" src="https://fatminmin.com/images/grub_tab.png"></p>
 <p>Add <code>INSTALL=1</code> to the parameter list</p>
-<p><img alt="grub_edit" src="https://fatminmin.com/images/grub_edit.png" /></p>
+<p><img alt="grub_edit" src="https://fatminmin.com/images/grub_edit.png"></p>
 <p>Here we get the traditional Android x86 installation program invoked. And I have to press <em>detect devices</em> first to let the installation program to probe my usb device.</p>
-<p><img alt="android_x86_install" src="https://fatminmin.com/images/android_x86_install.png" /></p>
+<p><img alt="android_x86_install" src="https://fatminmin.com/images/android_x86_install.png"></p>
 <p>Create a partition and mark it as bootable.</p>
-<p><img alt="fdisk" src="https://fatminmin.com/images/fdisk.png" /></p>
+<p><img alt="fdisk" src="https://fatminmin.com/images/fdisk.png"></p>
 <p>Select the partition just created.</p>
-<p><img alt="start_install" src="https://fatminmin.com/images/start_install.png" /></p>
+<p><img alt="start_install" src="https://fatminmin.com/images/start_install.png"></p>
 <p>Choose ext4 as disk format type and start the installation!</p>
-<p><img alt="installing" src="https://fatminmin.com/images/installing.png" /></p>
+<p><img alt="installing" src="https://fatminmin.com/images/installing.png"></p>
 <p>After installation is complete, I plugged my usb disk into my laptop and remix os is working great with ext4 and can access the full storage of my 16GB usb disk now.</p>
-<p><img alt="grub_remix" src="https://fatminmin.com/images/grub_remix.jpg" />
-<img alt="full_storage" src="https://fatminmin.com/images/full_storage.jpg" /></p>
+<p><img alt="grub_remix" src="https://fatminmin.com/images/grub_remix.jpg">
+<img alt="full_storage" src="https://fatminmin.com/images/full_storage.jpg"></p>
     </div><!-- .content -->
 
     <h2>Comments</h2>

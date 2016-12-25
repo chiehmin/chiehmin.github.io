@@ -45,8 +45,6 @@
             <!-- menu items-->
               <li><a class="nodec" href="/">BLOG</a></li>
             <!--pages-->
-                <li><a class="nodec" href="https://fatminmin.com/pages/minminguard.html">MINMINGUARD</a></li>
-                <li><a class="nodec" href="https://fatminmin.com/pages/about.html">ABOUT</a></li>
             <!-- services icons -->
               <li><a class="nodec icon-github" href="https://github.com/chiehmin/"></a></li>
               <li><a class="nodec icon-facebook" href="https://www.facebook.com/fatminmin"></a></li>
@@ -76,37 +74,37 @@
 
     <div class="article">
       <p>I just learned and applied Travis CI to do continuous integration for MinMinGuard. For now, I am just using travis to automatically build release apk. The settings for travis is fairly easy to setup by just following the official tutorial. Following is my <code>.travis.yml</code>: </p>
-<div class="highlight"><pre><span class="l-Scalar-Plain">language</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">android</span>
-<span class="l-Scalar-Plain">android</span><span class="p-Indicator">:</span>
-  <span class="l-Scalar-Plain">components</span><span class="p-Indicator">:</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">platform-tools</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">tools</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">build-tools-23.0.3</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">android-23</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">extra-google-google_play_services</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">extra-google-m2repository</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">extra-android-m2repository</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">addon-google_apis-google-19</span>
-<span class="l-Scalar-Plain">jdk</span><span class="p-Indicator">:</span>
-<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">oraclejdk8</span>
-<span class="l-Scalar-Plain">script</span><span class="p-Indicator">:</span>
-<span class="p-Indicator">-</span> <span class="s">&#39;[</span><span class="nv"> </span><span class="s">&quot;${TRAVIS_PULL_REQUEST}&quot;</span><span class="nv"> </span><span class="s">==</span><span class="nv"> </span><span class="s">&quot;false&quot;</span><span class="nv"> </span><span class="s">]</span><span class="nv"> </span><span class="s">&amp;&amp;</span><span class="nv"> </span><span class="s">./gradlew</span><span class="nv"> </span><span class="s">assembleRelease</span><span class="nv"> </span><span class="s">||</span><span class="nv"> </span><span class="s">./gradlew</span><span class="nv"> </span><span class="s">assembleDebug&#39;</span>
-<span class="l-Scalar-Plain">before_deploy</span><span class="p-Indicator">:</span>
-<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">mv app/build/outputs/apk/app-release.apk app/build/outputs/apk/MinMinGuard.apk</span>
-<span class="l-Scalar-Plain">deploy</span><span class="p-Indicator">:</span>
-  <span class="l-Scalar-Plain">provider</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">releases</span>
-  <span class="l-Scalar-Plain">api_key</span><span class="p-Indicator">:</span>
-    <span class="l-Scalar-Plain">secure</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">my secure github oauth key</span><span class="p-Indicator">]</span>
-  <span class="l-Scalar-Plain">file</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">app/build/outputs/apk/MinMinGuard.apk</span>
-  <span class="l-Scalar-Plain">skip_cleanup</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
-  <span class="l-Scalar-Plain">on</span><span class="p-Indicator">:</span>
-    <span class="l-Scalar-Plain">tags</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+<div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">language</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">android</span>
+<span class="l l-Scalar l-Scalar-Plain">android</span><span class="p p-Indicator">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">components</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">platform-tools</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">tools</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">build-tools-23.0.3</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">android-23</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">extra-google-google_play_services</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">extra-google-m2repository</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">extra-android-m2repository</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">addon-google_apis-google-19</span>
+<span class="l l-Scalar l-Scalar-Plain">jdk</span><span class="p p-Indicator">:</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">oraclejdk8</span>
+<span class="l l-Scalar l-Scalar-Plain">script</span><span class="p p-Indicator">:</span>
+<span class="p p-Indicator">-</span> <span class="s">&#39;[</span><span class="nv"> </span><span class="s">&quot;${TRAVIS_PULL_REQUEST}&quot;</span><span class="nv"> </span><span class="s">==</span><span class="nv"> </span><span class="s">&quot;false&quot;</span><span class="nv"> </span><span class="s">]</span><span class="nv"> </span><span class="s">&amp;&amp;</span><span class="nv"> </span><span class="s">./gradlew</span><span class="nv"> </span><span class="s">assembleRelease</span><span class="nv"> </span><span class="s">||</span><span class="nv"> </span><span class="s">./gradlew</span><span class="nv"> </span><span class="s">assembleDebug&#39;</span>
+<span class="l l-Scalar l-Scalar-Plain">before_deploy</span><span class="p p-Indicator">:</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">mv app/build/outputs/apk/app-release.apk app/build/outputs/apk/MinMinGuard.apk</span>
+<span class="l l-Scalar l-Scalar-Plain">deploy</span><span class="p p-Indicator">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">provider</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">releases</span>
+  <span class="l l-Scalar l-Scalar-Plain">api_key</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">secure</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[</span><span class="nv">my secure github oauth key</span><span class="p p-Indicator">]</span>
+  <span class="l l-Scalar l-Scalar-Plain">file</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">app/build/outputs/apk/MinMinGuard.apk</span>
+  <span class="l l-Scalar l-Scalar-Plain">skip_cleanup</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+  <span class="l l-Scalar l-Scalar-Plain">on</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">tags</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
 </pre></div>
 
 
 <p>Because I only want travis to build the release apk for me, the script section needs to change to <code>./gradlew assembleRelease</code> (The default one is <code>./gradlew build connectedCheck</code> which is not what I want). The most important part is the deploy section and it can be automatically generated by using <code>travis setup releases</code> command (<code>travis</code> command line tool can be get from ruby gem). Then, whenever I push a new tag onto github, Travis CI will build the release apk and deploy it to the github release page automatically.</p>
 <p>The only hassle is to sign the apk without revealing my keystore password. After some searching, I changed my gradle file to the following:</p>
-<div class="highlight"><pre><span class="n">android</span> <span class="o">{</span>
+<div class="highlight"><pre><span></span><span class="n">android</span> <span class="o">{</span>
   <span class="n">signingConfigs</span> <span class="o">{</span>
     <span class="n">release</span> <span class="o">{</span>
       <span class="n">keyAlias</span> <span class="s1">&#39;minminguard&#39;</span>
@@ -139,9 +137,9 @@
 
 
 <p>When building on the Travis CI platform, the keystore and key password will be passed through the environment variables. The environment variables setting on Travis CI can be done in the setting panel easily:</p>
-<p><img alt="Travis environment variable setting" src="https://fatminmin.com/images/travis_keystore_pass.png" /></p>
+<p><img alt="Travis environment variable setting" src="https://fatminmin.com/images/travis_keystore_pass.png"></p>
 <p>The last thing to do is using a different script for building pull requests. Because building upon pull requests can not access the environment varibles, I have to run <code>./gradlew assembleDebug</code> to use debug keystore instead. I use the following script to differentiate the two scenarios:  </p>
-<div class="highlight"><pre><span class="o">[[</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">TRAVIS_PULL_REQUEST</span><span class="si">}</span><span class="s2">&quot;</span> <span class="o">==</span> <span class="s2">&quot;false&quot;</span> <span class="o">]]</span> <span class="o">&amp;&amp;</span> ./gradlew assembleRelease <span class="o">||</span> ./gradlew assembleDebug
+<div class="highlight"><pre><span></span><span class="o">[[</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">TRAVIS_PULL_REQUEST</span><span class="si">}</span><span class="s2">&quot;</span> <span class="o">==</span> <span class="s2">&quot;false&quot;</span> <span class="o">]]</span> <span class="o">&amp;&amp;</span> ./gradlew assembleRelease <span class="o">||</span> ./gradlew assembleDebug
 </pre></div>
 
 

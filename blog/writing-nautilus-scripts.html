@@ -45,8 +45,6 @@
             <!-- menu items-->
               <li><a class="nodec" href="/">BLOG</a></li>
             <!--pages-->
-                <li><a class="nodec" href="https://fatminmin.com/pages/minminguard.html">MINMINGUARD</a></li>
-                <li><a class="nodec" href="https://fatminmin.com/pages/about.html">ABOUT</a></li>
             <!-- services icons -->
               <li><a class="nodec icon-github" href="https://github.com/chiehmin/"></a></li>
               <li><a class="nodec icon-facebook" href="https://www.facebook.com/fatminmin"></a></li>
@@ -78,17 +76,17 @@
       <p>I was trying to add a menu item to Nautilus context menu for easily converting encoding of a subtitle files. Because some default encodings of downloaded subtitles can not be accepted by the VLC player. I found there is a cool feature of Nautilus called nautilus script. Users can simply write and save a script into <code>/.local/share/nautilus/scripts</code> and the script can be executed by simply clicking a menu item in Nautilus context menu.</p>
 <p>There are 4 environment variables Nautilus will set for ths cripts to get the information of current files/directories.</p>
 <ul>
-<li>NAUTILUS_SCRIPT_SELECTED_FILE_PATHS:<br />
+<li>NAUTILUS_SCRIPT_SELECTED_FILE_PATHS:<br>
     paths for selected files</li>
-<li>NAUTILUS_SCRIPT_SELECTED_URIS:<br />
+<li>NAUTILUS_SCRIPT_SELECTED_URIS:<br>
     URIs for selected files</li>
-<li>NAUTILUS_SCRIPT_CURRENT_URI:<br />
+<li>NAUTILUS_SCRIPT_CURRENT_URI:<br>
     current location</li>
-<li>NAUTILUS_SCRIPT_WINDOW_GEOMETRY:<br />
+<li>NAUTILUS_SCRIPT_WINDOW_GEOMETRY:<br>
     position and size of current window</li>
 </ul>
 <p>Therefore, I simply wrote a ruby script to convert the encoding of selected files from simplified chinese/utf16 to traditional chinese/utf8 as following: </p>
-<div class="highlight"><pre><span class="c1">#!/usr/bin/env ruby</span>
+<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env ruby</span>
 
 <span class="c1">#log = open(&#39;ruby.log&#39;, &#39;w&#39;)</span>
 
@@ -108,7 +106,7 @@
 
 
 <p>Finally, I can easily execute the nautilus script by clicking the menu item in the context menu.</p>
-<p><img alt="script in context menu" src="https://fatminmin.com/images/script_context_menu.png" /></p>
+<p><img alt="script in context menu" src="https://fatminmin.com/images/script_context_menu.png"></p>
 <h3>Reference</h3>
 <ul>
 <li><a href="https://help.ubuntu.com/community/NautilusScriptsHowto">NautilusScriptsHowto</a></li>

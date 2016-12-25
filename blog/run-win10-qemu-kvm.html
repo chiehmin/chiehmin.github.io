@@ -45,8 +45,6 @@
             <!-- menu items-->
               <li><a class="nodec" href="/">BLOG</a></li>
             <!--pages-->
-                <li><a class="nodec" href="https://fatminmin.com/pages/minminguard.html">MINMINGUARD</a></li>
-                <li><a class="nodec" href="https://fatminmin.com/pages/about.html">ABOUT</a></li>
             <!-- services icons -->
               <li><a class="nodec icon-github" href="https://github.com/chiehmin/"></a></li>
               <li><a class="nodec icon-facebook" href="https://www.facebook.com/fatminmin"></a></li>
@@ -76,7 +74,7 @@
 
     <div class="article">
       <p>I installed a win10 virtual machine using the <a href="https://virt-manager.org/">Virt-Manager</a>. However, when I switched to command line to launch the virtual machine. I found the win10 always showing me the following error message.</p>
-<div class="highlight"><pre>&gt; <span class="nv">$ </span>qemu-system-x86_64 --enable-kvm <span class="se">\ </span>
+<div class="highlight"><pre><span></span>&gt; $ qemu-system-x86_64 --enable-kvm <span class="se">\ </span>
 -drive <span class="nv">file</span><span class="o">=</span>./win10.img,if<span class="o">=</span>virtio <span class="se">\</span>
 -smp <span class="m">4</span> -m <span class="m">4096</span> -vga qxl <span class="se">\</span>
 -net nic,model<span class="o">=</span>virtio -net user <span class="se">\</span>
@@ -84,9 +82,9 @@
 </pre></div>
 
 
-<p><img alt="win10_error" src="https://fatminmin.com/images/win10_error.png" /></p>
+<p><img alt="win10_error" src="https://fatminmin.com/images/win10_error.png"></p>
 <p>After some trial and error, I found if I pass <code>-cpu host</code> option (default is <em>qemu64</em>), the win10 virtual machine can finally be successfully booted up! I think win10 may only allow whitelisted cpu model to run to prevent old cpu without advance features from running.</p>
-<div class="highlight"><pre>&gt; <span class="nv">$ </span>qemu-system-x86_64 --enable-kvm <span class="se">\</span>
+<div class="highlight"><pre><span></span>&gt; $ qemu-system-x86_64 --enable-kvm <span class="se">\</span>
 -drive <span class="nv">file</span><span class="o">=</span>./win10.img,if<span class="o">=</span>virtio <span class="se">\</span>
 -smp <span class="m">4</span> -cpu host -m <span class="m">4096</span> -vga qxl <span class="se">\</span>
 -net nic,model<span class="o">=</span>virtio -net user <span class="se">\</span>
@@ -94,9 +92,9 @@
 </pre></div>
 
 
-<p><img alt="win10" src="https://fatminmin.com/images/win10.png" /></p>
+<p><img alt="win10" src="https://fatminmin.com/images/win10.png"></p>
 <p>ps: The performance of win10 with <em>virtio driver</em> is really amazing! I am very exciting to see virtio_gpu driver appearing on Windows platform.</p>
-<p><img alt="win10_performance" src="https://fatminmin.com/images/win10_performance.png" /></p>
+<p><img alt="win10_performance" src="https://fatminmin.com/images/win10_performance.png"></p>
     </div><!-- .content -->
 
     <h2>Comments</h2>
