@@ -75,7 +75,7 @@
   </div><!-- .postinfo -->
 
     <div class="article_wide">
-      <p>換了 router 後目前感受到的最大的好處（硬體屌打我之前的廢物 router 所以這邊指的是軟體上 XD）（我一個人住所以 Traffic control/monitor 的功能對我來說只是有趣有趣而以 XD）大概就是可以在 router 上直接架設 DNS Server 幫內網的裝置取名子，像是我要存取我的 nas 的時候本來都要在瀏覽器上打 ip (ex: 10.1.14.35)，但只要在 router 上架好 dns server 後就可以直接打名子 (ex: nas.home) 這樣就可以直接存取到我的 nas 而不用記那串 ip 了，而且所有內網的裝置只要使用預設的 router DHCP 自動配發的 DNS server，就不需要額外的設定就可以享受到這樣的便利性。</p>
+      <p>換了 router 後目前感受到的一個比較深刻的好處（硬體屌打我之前的廢物 router 所以這邊指的是軟體上 XD）（我一個人住所以 Traffic control/monitor 的功能對我來說只是有趣有趣而已 XD）大概就是可以在 router 上直接架設 DNS Server 幫內網的裝置取名子，像是我要存取我的 nas 的時候本來都要在瀏覽器上打 ip (ex: 10.1.14.35)，但只要在 router 上架好 dns server 後就可以直接打名子 (ex: nas.home) 這樣就可以直接存取到我的 nas 而不用記那串 ip 了，而且所有內網的裝置只要使用預設的 router DHCP 自動配發的 DNS server，就不需要額外的設定就可以享受到這樣的便利性。</p>
 <p>使用 <a href="https://www.synology.com/zh-tw/knowledgebase/DSM/tutorial/Application/How_to_set_up_your_domain_with_Synology_DNS_Server">DNS Server 套件</a>來架設 dns server 真的是超級簡單，點幾下新增一個 master zone 選擇這是一個 DNS 正解的 zone (Forward Zone)，填入你要使用的網域 (domain name) 和你的 router 的內網 ip，就可以快速宣告好一個網域的 zone 了。</p>
 <p><img alt="Master Zone" src="https://fatminmin.com/images/syno_dns/master_zone.png"></p>
 <p>接下來就可以點兩下這個 zone 填入你想要設定的設備在這個網域中的名子了，像這邊我就把我的 nas 設定成 nas.home 這個名子。</p>
