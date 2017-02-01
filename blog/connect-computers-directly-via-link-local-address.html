@@ -58,48 +58,46 @@
     </header>
 
     <!-- content -->
-<h1>Archives for FatMinMin</h1>
 
-<dl>
-    <dt>On 2017/02/01 at 23:22</dt>
-    <dd><a href="https://fatminmin.com/blog/connect-computers-directly-via-link-local-address.html">Connecting computers directly via link-local address</a></dd>
-    <dt>On 2017/01/15 at 23:52</dt>
-    <dd><a href="https://fatminmin.com/blog/dns-server-on-synology-router.html">使用 Synology Router 架設 DNS Server 快速存取內網設備</a></dd>
-    <dt>On 2017/01/08 at 22:03</dt>
-    <dd><a href="https://fatminmin.com/blog/dbus-gdbus-hello-world.html">Hello World for DBUS server/client using GDBUS</a></dd>
-    <dt>On 2016/12/26 at 01:36</dt>
-    <dd><a href="https://fatminmin.com/blog/synology-nas-216plus.html">NAS 初體驗 - Synology DS216+</a></dd>
-    <dt>On 2016/09/14 at 16:34</dt>
-    <dd><a href="https://fatminmin.com/blog/deploying-mmg-using-travis.html">Deploying MinMinGuard using Travis CI</a></dd>
-    <dt>On 2016/08/02 at 13:38</dt>
-    <dd><a href="https://fatminmin.com/blog/writing-nautilus-scripts.html">Writing Nautilus Scripts</a></dd>
-    <dt>On 2016/06/13 at 16:12</dt>
-    <dd><a href="https://fatminmin.com/blog/settup-up-vscode.html">Setting up Visual Studio Code for Simple C/C++ development</a></dd>
-    <dt>On 2016/05/19 at 19:36</dt>
-    <dd><a href="https://fatminmin.com/blog/hackerrank-game-theory-contest.html">HackerRank Game Theory Contest</a></dd>
-    <dt>On 2016/05/18 at 14:54</dt>
-    <dd><a href="https://fatminmin.com/blog/android-decompilation-script.html">Apktool, Dex2jar, jd-gui installation script</a></dd>
-    <dt>On 2016/03/24 at 13:56</dt>
-    <dd><a href="https://fatminmin.com/blog/world-of-gnome.html">The World of GNOME</a></dd>
-    <dt>On 2016/02/20 at 21:15</dt>
-    <dd><a href="https://fatminmin.com/blog/qemu-nat.html">Configuring NAT Network for VM</a></dd>
-    <dt>On 2016/01/25 at 20:19</dt>
-    <dd><a href="https://fatminmin.com/blog/install-remix-os-to-disk.html">Install Remix OS using Android x86 Installer</a></dd>
-    <dt>On 2016/01/22 at 16:34</dt>
-    <dd><a href="https://fatminmin.com/blog/install-win10-with-virtio.html">Installing Win10 with Virtio</a></dd>
-    <dt>On 2016/01/21 at 16:02</dt>
-    <dd><a href="https://fatminmin.com/blog/run-win10-qemu-kvm.html">Running Win10 in QEMU/KVM</a></dd>
-    <dt>On 2015/12/26 at 22:34</dt>
-    <dd><a href="https://fatminmin.com/blog/oop-in-c.html">OOP in C</a></dd>
-    <dt>On 2015/12/12 at 19:28</dt>
-    <dd><a href="https://fatminmin.com/blog/direct-kernel-boot.html">Qemu Direct Kernel Boot without bootloader(Grub)</a></dd>
-    <dt>On 2015/12/02 at 23:17</dt>
-    <dd><a href="https://fatminmin.com/blog/why-eventbus-is-good.html">Using EventBus to Transfer Data</a></dd>
-    <dt>On 2015/11/13 at 21:50</dt>
-    <dd><a href="https://fatminmin.com/blog/got-my-pebble-time.html">Pebble Time!!</a></dd>
-    <dt>On 2015/10/28 at 13:20</dt>
-    <dd><a href="https://fatminmin.com/blog/hi-i-am-fatminmin.html">Hi, I am FatMinMin</a></dd>
-</dl>
+<section class="content">
+
+  <h3 class="posttitle">
+    <a class="nodec" href="/blog/connect-computers-directly-via-link-local-address.html" rel="bookmark" title="Permalink to Connecting computers directly via link-local address">
+      Connecting computers directly via link-local address
+    </a>
+  </h3>
+
+  <div class="postinfo">
+    <p class="published" title="2017-02-01T23:22:00+08:00">
+      On 2017/02/01 at 23:22
+    </p>
+
+  </div><!-- .postinfo -->
+
+    <div class="article">
+      <p>During the Chinese New Year, I want to transfer my family pictures from my family's old PC to my laptop for backup. The size of all the pictures is about 100G. The transfer speed is too slow because the PC is connected to the router via a 1T1R 802.11n wireless dongle.(The PC is too far from the router to connect to the router via wire cable) In this case, I chose to connect the two computers directly through a ethernet cable and transfer data through it.</p>
+<p><img alt="Direct Connection" src="https://fatminmin.com/images/link_local/direct_connection.jpg"></p>
+<p>By using the IPv6 <a href="https://en.wikipedia.org/wiki/Link-local_address">link local address</a>, I can connect the two computers without any networking setup and the 100G data can be transfered within just a few hundred of seconds.(link speed is 1000Gbps)</p>
+<p><img alt="FileZilla" src="https://fatminmin.com/images/link_local/filezilla.png"></p>
+    </div><!-- .content -->
+
+    <h2>Comments</h2>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+       var disqus_shortname = 'fatminmin';
+       var disqus_identifier = 'blog/connect-computers-directly-via-link-local-address.html';
+       var disqus_url = 'https://fatminmin.com/blog/connect-computers-directly-via-link-local-address.html';
+       (function() {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] ||
+             document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+
+</section>
+
 
     <!-- footer -->
     <footer>
