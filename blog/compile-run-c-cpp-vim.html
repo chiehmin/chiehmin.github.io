@@ -2,7 +2,7 @@
 <html lang="en">
 
   <head>
-      <title>FatMinMin - Authors</title>
+      <title>FatMinMin</title>
       <link rel="shortcut icon" href="https://fatminmin.com/favicon.ico">
       <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,400,600,700' rel='stylesheet' type='text/css' />
       <link href='https://fonts.googleapis.com/css?family=Merriweather:300' rel='stylesheet' type='text/css'/>
@@ -58,10 +58,48 @@
     </header>
 
     <!-- content -->
-    <h1>Authors on FatMinMin</h1>
 
-    <ul>        <li><a href="https://fatminmin.com/author/fatminmin.html">FatMinMin</a> (20)</li>
-    </ul>
+<section class="content">
+
+  <h3 class="posttitle">
+    <a class="nodec" href="/blog/compile-run-c-cpp-vim.html" rel="bookmark" title="Permalink to Compile and run C/CPP with one click in vim">
+      Compile and run C/CPP with one click in vim
+    </a>
+  </h3>
+
+  <div class="postinfo">
+    <p class="published" title="2017-02-20T23:26:00+08:00">
+      On 2017/02/20 at 23:26
+    </p>
+
+  </div><!-- .postinfo -->
+
+    <div class="article">
+      <p>When practicing coding contest, the need to compile and run a single C++ file very quickly is very often. In vim, I map <code>F7</code> to call <code>g++</code> to compile the current file and <code>F8</code> to run the compiled binary instantly. The <code>%</code> symbol stands for the filename of the current editing file in the vim command mode. I can use the <code>expand('%:e')</code> to extract the file extension and <code>%&lt;</code> for filename without extension. The config snippet is shown below.</p>
+<div class="highlight"><pre><span></span>if &quot;cpp&quot; == expand(&#39;%:e&#39;) || &quot;c&quot; == expand(&#39;%:e&#39;)
+    noremap &lt;F7&gt; :! g++ % -o %&lt;
+    noremap &lt;F8&gt; :! ./%&lt;
+endif
+</pre></div>
+    </div><!-- .content -->
+
+    <h2>Comments</h2>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+       var disqus_shortname = 'fatminmin';
+       var disqus_identifier = 'blog/compile-run-c-cpp-vim.html';
+       var disqus_url = 'https://fatminmin.com/blog/compile-run-c-cpp-vim.html';
+       (function() {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] ||
+             document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+
+</section>
+
 
     <!-- footer -->
     <footer>
