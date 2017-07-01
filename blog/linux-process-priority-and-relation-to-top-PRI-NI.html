@@ -76,7 +76,7 @@
 
     <div class="article">
       <p>The process's priority in Linux is defined as a value in the range of <code>0~139</code> (the lower  number means higher priority). Priority between <code>0~99</code> is for realtime process and <code>100~139</code> is for normal process. The default priority defined in the kernel is as follow:</p>
-<p><a href="http://elixir.free-electrons.com/linux/latest/source/include/linux/sched/prio.h#L25">prio.h source</a></p>
+<p><a href="http://elixir.free-electrons.com/linux/latest/source/include/linux/sched/prio.h#L25">sched/prio.h source</a></p>
 <div class="highlight"><pre><span></span><span class="cp">#define MAX_NICE    19</span>
 <span class="cp">#define MIN_NICE    -20</span>
 <span class="cp">#define NICE_WIDTH  (MAX_NICE - MIN_NICE + 1)</span>
@@ -90,7 +90,7 @@
 
 
 <p>Which means the normal process's default priority is <code>120</code>.</p>
-<p>However when reading the output of htop/top, I found the value of the PRI column for normal process is defined as <code>PRI = 20 + NI</code> and realtime process is defined as <code>PRI = -1 + prio</code>. For example, the following program will set once thread as realtime process with <code>priority = 56</code>, one thread as normal process with <code>priority = 120 + (-20) = 100</code> and one thread as normal process with <code>priority = 120 + 19 = 139</code>:</p>
+<p>However when reading the output of htop/top, I found the value of the PRI column for normal process is defined as <code>PRI = 20 + NI</code> and realtime process is defined as <code>PRI = -1 - prio</code>. For example, the following program will set once thread as realtime process with <code>priority = 56</code>, one thread as normal process with <code>priority = 120 + (-20) = 100</code> and one thread as normal process with <code>priority = 120 + 19 = 139</code>:</p>
 <div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;bits/stdc++.h&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;pthread.h&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;sys/time.h&gt;</span><span class="cp"></span>
