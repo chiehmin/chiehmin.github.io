@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+      <title>FatMinMin</title>
+      <link rel="shortcut icon" href="https://fatminmin.com/favicon.ico">
+      <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,400,600,700' rel='stylesheet' type='text/css' />
+      <link href='https://fonts.googleapis.com/css?family=Merriweather:300' rel='stylesheet' type='text/css'/>
+      <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro:200,400,700' rel='stylesheet' type='text/css'/>
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+      <link rel="stylesheet" type="text/css" href="https://fatminmin.com/theme/css/icons.css"/>
+      <link rel="stylesheet" type="text/css" href="https://fatminmin.com/theme/css/styles.css"/>
+      <link rel="stylesheet" type="text/css" href="https://fatminmin.com/theme/css/minmin_styles.css"/>
+      <meta charset="utf-8" />
+        <link href="/feeds/rss.xml" type="application/rss+xml" rel="alternate" title="FatMinMin RSS Feed" />
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-7408997-8', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+
+  </head>
+
+  <body id="index">
+    <!-- header -->
+    <header class="siteheader">
+      <!-- site image -->
+        <div class= "siteimage">
+          <a class="nodec" href=/images/me.jpg>
+            <img width="200" height="200" src=/images/me.jpg>
+          </a>
+        </div>
+
+      <div class = "sitebanner">
+        <h1><a class="sitetitle nodec" href="https://fatminmin.com">FatMinMin</a></h1>
+        <h3 class ="sitesubtitle">"A computer and a dream can take you anywhere."</h3>
+        <!-- nav -->
+        <nav class="menu">
+          <ul>
+            <!-- menu items-->
+              <li><a class="nodec" href="/">BLOG</a></li>
+            <!--pages-->
+	  		    <li><a class="nodec" href="https://fatminmin.com/pages/minminguard.html">MINMINGUARD</a></li>
+	  		    <li><a class="nodec" href="https://fatminmin.com/pages/about.html">ABOUT</a></li>
+            <!-- services icons -->
+              <li><a class="nodec icon-github" href="https://github.com/chiehmin/"></a></li>
+              <li><a class="nodec icon-facebook" href="https://www.facebook.com/fatminmin"></a></li>
+              <li><a class="nodec fa fa-linkedin" href="https://tw.linkedin.com/in/fatminmin"></a></li>
+              <li><a class="nodec icon-rss" href="/feeds/rss.xml"></a></li>
+          </ul>
+        </nav>
+      </div> <!-- sitebanner -->
+    </header>
+
+    <!-- content -->
+
+<section class="content">
+
+  <h3 class="posttitle">
+    <a class="nodec" href="/blog/linux-process-priority-and-relation-to-top-PRI-NI.html" rel="bookmark" title="Permalink to Linux process priority and relation to top's PRI, NI">
+      Linux process priority and relation to top's PRI, NI
+    </a>
+  </h3>
+
+  <div class="postinfo">
+    <p class="published" title="2017-07-01T13:36:00+08:00">
+      On 2017/07/01 at 13:36
+    </p>
+
+  </div><!-- .postinfo -->
+
+    <div class="article">
+      <p>The process's priority in Linux is defined as a value in the range of <code>0~139</code> (the lower  number means higher priority). Priority between <code>0~99</code> is for realtime process and <code>100~139</code> is for normal process. The default priority defined in the kernel is as follow:</p>
+<p><a href="http://elixir.free-electrons.com/linux/latest/source/include/linux/sched/prio.h#L25">prio.h source</a></p>
+<div class="highlight"><pre><span></span><span class="cp">#define MAX_NICE    19</span>
+<span class="cp">#define MIN_NICE    -20</span>
+<span class="cp">#define NICE_WIDTH  (MAX_NICE - MIN_NICE + 1)</span>
+
+<span class="cp">#define MAX_USER_RT_PRIO    100</span>
+<span class="cp">#define MAX_RT_PRIO         MAX_USER_RT_PRIO</span>
+
+<span class="cp">#define MAX_PRIO            (MAX_RT_PRIO + NICE_WIDTH)</span>
+<span class="cp">#define DEFAULT_PRIO        (MAX_RT_PRIO + NICE_WIDTH / 2)</span>
+</pre></div>
+
+
+<p>Which means the normal process's default priority is <code>120</code>.</p>
+<p>However when reading the output of htop/top, I found the value of the PRI column for normal process is defined as <code>PRI = 20 + NI</code> and realtime process is defined as <code>PRI = -1 + prio</code>. For example, the following program will set once thread as realtime process with <code>priority = 56</code>, one thread as normal process with <code>priority = 120 + (-20) = 100</code> and one thread as normal process with <code>priority = 120 + 19 = 139</code>:</p>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;bits/stdc++.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;pthread.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;sys/time.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;sys/resource.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;sys/syscall.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kr">thread</span> <span class="n">t1</span><span class="p">([](){</span>
+                <span class="cm">/* Set this thread as real time process with priority 56 */</span>
+                <span class="k">struct</span> <span class="n">sched_param</span> <span class="n">param</span><span class="p">;</span>
+                <span class="n">param</span><span class="p">.</span><span class="n">sched_priority</span> <span class="o">=</span> <span class="mi">56</span><span class="p">;</span>
+
+                <span class="n">pthread_setschedparam</span><span class="p">(</span><span class="n">pthread_self</span><span class="p">(),</span> <span class="n">SCHED_FIFO</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">param</span><span class="p">);</span>
+
+                <span class="k">while</span><span class="p">(</span><span class="nb">true</span><span class="p">){</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">);}</span>
+            <span class="p">});</span>
+    <span class="kr">thread</span> <span class="n">t2</span><span class="p">([](){</span>
+                <span class="cm">/* Set the nice value to -20 */</span>
+                <span class="n">setpriority</span><span class="p">(</span><span class="n">PRIO_PROCESS</span><span class="p">,</span> <span class="n">syscall</span><span class="p">(</span><span class="n">SYS_gettid</span><span class="p">),</span> <span class="o">-</span><span class="mi">20</span><span class="p">);</span>
+
+                <span class="k">while</span><span class="p">(</span><span class="nb">true</span><span class="p">){</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">);}</span>
+            <span class="p">});</span>
+    <span class="kr">thread</span> <span class="n">t3</span><span class="p">([](){</span>
+                <span class="cm">/* Set the nice value to 19 */</span>
+                <span class="n">setpriority</span><span class="p">(</span><span class="n">PRIO_PROCESS</span><span class="p">,</span> <span class="n">syscall</span><span class="p">(</span><span class="n">SYS_gettid</span><span class="p">),</span> <span class="mi">19</span><span class="p">);</span>
+
+                <span class="k">while</span><span class="p">(</span><span class="nb">true</span><span class="p">){</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">);}</span>
+            <span class="p">});</span>
+
+    <span class="n">t1</span><span class="p">.</span><span class="n">join</span><span class="p">();</span>
+    <span class="n">t2</span><span class="p">.</span><span class="n">join</span><span class="p">();</span>
+    <span class="n">t3</span><span class="p">.</span><span class="n">join</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>And the output of htop is as follow:</p>
+<p><img alt="process_priority_htop" src="https://fatminmin.com/images/process_prio_htop.png"></p>
+<p>After some googling, I found the behavior is defined in the manpage of PROC(5). <a href="http://man7.org/linux/man-pages/man5/proc.5.html">online manpage link</a></p>
+<blockquote>
+<p>(18) priority  %ld
+(Explanation  for  Linux 2.6) For processes running a real-time scheduling policy (policy below; see sched_setscheduler(2)), this is the negated scheduling priority, minus one; that is, a number in the range -2 to -100, corresponding to real-time priorities 1 to 99.  For processes running under a non-real-time scheduling  policy,  this  is  the  raw  nice value (setpriority(2)) as represented in the kernel.  The kernel stores nice values as numbers in the range 0 (high) to 39 (low), corresponding to the user-visible nice range of -20 to 19.</p>
+</blockquote>
+<p>top/htop is just reading the value from <code>/proc/[pid]/stat</code>, so everything is explainable.</p>
+    </div><!-- .content -->
+
+    <h2>Comments</h2>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+       var disqus_shortname = 'fatminmin';
+       var disqus_identifier = 'blog/linux-process-priority-and-relation-to-top-PRI-NI.html';
+       var disqus_url = 'https://fatminmin.com/blog/linux-process-priority-and-relation-to-top-PRI-NI.html';
+       (function() {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] ||
+             document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+
+</section>
+
+
+    <!-- footer -->
+    <footer>
+      <p>
+        © FatMinMin, license <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/"> CC BY-NC-SA 4.0</a>
+        unless otherwise noted.
+        Generated by <a href= "http://docs.getpelican.com/">Pelican</a> with
+        <a href="https://github.com/chiehmin/crowsfoot">crowsfoot</a> theme.
+      </p>
+    </footer>
+  </body>
+</html>
