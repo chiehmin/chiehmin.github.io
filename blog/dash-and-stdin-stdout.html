@@ -76,9 +76,11 @@
 
     <div class="article">
       <p>When playing CTF, it is often to use <code>cat payload - | ./binary</code>(which is the same as <code>cat payload /dev/stdin | ./binary</code>) to get an interactable shell after pwning a binary. Other commands such as <code>wget</code> also use dash to represent stdout. <code>wget fatminmin.com -O -</code> is the same as <code>wget fatminmin.com -O /dev/stdout</code>. I used to think it is a convention supported by shells(<code>bash</code>, <code>zsh</code>). However, it is a convention supported by individual UNIX programs not by the shells as stated by following links.</p>
-<p>Reference:
-<em> <a href="https://unix.stackexchange.com/questions/16357/usage-of-dash-in-place-of-a-filename">Usage of dash (-) in place of a filename</a>
-</em> <a href="https://stackoverflow.com/questions/14199193/dash-redirect-from-stdin-to-stdout">dash redirect from stdin to stdout</a></p>
+<p>Reference:</p>
+<ul>
+<li><a href="https://unix.stackexchange.com/questions/16357/usage-of-dash-in-place-of-a-filename">Usage of dash (-) in place of a filename</a></li>
+<li><a href="https://stackoverflow.com/questions/14199193/dash-redirect-from-stdin-to-stdout">dash redirect from stdin to stdout</a></li>
+</ul>
     </div><!-- .content -->
 
     <h2>Comments</h2>
