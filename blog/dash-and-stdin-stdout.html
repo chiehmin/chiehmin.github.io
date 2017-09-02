@@ -75,7 +75,32 @@
   </div><!-- .postinfo -->
 
     <div class="article">
-      <p>When playing CTF, it is often to use <code>cat payload - | ./binary</code>(which is the same as <code>cat payload /dev/stdin | ./binary</code>) to get an interactable shell after pwning a binary. Other commands such as <code>wget</code> also use dash to represent stdout. <code>wget fatminmin.com -O -</code> is the same as <code>wget fatminmin.com -O /dev/stdout</code>. I used to think it is a convention supported by shells(<code>bash</code>, <code>zsh</code>). However, it is a convention supported by individual UNIX programs not by the shells as stated by following links.</p>
+      <p>When playing CTF, it is often to use a dash character to get an interactable shell after pwning a binary.</p>
+<div class="highlight"><pre><span></span>cat payload - <span class="p">|</span> ./binary
+
+<span class="c1"># is the same as</span>
+cat payload /dev/stdin <span class="p">|</span> ./binary
+</pre></div>
+
+
+<p>Other commands such as <code>wget</code> also use dash to represent stdout.</p>
+<div class="highlight"><pre><span></span>wget fatminmin.com -O -
+
+<span class="c1"># is the same as</span>
+wget fatminmin.com -O /dev/stdout
+</pre></div>
+
+
+<p>Another example is <code>socat</code>.</p>
+<div class="highlight"><pre><span></span><span class="c1"># stream TCP-LISTEN:5566 to ./a.out binary</span>
+socat TCP-LISTEN:5566,fork EXEC:./a.out
+
+<span class="c1"># - is used to stream input/output from TCP-LISTEN:5566 to stdin/stdout</span>
+socat TCP-LISTEN:5566,fork -
+</pre></div>
+
+
+<p>I used to think it is a convention supported by shells(<code>bash</code>, <code>zsh</code>). However, it is a convention supported by individual UNIX programs not by the shells as stated by following links.</p>
 <p>Reference:</p>
 <ul>
 <li><a href="https://unix.stackexchange.com/questions/16357/usage-of-dash-in-place-of-a-filename">Usage of dash (-) in place of a filename</a></li>
