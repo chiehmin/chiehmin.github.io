@@ -61,92 +61,42 @@
 
 <section class="content">
 
-  <ol id="postlist">
+  <h3 class="posttitle">
+    <a class="nodec" href="/blog/dash-and-stdin-stdout.html" rel="bookmark" title="Permalink to Dash and stdin/stdout">
+      Dash and stdin/stdout
+    </a>
+  </h3>
 
-    <li class="post">
-        <header class="posttitle">
-          <h3><a href="https://fatminmin.com/blog/oop-in-c.html"
-                  rel="bookmark"
-                  class="nodec"
-                  title="Permalink to OOP in C">OOP in C</a>
-          </h3>
-        </header>
+  <div class="postinfo">
+    <p class="published" title="2017-09-03T01:40:00+08:00">
+      On 2017/09/03 at 01:40
+    </p>
 
-        <div class="postinfo">
-          <p class="published" title="2015-12-26T22:34:00+08:00"> On 2015/12/26 at 22:34 </p>
-        </div><!-- /.postinfo -->
+  </div><!-- .postinfo -->
 
-        <div class="postsummary"> <p>Despite C does not support OOP like C++ or Java...</p> </div>
-    </li>
-    <li class="post">
-        <header class="posttitle">
-          <h3><a href="https://fatminmin.com/blog/direct-kernel-boot.html"
-                  rel="bookmark"
-                  class="nodec"
-                  title="Permalink to Qemu Direct Kernel Boot without bootloader(Grub)">Qemu Direct Kernel Boot without bootloader(Grub)</a>
-          </h3>
-        </header>
+    <div class="article">
+      <p>When playing CTF, it is often to use <code>cat payload - | ./binary</code>(which is the same as <code>cat payload /dev/stdin | ./binary</code>) to get an interactable shell after pwning a binary. Other commands such as <code>wget</code> also use dash to represent stdout. <code>wget fatminmin.com -O -</code> is the same as <code>wget fatminmin.com -O /dev/stdout</code>. I used to think it is a convention supported by shells(<code>bash</code>, <code>zsh</code>). However, it is a convention supported by individual UNIX programs not by the shells as stated by following links.</p>
+<p>Reference:
+<em> <a href="https://unix.stackexchange.com/questions/16357/usage-of-dash-in-place-of-a-filename">Usage of dash (-) in place of a filename</a>
+</em> <a href="https://stackoverflow.com/questions/14199193/dash-redirect-from-stdin-to-stdout">dash redirect from stdin to stdout</a></p>
+    </div><!-- .content -->
 
-        <div class="postinfo">
-          <p class="published" title="2015-12-12T19:28:00+08:00"> On 2015/12/12 at 19:28 </p>
-        </div><!-- /.postinfo -->
+    <h2>Comments</h2>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+       var disqus_shortname = 'fatminmin';
+       var disqus_identifier = 'blog/dash-and-stdin-stdout.html';
+       var disqus_url = 'https://fatminmin.com/blog/dash-and-stdin-stdout.html';
+       (function() {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] ||
+             document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
 
-        <div class="postsummary"> <p>Recently, I was doing a project on Android x86...</p> </div>
-    </li>
-    <li class="post">
-        <header class="posttitle">
-          <h3><a href="https://fatminmin.com/blog/why-eventbus-is-good.html"
-                  rel="bookmark"
-                  class="nodec"
-                  title="Permalink to Using EventBus to Transfer Data">Using EventBus to Transfer Data</a>
-          </h3>
-        </header>
-
-        <div class="postinfo">
-          <p class="published" title="2015-12-02T23:17:00+08:00"> On 2015/12/02 at 23:17 </p>
-        </div><!-- /.postinfo -->
-
-        <div class="postsummary"> <p>When developing …</p> </div>
-    </li>
-    <li class="post">
-        <header class="posttitle">
-          <h3><a href="https://fatminmin.com/blog/got-my-pebble-time.html"
-                  rel="bookmark"
-                  class="nodec"
-                  title="Permalink to Pebble Time!!">Pebble Time!!</a>
-          </h3>
-        </header>
-
-        <div class="postinfo">
-          <p class="published" title="2015-11-13T21:50:00+08:00"> On 2015/11/13 at 21:50 </p>
-        </div><!-- /.postinfo -->
-
-        <div class="postsummary"> <p>從暑假的時候就一直很想要有一隻智慧錶，不過一直覺得很貴下不了手 …</p> </div>
-    </li>
-    <li class="post">
-        <header class="posttitle">
-          <h3><a href="https://fatminmin.com/blog/hi-i-am-fatminmin.html"
-                  rel="bookmark"
-                  class="nodec"
-                  title="Permalink to Hi, I am FatMinMin">Hi, I am FatMinMin</a>
-          </h3>
-        </header>
-
-        <div class="postinfo">
-          <p class="published" title="2015-10-28T13:20:00+08:00"> On 2015/10/28 at 13:20 </p>
-        </div><!-- /.postinfo -->
-
-        <div class="postsummary"> <p>Hi, I am FatMinMin. Welcome to my blog :).</p> </div>
-    </li>
-
-  </ol><!-- /#post-list -->
-
-<p class="paginator">
-        <a href="https://fatminmin.com/category/blog2.html">&laquo;</a>
-    Page 3 / 3
-</p>
-
-</section><!-- /#content -->
+</section>
 
 
     <!-- footer -->
