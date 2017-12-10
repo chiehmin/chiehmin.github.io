@@ -80,11 +80,7 @@
 <p>So I did a little experiment as following to check if the tree is really balanced and the output show the tree is balanced as expected.</p>
 <p>When reading the manpage of tsearch, the most interesting part is the <code>const VISIT which</code> argument in the action callback function for <code>twalk</code>. The manpage says:</p>
 <blockquote>
-<blockquote>
-<blockquote>
 <p>preorder,  postorder, and endorder are known as preorder, inorder, and postorder</p>
-</blockquote>
-</blockquote>
 </blockquote>
 <p>So I had to use <code>postorder</code> to print the inorder traversal for the tree. You might be mislead by the <code>postorder</code> symbol as I did if you are using tsearch for the first time :)</p>
 <div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
