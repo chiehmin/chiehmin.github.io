@@ -99,7 +99,7 @@ Device     Boot Start      End  Sectors Size Id Type
 base.img1          <span class="m">63</span> <span class="m">10474379</span> <span class="m">10474317</span>   5G <span class="m">83</span> Linux
 
 &gt; $ python -c <span class="s2">&quot;print 63*512&quot;</span>
-<span class="m">32256</span>
+32256
 </pre></div>
 
 
@@ -137,24 +137,24 @@ base.img1          <span class="m">63</span> <span class="m">10474379</span> <sp
 
 <p>3. Check the grub kernel options  </p>
 <div class="highlight"><pre><span></span>&gt; $ cat grub/menu.lst                                                                                                                                                                        
-<span class="nv">default</span><span class="o">=</span><span class="m">0</span>
-<span class="nv">timeout</span><span class="o">=</span><span class="m">6</span>
+<span class="nv">default</span><span class="o">=</span>0
+<span class="nv">timeout</span><span class="o">=</span>6
 <span class="nv">splashimage</span><span class="o">=</span>/grub/android-x86.xpm.gz
 root <span class="o">(</span>hd0,0<span class="o">)</span>
 
-title Android-x86 <span class="m">2015</span>-12-07
+title Android-x86 2015-12-07
         kernel /android-2015-12-07/kernel quiet <span class="nv">root</span><span class="o">=</span>/dev/ram0 androidboot.hardware<span class="o">=</span>sense_svmp <span class="nv">SRC</span><span class="o">=</span>/android-2015-12-07
         initrd /android-2015-12-07/initrd.img
 
-title Android-x86 <span class="m">2015</span>-12-07 <span class="o">(</span>Debug mode<span class="o">)</span>
+title Android-x86 2015-12-07 <span class="o">(</span>Debug mode<span class="o">)</span>
         kernel /android-2015-12-07/kernel <span class="nv">root</span><span class="o">=</span>/dev/ram0 androidboot.hardware<span class="o">=</span>sense_svmp <span class="nv">DEBUG</span><span class="o">=</span><span class="m">2</span> <span class="nv">SRC</span><span class="o">=</span>/android-2015-12-07
         initrd /android-2015-12-07/initrd.img
 
-title Android-x86 <span class="m">2015</span>-12-07 <span class="o">(</span>Debug nomodeset<span class="o">)</span>
+title Android-x86 2015-12-07 <span class="o">(</span>Debug nomodeset<span class="o">)</span>
         kernel /android-2015-12-07/kernel nomodeset <span class="nv">root</span><span class="o">=</span>/dev/ram0 androidboot.hardware<span class="o">=</span>sense_svmp <span class="nv">DEBUG</span><span class="o">=</span><span class="m">2</span> <span class="nv">SRC</span><span class="o">=</span>/android-2015-12-07
         initrd /android-2015-12-07/initrd.img
 
-title Android-x86 <span class="m">2015</span>-12-07 <span class="o">(</span>Debug <span class="nv">video</span><span class="o">=</span>LVDS-1:d<span class="o">)</span>
+title Android-x86 2015-12-07 <span class="o">(</span>Debug <span class="nv">video</span><span class="o">=</span>LVDS-1:d<span class="o">)</span>
         kernel /android-2015-12-07/kernel <span class="nv">video</span><span class="o">=</span>LVDS-1:d <span class="nv">root</span><span class="o">=</span>/dev/ram0 androidboot.hardware<span class="o">=</span>sense_svmp <span class="nv">DEBUG</span><span class="o">=</span><span class="m">2</span> <span class="nv">SRC</span><span class="o">=</span>/android-2015-12-07
         initrd /android-2015-12-07/initrd.img
 </pre></div>
