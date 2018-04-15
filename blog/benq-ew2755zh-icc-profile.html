@@ -75,10 +75,10 @@
   </div><!-- .postinfo -->
 
     <div class="article">
-      <p>When using linux desktop environment I found the roads' boundary on google maps is blurry and make the map hard to read. I used to think this is my BENQ EW2755ZH monitor's problem. But after I switch to Windows system, I found the problem is gone and the color on the monitor is much more beautiful than it used to shown on Linux.</p>
+      <p>When using linux desktop environments, I found the roads' boundary on google maps is blurry which make the map hard to read. I used to think this is my BENQ EW2755ZH monitor's problem. But after I switch to Windows system, I found the problem is gone and the color on the monitor is much more beautiful than it used to shown on the Linux.</p>
 <p>After doing some research, I understood the <a href="https://wiki.archlinux.org/index.php/ICC_profiles">ICC profile</a> plays a big role for the OS to calibrate the colors showing on the monitor.</p>
-<p>However the default profile for BENQ EW2755ZH is bad and I don't have a colorimeter to calibrate generate a profile by myself, so I tried to copy the profile from my Windows 10 which is located at <code>C:\WINDOWS\System32\spool\drivers\color</code>. But the profile somehow failed to be read by Fedora 27's gnome color manager.</p>
-<p>After another round of gooling, I found the <a href="http://www.tftcentral.co.uk/articles/icc_profiles.htm">TFT CENTRAL</a> ICC profile databases. But it does not have my EW2755ZH profiles. I still downloaded some profiles and do some try-and-erros. Luckily, I found the <a href="http://www.tftcentral.co.uk/icc_profiles/BenQ_GW2750HM_Normal.icc">BenQ GW2750HM (Normal)</a> profile looks good and solve my problem well.</p>
+<p>However the default profile for BENQ EW2755ZH on Linux is bad and I don't have a colorimeter to calibrate generate a profile by myself, so I tried to copy the profile from my Windows 10 which is located at <code>C:\WINDOWS\System32\spool\drivers\color</code>. But the profile somehow failed to be load by Fedora 27's gnome color manager.</p>
+<p>After another round of gooling, I found the <a href="http://www.tftcentral.co.uk/articles/icc_profiles.htm">TFT CENTRAL</a> ICC profile databases. But it does not have my EW2755ZH profiles. I still downloaded some profiles and do some try-and-erros. Luckily, I found the <a href="http://www.tftcentral.co.uk/icc_profiles/BenQ_GW2750HM_Normal.icc">BenQ GW2750HM (Normal)</a> profile which looks pretty good and solve my problem well.</p>
     </div><!-- .content -->
 
     <h2>Comments</h2>
