@@ -62,71 +62,31 @@
 <section class="content">
 
   <h3 class="posttitle">
-    <a class="nodec" href="/blog/install-win10-with-virtio.html" rel="bookmark" title="Permalink to Installing Win10 with Virtio">
-      Installing Win10 with Virtio
+    <a class="nodec" href="/blog/benq-ew2755zh-icc-profile.html" rel="bookmark" title="Permalink to Linux usable ICC profile for BENQ EW2755ZH monitor">
+      Linux usable ICC profile for BENQ EW2755ZH monitor
     </a>
   </h3>
 
   <div class="postinfo">
-    <p class="published" title="2016-01-22T16:34:00+08:00">
-      On 2016/01/22 at 16:34
+    <p class="published" title="2018-04-15T20:30:00+08:00">
+      On 2018/04/15 at 20:30
     </p>
 
   </div><!-- .postinfo -->
 
     <div class="article">
-      <p>Here, I will record the steps of how I created a win10 virtual machine via QEMU/KVM command line with virtio drivers installed.  </p>
-<p>First, I created a disk image of <em>qcow2</em> format and downloaded the virtio image from fedora's website.</p>
-<div class="highlight"><pre><span></span><span class="c1"># Create iso image</span>
-&gt; $ qemu-img create -f qcow2 win10.img 30G  
-Formatting <span class="s1">&#39;win10.img&#39;</span>, <span class="nv">fmt</span><span class="o">=</span>qcow2 <span class="nv">size</span><span class="o">=</span><span class="m">32212254720</span> <span class="nv">encryption</span><span class="o">=</span>off <span class="nv">cluster_size</span><span class="o">=</span><span class="m">65536</span> <span class="nv">lazy_refcounts</span><span class="o">=</span>off <span class="nv">refcount_bits</span><span class="o">=</span><span class="m">16</span>
-
-<span class="c1"># download latest virtio iso image</span>
-&gt;$ wget https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/latest-virtio/virtio-win.iso
-</pre></div>
-
-
-<p>Then, started the VM and began the installation process. Here, I specified the disk interface to be virtio.</p>
-<div class="highlight"><pre><span></span>qemu-system-x86_64 --enable-kvm <span class="se">\ </span>
--smp <span class="m">4</span> -m <span class="m">4096</span> -cpu host -vga qxl <span class="se">\</span>
--drive <span class="nv">file</span><span class="o">=</span>./Sync/iso_images/win10.iso,index<span class="o">=</span><span class="m">1</span>,media<span class="o">=</span>cdrom <span class="se">\</span>
--drive <span class="nv">file</span><span class="o">=</span>./Sync/iso_images/virtio-win.iso,index<span class="o">=</span><span class="m">2</span>,media<span class="o">=</span>cdrom <span class="se">\</span>
--drive <span class="nv">file</span><span class="o">=</span>./win10.img,if<span class="o">=</span>virtio <span class="se">\</span>
- -net nic,model<span class="o">=</span>virtio,vlan<span class="o">=</span><span class="m">0</span> -net user
-</pre></div>
-
-
-<p>Windows 10 does not have virtio driver builtin, so we have to install the virtio driver from the virtio-win.iso first.</p>
-<p><img alt="virtio_disk_driver" src="https://fatminmin.com/images/virtio_disk0.png"></p>
-<p>There are a lot of pv drivers contain inside the virtio-win.iso. </p>
-<ul>
-<li>NetKVM/: Virtio Network driver</li>
-<li>viostor/: Virtio Block driver</li>
-<li>vioscsi/: Virtio SCSI driver</li>
-<li>viorng/: Virtio RNG driver</li>
-<li>vioser/: Virtio serial driver</li>
-<li>Balloon/: Virtio Memory Balloon driver</li>
-<li>qxl/: QXL graphics driver for Windows 7 and earlier. (build virtio-win-0.1.103-1 and later)</li>
-<li>qxldod/: QXL graphics driver for Windows 8 and later. (build virtio-win-0.1.103-2 and later)</li>
-<li>pvpanic/: QEMU pvpanic device driver (build virtio-win-0.1.103-2 and later)</li>
-<li>guest-agent/: QEMU Guest Agent 32bit and 64bit MSI installers</li>
-<li>qemupciserial/: QEMU PCI serial device driver</li>
-<li>*.vfd: VFD floppy images for using during install of Windows XP</li>
-</ul>
-<p>So here I selected the Virtio Block driver for win10.</p>
-<p><img alt="virtio_disk_driver" src="https://fatminmin.com/images/virtio_disk1.png"></p>
-<p>Then, after the installation process completed. I have to installed the virtio driver for network and qxl vga driver.</p>
-<p><img alt="virtio_disk_driver" src="https://fatminmin.com/images/virtio_network.png">
-<img alt="virtio_disk_driver" src="https://fatminmin.com/images/qxl.png"></p>
-<p>Finally, the VM is ready to used :).</p>
+      <p>When using linux desktop environment I found the roads' boundary on google maps is blurry and make the map hard to read. I used to think this is my BENQ EW2755ZH monitor's problem. But after I switch to Windows system, I found the problem is gone and the color on the monitor is much more beautiful than it used to shown on Linux.</p>
+<p>After doing some research, I understood the <a href="https://wiki.archlinux.org/index.php/ICC_profiles">ICC profile</a> plays a big role for the OS to calibrate the colors showing on the monitor.</p>
+<p>However the default profile for BENQ EW2755ZH is bad and I don't have a colorimeter to calibrate generate a profile by myself, so I tried to copy the profile from my Windows 10 which is located at <code>C:\WINDOWS\System32\spool\drivers\color</code>. But the profile somehow failed to be read by Fedora 27's gnome color manager.</p>
+<p>After another round of gooling, I found the <a href="http://www.tftcentral.co.uk/articles/icc_profiles.htm">TFT CENTRAL</a> ICC profile databases. But it does not have my EW2755ZH profiles. I still downloaded some profiles and do some try-and-erros. Luckily, I found the <a href="http://www.tftcentral.co.uk/icc_profiles/BenQ_GW2750HM_Normal.icc">BenQ GW2750HM (Normal)</a> profile looks good and solve my problem well.</p>
     </div><!-- .content -->
 
     <h2>Comments</h2>
     <div id="disqus_thread"></div>
     <script type="text/javascript">
        var disqus_shortname = 'fatminmin';
-       var disqus_identifier = 'blog/install-win10-with-virtio.html';
-       var disqus_url = 'https://fatminmin.com/blog/install-win10-with-virtio.html';
+       var disqus_identifier = 'blog/benq-ew2755zh-icc-profile.html';
+       var disqus_url = 'https://fatminmin.com/blog/benq-ew2755zh-icc-profile.html';
        (function() {
             var dsq = document.createElement('script');
             dsq.type = 'text/javascript'; dsq.async = true;
