@@ -150,65 +150,65 @@
 <h2>Polymorphism</h2>
 <p>Polymorphism can be done by using function pointers point to different functions for different sub-class.</p>
 <p>nas.h</p>
-<div class="highlight"><pre><span></span>struct Nas;
-struct DS918;
-struct DS218;
+<div class="highlight"><pre><span></span><span class="k">struct</span> <span class="n">Nas</span><span class="p">;</span>
+<span class="k">struct</span> <span class="n">DS918</span><span class="p">;</span>
+<span class="k">struct</span> <span class="n">DS218</span><span class="p">;</span>
 
-struct DS918* makeDS918();
-struct DS218* makeDS218();
+<span class="k">struct</span> <span class="n">DS918</span><span class="o">*</span> <span class="nf">makeDS918</span><span class="p">();</span>
+<span class="k">struct</span> <span class="n">DS218</span><span class="o">*</span> <span class="nf">makeDS218</span><span class="p">();</span>
 
-void printModelName(struct *Nas nas);
+<span class="kt">void</span> <span class="nf">printModelName</span><span class="p">(</span><span class="k">struct</span> <span class="o">*</span><span class="n">Nas</span> <span class="n">nas</span><span class="p">);</span>
 </pre></div>
 
 
 <p>nas.c</p>
-<div class="highlight"><pre><span></span>void printModelNameDS918()
-{
-    puts(&quot;DS918&quot;);
-}
-void printModelNameDS218()
-{
-    puts(&quot;DS218&quot;);
-}
-struct Nas {
-    void (*printModelName)();
-};
-struct DS918 {
-    struct Nas base;
-};
-struct DS218 {
-    struct Nas base;
-};
-struct DS918* makeDS918()
-{
-    struct DS918 *nas = (struct DS918*)malloc(sizeof(DS918));
-    nas-&gt;base.printModelName = printModelNameDS918;
+<div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">printModelNameDS918</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">puts</span><span class="p">(</span><span class="s">&quot;DS918&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">printModelNameDS218</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">puts</span><span class="p">(</span><span class="s">&quot;DS218&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="k">struct</span> <span class="n">Nas</span> <span class="p">{</span>
+    <span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">printModelName</span><span class="p">)();</span>
+<span class="p">};</span>
+<span class="k">struct</span> <span class="n">DS918</span> <span class="p">{</span>
+    <span class="k">struct</span> <span class="n">Nas</span> <span class="n">base</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="k">struct</span> <span class="n">DS218</span> <span class="p">{</span>
+    <span class="k">struct</span> <span class="n">Nas</span> <span class="n">base</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="k">struct</span> <span class="n">DS918</span><span class="o">*</span> <span class="nf">makeDS918</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">struct</span> <span class="n">DS918</span> <span class="o">*</span><span class="n">nas</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">DS918</span><span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">DS918</span><span class="p">));</span>
+    <span class="n">nas</span><span class="o">-&gt;</span><span class="n">base</span><span class="p">.</span><span class="n">printModelName</span> <span class="o">=</span> <span class="n">printModelNameDS918</span><span class="p">;</span>
 
-    return nas;
-}
-struct DS218* makeDS218()
-{
-    struct DS218 *nas = (struct DS218*)malloc(sizeof(DS218));
-    nas-&gt;base.printModelName = printModelNameDS218;
+    <span class="k">return</span> <span class="n">nas</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">struct</span> <span class="n">DS218</span><span class="o">*</span> <span class="nf">makeDS218</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">struct</span> <span class="n">DS218</span> <span class="o">*</span><span class="n">nas</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">DS218</span><span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">DS218</span><span class="p">));</span>
+    <span class="n">nas</span><span class="o">-&gt;</span><span class="n">base</span><span class="p">.</span><span class="n">printModelName</span> <span class="o">=</span> <span class="n">printModelNameDS218</span><span class="p">;</span>
 
-    return nas;
-}
-void printModelName(struct Nas *nas)
-{
-    nas-&gt;printModelName();
-}
+    <span class="k">return</span> <span class="n">nas</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">printModelName</span><span class="p">(</span><span class="k">struct</span> <span class="n">Nas</span> <span class="o">*</span><span class="n">nas</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">nas</span><span class="o">-&gt;</span><span class="n">printModelName</span><span class="p">();</span>
+<span class="p">}</span>
 </pre></div>
 
 
 <p>client.c</p>
-<div class="highlight"><pre><span></span>int main()
-{
-    struct DS918 *ds918 = makeDS918();
-    printModelName((struct Nas*)ds918);
+<div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">struct</span> <span class="n">DS918</span> <span class="o">*</span><span class="n">ds918</span> <span class="o">=</span> <span class="n">makeDS918</span><span class="p">();</span>
+    <span class="n">printModelName</span><span class="p">((</span><span class="k">struct</span> <span class="n">Nas</span><span class="o">*</span><span class="p">)</span><span class="n">ds918</span><span class="p">);</span>
 
-    struct DS218 *ds218 = makeDS218();
-    printModelName((struct Nas*)ds218);
-}
+    <span class="k">struct</span> <span class="n">DS218</span> <span class="o">*</span><span class="n">ds218</span> <span class="o">=</span> <span class="n">makeDS218</span><span class="p">();</span>
+    <span class="n">printModelName</span><span class="p">((</span><span class="k">struct</span> <span class="n">Nas</span><span class="o">*</span><span class="p">)</span><span class="n">ds218</span><span class="p">);</span>
+<span class="p">}</span>
 </pre></div>
 
 
