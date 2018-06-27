@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+      <title>FatMinMin</title>
+      <link rel="shortcut icon" href="https://fatminmin.com/favicon.ico">
+      <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,400,600,700' rel='stylesheet' type='text/css' />
+      <link href='https://fonts.googleapis.com/css?family=Merriweather:300' rel='stylesheet' type='text/css'/>
+      <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro:200,400,700' rel='stylesheet' type='text/css'/>
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+      <link rel="stylesheet" type="text/css" href="https://fatminmin.com/theme/css/icons.css"/>
+      <link rel="stylesheet" type="text/css" href="https://fatminmin.com/theme/css/styles.css"/>
+      <link rel="stylesheet" type="text/css" href="https://fatminmin.com/theme/css/minmin_styles.css"/>
+      <meta charset="utf-8" />
+        <link href="/feeds/rss.xml" type="application/rss+xml" rel="alternate" title="FatMinMin RSS Feed" />
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-7408997-8', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+
+  </head>
+
+  <body id="index">
+    <!-- header -->
+    <header class="siteheader">
+      <!-- site image -->
+        <div class= "siteimage">
+          <a class="nodec" href=/images/me.jpg>
+            <img width="200" height="200" src=/images/me.jpg>
+          </a>
+        </div>
+
+      <div class = "sitebanner">
+        <h1><a class="sitetitle nodec" href="https://fatminmin.com">FatMinMin</a></h1>
+        <h3 class ="sitesubtitle">"A computer and a dream can take you anywhere."</h3>
+        <!-- nav -->
+        <nav class="menu">
+          <ul>
+            <!-- menu items-->
+              <li><a class="nodec" href="/">BLOG</a></li>
+            <!--pages-->
+	  		    <li><a class="nodec" href="https://fatminmin.com/pages/minminguard.html">MINMINGUARD</a></li>
+	  		    <li><a class="nodec" href="https://fatminmin.com/pages/about.html">ABOUT</a></li>
+            <!-- services icons -->
+              <li><a class="nodec icon-github" href="https://github.com/chiehmin/"></a></li>
+              <li><a class="nodec icon-facebook" href="https://www.facebook.com/fatminmin"></a></li>
+              <li><a class="nodec fa fa-linkedin" href="https://tw.linkedin.com/in/fatminmin"></a></li>
+              <li><a class="nodec icon-rss" href="/feeds/rss.xml"></a></li>
+          </ul>
+        </nav>
+      </div> <!-- sitebanner -->
+    </header>
+
+    <!-- content -->
+
+<section class="content">
+
+  <h3 class="posttitle">
+    <a class="nodec" href="/blog/encapsulation-inheritance-polymorphism-in-c.html" rel="bookmark" title="Permalink to Encapsulation, inheritance and polymorphism in C">
+      Encapsulation, inheritance and polymorphism in C
+    </a>
+  </h3>
+
+  <div class="postinfo">
+    <p class="published" title="2018-06-27T22:31:00+08:00">
+      On 2018/06/27 at 22:31
+    </p>
+
+  </div><!-- .postinfo -->
+
+    <div class="article">
+      <h2>Encapsulation</h2>
+<ol>
+<li>Encapsulate the data and functions in the object</li>
+<li>Hide the implementation and data from the users</li>
+</ol>
+<p>nas.h</p>
+<div class="highlight"><pre><span></span><span class="k">struct</span> <span class="n">Nas</span><span class="p">;</span> <span class="c1">// forward declaration</span>
+<span class="k">struct</span> <span class="n">Nas</span><span class="o">*</span> <span class="nf">newNas</span><span class="p">(</span><span class="kt">int</span> <span class="n">bays</span><span class="p">,</span> <span class="kt">double</span> <span class="n">price</span><span class="p">);</span>
+<span class="kt">double</span> <span class="nf">pricePerBay</span><span class="p">(</span><span class="k">struct</span> <span class="n">Nas</span> <span class="o">*</span><span class="n">nas</span><span class="p">);</span>
+</pre></div>
+
+
+<p>nas.c</p>
+<div class="highlight"><pre><span></span><span class="k">struct</span> <span class="n">Nas</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">bays</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">price</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="k">struct</span> <span class="n">Nas</span><span class="o">*</span> <span class="nf">makeNas</span><span class="p">(</span><span class="kt">int</span> <span class="n">bays</span><span class="p">,</span> <span class="kt">double</span> <span class="n">price</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">struct</span> <span class="n">Nas</span> <span class="o">*</span><span class="n">nas</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">Nas</span><span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">Nas</span><span class="p">));</span>
+    <span class="n">nas</span><span class="o">-&gt;</span><span class="n">bays</span> <span class="o">=</span> <span class="n">bays</span><span class="p">;</span>
+    <span class="n">nas</span><span class="o">-&gt;</span><span class="n">price</span> <span class="o">=</span> <span class="n">price</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">nas</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">double</span> <span class="nf">pricePerBay</span><span class="p">(</span><span class="k">struct</span> <span class="n">Nas</span> <span class="o">*</span><span class="n">nas</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="n">nas</span><span class="o">-&gt;</span><span class="n">price</span> <span class="o">/</span> <span class="n">nas</span><span class="o">-&gt;</span><span class="n">bays</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>Users can not access of the member of Nas but only its functions because of the power of forward declaration. (Users can only use the pointer of Nas)</p>
+<h2>Inheritance</h2>
+<p>Put the parent class as first member.</p>
+<p>10g_nas.h</p>
+<div class="highlight"><pre><span></span><span class="k">struct</span> <span class="n">TenGNas</span><span class="p">;</span> <span class="c1">// forward declaration</span>
+<span class="k">struct</span> <span class="n">TenGNas</span><span class="o">*</span> <span class="nf">newTenGNas</span><span class="p">(</span><span class="kt">bool</span> <span class="n">isSFP</span><span class="p">,</span> <span class="kt">int</span> <span class="n">bays</span><span class="p">,</span> <span class="kt">double</span> <span class="n">price</span><span class="p">);</span>
+<span class="kt">bool</span> <span class="nf">isSFP</span><span class="p">(</span><span class="k">struct</span> <span class="n">TenGNas</span> <span class="o">*</span><span class="n">nas</span><span class="p">);</span>
+</pre></div>
+
+
+<p>10g_nas.c</p>
+<div class="highlight"><pre><span></span><span class="k">struct</span> <span class="n">TenGNas</span> <span class="p">{</span>
+    <span class="k">struct</span> <span class="n">Nas</span> <span class="n">base</span><span class="p">;</span>
+    <span class="kt">bool</span> <span class="n">isSFP</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="k">struct</span> <span class="n">TenGNas</span><span class="o">*</span> <span class="nf">makeTenGNas</span><span class="p">(</span><span class="kt">bool</span> <span class="n">isSFP</span><span class="p">,</span> <span class="kt">int</span> <span class="n">bays</span><span class="p">,</span> <span class="kt">double</span> <span class="n">price</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">struct</span> <span class="n">TenGNas</span> <span class="o">*</span><span class="n">nas</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">TenGNas</span><span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">TenGNas</span><span class="p">));</span>
+    <span class="n">nas</span><span class="o">-&gt;</span><span class="n">isSFP</span> <span class="o">=</span> <span class="n">isSFP</span><span class="p">;</span>
+    <span class="n">nas</span><span class="o">-&gt;</span><span class="n">base</span><span class="p">.</span><span class="n">bays</span> <span class="o">=</span> <span class="n">bays</span><span class="p">;</span>
+    <span class="n">nas</span><span class="o">-&gt;</span><span class="n">base</span><span class="p">.</span><span class="n">price</span> <span class="o">=</span> <span class="n">price</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">nas</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">bool</span> <span class="nf">isSFP</span><span class="p">(</span><span class="k">struct</span> <span class="n">TenGNas</span> <span class="o">*</span><span class="n">nas</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="n">nas</span><span class="o">-&gt;</span><span class="n">isSFP</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>client.c</p>
+<div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">struct</span> <span class="n">TenGNas</span> <span class="o">*</span><span class="n">nas</span> <span class="o">=</span> <span class="n">makeTenGNas</span><span class="p">(</span><span class="nb">true</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
+    <span class="n">printf</span> <span class="p">(</span><span class="s">&quot;SPF: %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">isSFP</span><span class="p">(</span><span class="n">nas</span><span class="p">)</span> <span class="o">?</span> <span class="s">&quot;yes&quot;</span> <span class="o">:</span> <span class="s">&quot;no&quot;</span><span class="p">);</span>
+    <span class="n">printf</span> <span class="p">(</span><span class="s">&quot;price per bay: %lf</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">pricePerBay</span><span class="p">((</span><span class="k">struct</span> <span class="n">Nas</span><span class="o">*</span><span class="p">)</span><span class="n">nas</span><span class="p">));</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p><code>(struct *Nas)nas</code> up-casting will be done by OO-language automatically, however, in C we have to do it manually.</p>
+<h2>Polymorphism</h2>
+<p>Polymorphism can be done by using function pointers point to different functions for different sub-class.</p>
+<p>nas.h</p>
+<div class="highlight"><pre><span></span>struct Nas;
+struct DS918;
+struct DS218;
+
+struct DS918* makeDS918();
+struct DS218* makeDS218();
+
+void printModelName(struct *Nas nas);
+</pre></div>
+
+
+<p>nas.c</p>
+<div class="highlight"><pre><span></span>void printModelNameDS918()
+{
+    puts(&quot;DS918&quot;);
+}
+void printModelNameDS218()
+{
+    puts(&quot;DS218&quot;);
+}
+struct Nas {
+    void (*printModelName)();
+};
+struct DS918 {
+    struct Nas base;
+};
+struct DS218 {
+    struct Nas base;
+};
+struct DS918* makeDS918()
+{
+    struct DS918 *nas = (struct DS918*)malloc(sizeof(DS918));
+    nas-&gt;base.printModelName = printModelNameDS918;
+
+    return nas;
+}
+struct DS218* makeDS218()
+{
+    struct DS218 *nas = (struct DS218*)malloc(sizeof(DS218));
+    nas-&gt;base.printModelName = printModelNameDS218;
+
+    return nas;
+}
+void printModelName(struct Nas *nas)
+{
+    nas-&gt;printModelName();
+}
+</pre></div>
+
+
+<p>client.c</p>
+<div class="highlight"><pre><span></span>int main()
+{
+    struct DS918 *ds918 = makeDS918();
+    printModelName((struct Nas*)ds918);
+
+    struct DS218 *ds218 = makeDS218();
+    printModelName((struct Nas*)ds218);
+}
+</pre></div>
+
+
+<p>Now printModelName is a polymorphism function.</p>
+    </div><!-- .content -->
+
+    <h2>Comments</h2>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+       var disqus_shortname = 'fatminmin';
+       var disqus_identifier = 'blog/encapsulation-inheritance-polymorphism-in-c.html';
+       var disqus_url = 'https://fatminmin.com/blog/encapsulation-inheritance-polymorphism-in-c.html';
+       (function() {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] ||
+             document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+
+</section>
+
+
+    <!-- footer -->
+    <footer>
+      <p>
+        © FatMinMin, license <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/"> CC BY-NC-SA 4.0</a>
+        unless otherwise noted.
+        Generated by <a href= "http://docs.getpelican.com/">Pelican</a> with
+        <a href="https://github.com/chiehmin/crowsfoot">crowsfoot</a> theme.
+      </p>
+    </footer>
+  </body>
+</html>
