@@ -76,7 +76,7 @@
 
     <div class="article">
       <p>The entry point for assigning <code>skb-&gt;_nfct</code> is at <code>nf_conntrack_in</code> during <code>NF_INET_PRE_ROUTING</code> in <code>NF_HOOK</code>.
-After doing some checkings with layer 3 and layer 4 protocol (suck as <code>tcp_error</code>), the <code>resolve_normal_ct</code> will search
+After doing some checkings with layer 3 and layer 4 protocol (such as <code>tcp_error</code>), the <code>resolve_normal_ct</code> will search
 the associate conntrack or build a new one and assign it to the <code>skb-&gt;_nfct</code>.</p>
 <p>In <code>resolve_normal_ct</code>, it will build the <code>nf_conntrack_tuple</code> from <code>skb</code> with its <code>l3proto</code> and <code>l4proto</code> respectively.</p>
 <div class="highlight"><pre><span></span><span class="n">memset</span><span class="p">(</span><span class="n">tuple</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">tuple</span><span class="p">));</span>
