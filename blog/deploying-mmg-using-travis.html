@@ -76,9 +76,9 @@
 
     <div class="article">
       <p>I just learned and applied Travis CI to do continuous integration for MinMinGuard. For now, I am just using travis to automatically build release apk. The settings for travis is fairly easy to setup by just following the official tutorial. Following is my <code>.travis.yml</code>: </p>
-<div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">language</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">android</span>
-<span class="l l-Scalar l-Scalar-Plain">android</span><span class="p p-Indicator">:</span>
-  <span class="l l-Scalar l-Scalar-Plain">components</span><span class="p p-Indicator">:</span>
+<div class="highlight"><pre><span></span><span class="nt">language</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">android</span>
+<span class="nt">android</span><span class="p">:</span>
+  <span class="nt">components</span><span class="p">:</span>
   <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">platform-tools</span>
   <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">tools</span>
   <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">build-tools-23.0.3</span>
@@ -87,20 +87,20 @@
   <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">extra-google-m2repository</span>
   <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">extra-android-m2repository</span>
   <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">addon-google_apis-google-19</span>
-<span class="l l-Scalar l-Scalar-Plain">jdk</span><span class="p p-Indicator">:</span>
+<span class="nt">jdk</span><span class="p">:</span>
 <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">oraclejdk8</span>
-<span class="l l-Scalar l-Scalar-Plain">script</span><span class="p p-Indicator">:</span>
+<span class="nt">script</span><span class="p">:</span>
 <span class="p p-Indicator">-</span> <span class="s">&#39;[</span><span class="nv"> </span><span class="s">&quot;${TRAVIS_PULL_REQUEST}&quot;</span><span class="nv"> </span><span class="s">==</span><span class="nv"> </span><span class="s">&quot;false&quot;</span><span class="nv"> </span><span class="s">]</span><span class="nv"> </span><span class="s">&amp;&amp;</span><span class="nv"> </span><span class="s">./gradlew</span><span class="nv"> </span><span class="s">assembleRelease</span><span class="nv"> </span><span class="s">||</span><span class="nv"> </span><span class="s">./gradlew</span><span class="nv"> </span><span class="s">assembleDebug&#39;</span>
-<span class="l l-Scalar l-Scalar-Plain">before_deploy</span><span class="p p-Indicator">:</span>
+<span class="nt">before_deploy</span><span class="p">:</span>
 <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">mv app/build/outputs/apk/app-release.apk app/build/outputs/apk/MinMinGuard.apk</span>
-<span class="l l-Scalar l-Scalar-Plain">deploy</span><span class="p p-Indicator">:</span>
-  <span class="l l-Scalar l-Scalar-Plain">provider</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">releases</span>
-  <span class="l l-Scalar l-Scalar-Plain">api_key</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">secure</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[</span><span class="nv">my secure github oauth key</span><span class="p p-Indicator">]</span>
-  <span class="l l-Scalar l-Scalar-Plain">file</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">app/build/outputs/apk/MinMinGuard.apk</span>
-  <span class="l l-Scalar l-Scalar-Plain">skip_cleanup</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-  <span class="l l-Scalar l-Scalar-Plain">on</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">tags</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="nt">deploy</span><span class="p">:</span>
+  <span class="nt">provider</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">releases</span>
+  <span class="nt">api_key</span><span class="p">:</span>
+    <span class="nt">secure</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">my secure github oauth key</span><span class="p p-Indicator">]</span>
+  <span class="nt">file</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">app/build/outputs/apk/MinMinGuard.apk</span>
+  <span class="nt">skip_cleanup</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+  <span class="nt">on</span><span class="p">:</span>
+    <span class="nt">tags</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
 </pre></div>
 
 
