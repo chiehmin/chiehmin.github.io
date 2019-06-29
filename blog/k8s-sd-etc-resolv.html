@@ -103,9 +103,9 @@ options ndots:5
 </pre></div>
 
 
-<p>According to the man page(<code>man resolv.conf</code>), if the DNS query fails to find the answer, it will retry the query by
+<p>According to the man page(<code>man resolv.conf</code>), if the dot number is less than <code>ndots:&lt;num&gt;</code>, it will resolve the query by
 appending the domains listed in the <code>search</code> field. For example, <code>nginx</code> will be <code>nginx.default.svc.cluster.local</code>.
-And this time, the answer will be found in CoreDNS correctly.</p>
+And the answer will be found in CoreDNS directly!</p>
     </div><!-- .content -->
 
     <h2>Comments</h2>
