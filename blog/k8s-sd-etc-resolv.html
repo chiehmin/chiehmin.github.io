@@ -106,6 +106,18 @@ options ndots:5
 <p>According to the man page(<code>man resolv.conf</code>), if the dot number is less than <code>ndots:&lt;num&gt;</code>, it will resolve the query by
 appending the domains listed in the <code>search</code> field. For example, <code>nginx</code> will be <code>nginx.default.svc.cluster.local</code>.
 And the answer will be found in CoreDNS directly!</p>
+<p>To inspect the query process, we can use <code>host -v</code></p>
+<div class="highlight"><pre><span></span>$ kubectl run <span class="nb">test</span> --image<span class="o">=</span>minmin-alpine --restart<span class="o">=</span>Never --rm -ti -- host -v fatminmin.com
+Trying <span class="s2">&quot;fatminmin.com.default.svc.cluster.local&quot;</span>
+Trying <span class="s2">&quot;fatminmin.com.svc.cluster.local&quot;</span>
+Trying <span class="s2">&quot;fatminmin.com.cluster.local&quot;</span>
+Trying <span class="s2">&quot;fatminmin.com&quot;</span>
+<span class="p">;;</span> QUESTION SECTION:
+<span class="p">;</span>fatminmin.com.                 IN      A
+
+<span class="p">;;</span> ANSWER SECTION:
+fatminmin.com.          <span class="m">30</span>      IN      A       <span class="m">104</span>.18.49.26
+</pre></div>
     </div><!-- .content -->
 
     <h2>Comments</h2>
