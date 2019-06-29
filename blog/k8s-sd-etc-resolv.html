@@ -96,7 +96,8 @@ Address <span class="m">1</span>: <span class="m">10</span>.107.232.183 nginx.de
 
 
 <p>After some diggings, I found the magic is done by the containers itself using the <code>search</code> field in the <code>/etc/resolv.conf</code>.</p>
-<div class="highlight"><pre><span></span>nameserver <span class="m">10</span>.96.0.10
+<div class="highlight"><pre><span></span>$ kubectl run <span class="nb">test</span> --image<span class="o">=</span>alpine --restart<span class="o">=</span>Never --rm -i -- cat /etc/resolv.conf
+nameserver <span class="m">10</span>.96.0.10
 search default.svc.cluster.local svc.cluster.local cluster.local
 options ndots:5
 </pre></div>
