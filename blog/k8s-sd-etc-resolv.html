@@ -61,92 +61,68 @@
 
 <section class="content">
 
-  <ol id="postlist">
+  <h3 class="posttitle">
+    <a class="nodec" href="/blog/k8s-sd-etc-resolv.html" rel="bookmark" title="Permalink to Kubernetes service discovery and `/etc/resolv.conf`">
+      Kubernetes service discovery and `/etc/resolv.conf`
+    </a>
+  </h3>
 
-    <li class="post">
-        <header class="posttitle">
-          <h3><a href="https://fatminmin.com/blog/oop-in-c.html"
-                  rel="bookmark"
-                  class="nodec"
-                  title="Permalink to OOP in C">OOP in C</a>
-          </h3>
-        </header>
+  <div class="postinfo">
+    <p class="published" title="2019-06-20T21:11:00+08:00">
+      On 2019/06/20 at 21:11
+    </p>
 
-        <div class="postinfo">
-          <p class="published" title="2015-12-26T22:34:00+08:00"> On 2015/12/26 at 22:34 </p>
-        </div><!-- /.postinfo -->
+  </div><!-- .postinfo -->
 
-        <div class="postsummary"> <p>Despite C does not support OOP like C++ or Java...</p> </div>
-    </li>
-    <li class="post">
-        <header class="posttitle">
-          <h3><a href="https://fatminmin.com/blog/direct-kernel-boot.html"
-                  rel="bookmark"
-                  class="nodec"
-                  title="Permalink to Qemu Direct Kernel Boot without bootloader(Grub)">Qemu Direct Kernel Boot without bootloader(Grub)</a>
-          </h3>
-        </header>
+    <div class="article">
+      <p>I was wondering how can we access other services in the cluster just using the name <code>&lt;service name&gt;</code> instead of the full
+domain name <code>&lt;service name&gt;.&lt;namespace&gt;.svc.cluster.local</code>.</p>
+<div class="highlight"><pre><span></span><span class="c1"># run a nginx server</span>
+$ kubectl run nginx --generator<span class="o">=</span>run-pod/v1 --image<span class="o">=</span>nginx
+<span class="c1"># expose pod using service</span>
+$ kubectl expose pods nginx --port<span class="o">=</span><span class="m">80</span>
+<span class="c1"># we can no access the nginx server in the cluster using &lt;service name&gt;</span>
+$ kubectl run <span class="nb">test</span> --image<span class="o">=</span>alpine --restart<span class="o">=</span>Never --rm -i -- wget nginx -O -
+&lt;h1&gt;Welcome to nginx!&lt;/h1&gt;
+</pre></div>
 
-        <div class="postinfo">
-          <p class="published" title="2015-12-12T19:28:00+08:00"> On 2015/12/12 at 19:28 </p>
-        </div><!-- /.postinfo -->
 
-        <div class="postsummary"> <p>Recently, I was doing a project on Android x86...</p> </div>
-    </li>
-    <li class="post">
-        <header class="posttitle">
-          <h3><a href="https://fatminmin.com/blog/why-eventbus-is-good.html"
-                  rel="bookmark"
-                  class="nodec"
-                  title="Permalink to Using EventBus to Transfer Data">Using EventBus to Transfer Data</a>
-          </h3>
-        </header>
+<p>I used to thought the work is done by adding <code>&lt;service name&gt;</code> DNS A record in the CoreDNS. However when doing DNS
+lookup, it always shows me the full domain name.</p>
+<div class="highlight"><pre><span></span>$ kubectl run <span class="nb">test</span> --image<span class="o">=</span>alpine --restart<span class="o">=</span>Never --rm -i -- nslookup nginx
+Name:      nginx
+Address <span class="m">1</span>: <span class="m">10</span>.107.232.183 nginx.default.svc.cluster.local
+</pre></div>
 
-        <div class="postinfo">
-          <p class="published" title="2015-12-02T23:17:00+08:00"> On 2015/12/02 at 23:17 </p>
-        </div><!-- /.postinfo -->
 
-        <div class="postsummary"> <p>When developing …</p> </div>
-    </li>
-    <li class="post">
-        <header class="posttitle">
-          <h3><a href="https://fatminmin.com/blog/got-my-pebble-time.html"
-                  rel="bookmark"
-                  class="nodec"
-                  title="Permalink to Pebble Time!!">Pebble Time!!</a>
-          </h3>
-        </header>
+<p>After some diggings, I found the magic is done by the containers itself using the <code>search</code> field in the <code>/etc/resolv.conf</code>.</p>
+<div class="highlight"><pre><span></span>nameserver <span class="m">10</span>.96.0.10
+search default.svc.cluster.local svc.cluster.local cluster.local
+options ndots:5
+</pre></div>
 
-        <div class="postinfo">
-          <p class="published" title="2015-11-13T21:50:00+08:00"> On 2015/11/13 at 21:50 </p>
-        </div><!-- /.postinfo -->
 
-        <div class="postsummary"> <p>從暑假的時候就一直很想要有一隻智慧錶，不過一直覺得很貴下不了手 …</p> </div>
-    </li>
-    <li class="post">
-        <header class="posttitle">
-          <h3><a href="https://fatminmin.com/blog/hi-i-am-fatminmin.html"
-                  rel="bookmark"
-                  class="nodec"
-                  title="Permalink to Hi, I am FatMinMin">Hi, I am FatMinMin</a>
-          </h3>
-        </header>
+<p>According to the man page(<code>man resolv.conf</code>), if the DNS query fails to find the answer, it will retry the query by
+appending the domains listed in the <code>search</code> field. For example, <code>nginx</code> will be <code>nginx.default.svc.cluster.local</code>.
+And this time, the answer will be found in CoreDNS correctly.</p>
+    </div><!-- .content -->
 
-        <div class="postinfo">
-          <p class="published" title="2015-10-28T13:20:00+08:00"> On 2015/10/28 at 13:20 </p>
-        </div><!-- /.postinfo -->
+    <h2>Comments</h2>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+       var disqus_shortname = 'fatminmin';
+       var disqus_identifier = 'blog/k8s-sd-etc-resolv.html';
+       var disqus_url = 'https://fatminmin.com/blog/k8s-sd-etc-resolv.html';
+       (function() {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] ||
+             document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
 
-        <div class="postsummary"> <p>Hi, I am FatMinMin. Welcome to my blog :).</p> </div>
-    </li>
-
-  </ol><!-- /#post-list -->
-
-<p class="paginator">
-        <a href="https://fatminmin.com/index3.html">&laquo;</a>
-    Page 4 / 4
-</p>
-
-</section><!-- /#content -->
+</section>
 
 
     <!-- footer -->
