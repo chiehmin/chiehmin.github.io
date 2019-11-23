@@ -77,25 +77,25 @@
     <div class="article">
       <p>In the post <a href="https://fatminmin.com/blog/qemu-nat.html">Configuring NAT Network for VM</a>, I setup VM to run in the NAT private network. But recently, I encounter a case that ask me to run multiple virtual devices in the same network as host. This is just look like a router running in <a href="https://support.google.com/wifi/answer/6240987?hl=en">bridge mode</a>. So the following of this article tells how I accomplish the bridge mode on my Linux host machine.</p>
 <h2>Architecture</h2>
-<div class="highlight"><pre><span></span>    +---------------------------------+
-    |                                 |
-    |           Host Machine          |
-    |                                 |
-    |     +----------------------+    |
-    |     |                      |    |          +----------------------------+
-    |     |        br0           |    |          |                            |
-    |     |   10.11.68.156/22    |    |          |                            |
-    |     |                      |    |          |      Virtual Machine       |
-    |     +---+--------------+---+    |          |                            |
-    |         |              |        |          |   +-------------------+    |
-    |  +------+---+     +----+----+   |          |   |                   |    |
-    |  |          |     |         |   |          |   |     enps3 (WAN)   |    |
-    |  |  enp3s0  |     |   tap0  +------------------+   10.11.68.157/22 |    |
-    |  |  (WAN)   |     |         |   |          |   |                   |    |
-    |  |          |     +---------+   |          |   +-------------------+    |
-    |  +----------+                   |          |                            |
-    |                                 |          +----------------------------+
-    +---------------------------------+
+<div class="highlight"><pre><span></span>    <span class="o">+</span><span class="c1">---------------------------------+</span>
+    <span class="o">|</span>                                 <span class="o">|</span>
+    <span class="o">|</span>           <span class="k">Host</span> <span class="n">Machine</span>          <span class="o">|</span>
+    <span class="o">|</span>                                 <span class="o">|</span>
+    <span class="o">|</span>     <span class="o">+</span><span class="c1">----------------------+    |</span>
+    <span class="o">|</span>     <span class="o">|</span>                      <span class="o">|</span>    <span class="o">|</span>          <span class="o">+</span><span class="c1">----------------------------+</span>
+    <span class="o">|</span>     <span class="o">|</span>        <span class="n">br0</span>           <span class="o">|</span>    <span class="o">|</span>          <span class="o">|</span>                            <span class="o">|</span>
+    <span class="o">|</span>     <span class="o">|</span>   <span class="mi">10</span><span class="p">.</span><span class="mi">11</span><span class="p">.</span><span class="mi">68</span><span class="p">.</span><span class="mi">156</span><span class="o">/</span><span class="mi">22</span>    <span class="o">|</span>    <span class="o">|</span>          <span class="o">|</span>                            <span class="o">|</span>
+    <span class="o">|</span>     <span class="o">|</span>                      <span class="o">|</span>    <span class="o">|</span>          <span class="o">|</span>      <span class="n">Virtual</span> <span class="n">Machine</span>       <span class="o">|</span>
+    <span class="o">|</span>     <span class="o">+</span><span class="c1">---+--------------+---+    |          |                            |</span>
+    <span class="o">|</span>         <span class="o">|</span>              <span class="o">|</span>        <span class="o">|</span>          <span class="o">|</span>   <span class="o">+</span><span class="c1">-------------------+    |</span>
+    <span class="o">|</span>  <span class="o">+</span><span class="c1">------+---+     +----+----+   |          |   |                   |    |</span>
+    <span class="o">|</span>  <span class="o">|</span>          <span class="o">|</span>     <span class="o">|</span>         <span class="o">|</span>   <span class="o">|</span>          <span class="o">|</span>   <span class="o">|</span>     <span class="n">enps3</span> <span class="p">(</span><span class="n">WAN</span><span class="p">)</span>   <span class="o">|</span>    <span class="o">|</span>
+    <span class="o">|</span>  <span class="o">|</span>  <span class="n">enp3s0</span>  <span class="o">|</span>     <span class="o">|</span>   <span class="n">tap0</span>  <span class="o">+</span><span class="c1">------------------+   10.11.68.157/22 |    |</span>
+    <span class="o">|</span>  <span class="o">|</span>  <span class="p">(</span><span class="n">WAN</span><span class="p">)</span>   <span class="o">|</span>     <span class="o">|</span>         <span class="o">|</span>   <span class="o">|</span>          <span class="o">|</span>   <span class="o">|</span>                   <span class="o">|</span>    <span class="o">|</span>
+    <span class="o">|</span>  <span class="o">|</span>          <span class="o">|</span>     <span class="o">+</span><span class="c1">---------+   |          |   +-------------------+    |</span>
+    <span class="o">|</span>  <span class="o">+</span><span class="c1">----------+                   |          |                            |</span>
+    <span class="o">|</span>                                 <span class="o">|</span>          <span class="o">+</span><span class="c1">----------------------------+</span>
+    <span class="o">+</span><span class="c1">---------------------------------+</span>
 </pre></div>
 
 
@@ -106,8 +106,8 @@
 
 
 <p>Create a bridge and connect it to the WAN</p>
-<div class="highlight"><pre><span></span>brctl addbr xx
-brctl addif xx enp3s0
+<div class="highlight"><pre><span></span><span class="n">brctl</span> <span class="n">addbr</span> <span class="n">xx</span>
+<span class="n">brctl</span> <span class="n">addif</span> <span class="n">xx</span> <span class="n">enp3s0</span>
 </pre></div>
 
 
