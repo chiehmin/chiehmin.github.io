@@ -75,7 +75,7 @@
   </div><!-- .postinfo -->
 
     <div class="article">
-      <h2>Encapsulation</h2>
+      <h2 id="encapsulation">Encapsulation</h2>
 <ol>
 <li>Encapsulate the data and functions in the object</li>
 <li>Hide the implementation and data from the users</li>
@@ -106,7 +106,7 @@
 
 
 <p>Users can not access of the member of Nas but only its functions because of the power of forward declaration. (Users can only use the pointer of Nas)</p>
-<h2>Inheritance</h2>
+<h2 id="inheritance">Inheritance</h2>
 <p>Put the parent class as first member.</p>
 <p>10g_nas.h</p>
 <div class="highlight"><pre><span></span><span class="k">struct</span> <span class="n">TenGNas</span><span class="p">;</span> <span class="c1">// forward declaration</span>
@@ -147,7 +147,7 @@
 
 
 <p><code>(struct Nas*)nas</code> up-casting will be done by OO-language automatically, however, in C we have to do it manually.</p>
-<h2>Polymorphism</h2>
+<h2 id="polymorphism">Polymorphism</h2>
 <p>Polymorphism can be done by using function pointers point to different functions for different sub-class.</p>
 <p>nas.h</p>
 <div class="highlight"><pre><span></span><span class="k">struct</span> <span class="n">Nas</span><span class="p">;</span>

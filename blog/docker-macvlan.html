@@ -78,7 +78,7 @@
       <p>In previous post <a href="https://fatminmin.com/blog/vm-ip-bridge-with-host.html">Create VM with ip bridge to host network (in the same network as host)</a>, I create a bridge and tap device to bridge VM network with host network. However in recent kernel update, macvlan is supported to have ethernet device virtualization. And docker has built-in support for macvlan feature.</p>
 <p><a href="https://docs.docker.com/network/macvlan/">Use Macvlan network</a></p>
 <p>So, I can launch containers in the same host network subnet easily and quickly.</p>
-<h2>Instructions</h2>
+<h2 id="instructions">Instructions</h2>
 <p>Create macvlan docker network. The subnet and gateway should be the same as my host network and the <code>parent</code> option should assing to the host ethernet interface.</p>
 <div class="highlight"><pre><span></span>$ docker network create -d macvlan --subnet<span class="o">=</span><span class="m">10</span>.1.14.0/24 --gateway<span class="o">=</span><span class="m">10</span>.1.14.1 -o <span class="nv">parent</span><span class="o">=</span>enp5s2 macvlan
 </pre></div>

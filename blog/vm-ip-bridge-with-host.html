@@ -76,7 +76,7 @@
 
     <div class="article">
       <p>In the post <a href="https://fatminmin.com/blog/qemu-nat.html">Configuring NAT Network for VM</a>, I setup VM to run in the NAT private network. But recently, I encounter a case that ask me to run multiple virtual devices in the same network as host. This is just look like a router running in <a href="https://support.google.com/wifi/answer/6240987?hl=en">bridge mode</a>. So the following of this article tells how I accomplish the bridge mode on my Linux host machine.</p>
-<h2>Architecture</h2>
+<h2 id="architecture">Architecture</h2>
 <div class="highlight"><pre><span></span>    <span class="o">+</span><span class="c1">---------------------------------+</span>
     <span class="o">|</span>                                 <span class="o">|</span>
     <span class="o">|</span>           <span class="k">Host</span> <span class="n">Machine</span>          <span class="o">|</span>
@@ -99,7 +99,7 @@
 </pre></div>
 
 
-<h2>Instructions</h2>
+<h2 id="instructions">Instructions</h2>
 <p>Stop NetworkManager to prevent it to get control of network interface</p>
 <div class="highlight"><pre><span></span>$ systemctl stop network-manager
 </pre></div>
@@ -137,7 +137,7 @@ $ brctl addif xx tap0
 </pre></div>
 
 
-<h2>Result</h2>
+<h2 id="result">Result</h2>
 <p><img alt="virtual device" src="https://fatminmin.com/images/vm_ip_bridge.png"></p>
     </div><!-- .content -->
 

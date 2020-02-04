@@ -83,9 +83,9 @@
 
 
 <p>However, this method comes with two problems. First, the object to be transfered needs to be <code>Parceble</code>. Second, if you are passing a big object or multiple objects, passing data though IPC is slow and inefficient. </p>
-<h2>How does <code>startActivity</code> works?</h2>
+<h2 id="how-does-startactivity-works">How does <code>startActivity</code> works?</h2>
 <p>Whenever you call startAcitvity, you are actually calling <code>startActivity</code> method in <strong>AMS</strong>(ActivityManagerService) through <strong>binder IPC</strong>. Binder is an RPC(Remote Procedure Call) mechanism, binder servers(ie. ActivityManagerService) expose their method for client to use. And the data to be transfered is carried by <code>Parcel</code>. <code>Intent</code> called <code>writeToParcel</code> to write all its data into a parcel and then transfer it into the AMS. So the whole procedure works like this, app opened <code>/dev/binder</code>, binder driver uses <code>copy_from_user</code> to copy the data to be transfered into binder driver, AMS uses <code>mmap</code> call to binder device to access the page that contains the data. Then AMS starts the targetActivity and uses the same way to send the data into the targetActivity. </p>
-<h2>Passing data in the same app through IPC is very weird and slow</h2>
+<h2 id="passing-data-in-the-same-app-through-ipc-is-very-weird-and-slow">Passing data in the same app through IPC is very weird and slow</h2>
 <p>Different components in the same app are reside in the same process(unless you specify <code>process</code> attribute in the xml), so we don't need to use IPC the transfer the data. So a common model is using <code>Application Singleton</code> to access data. For example:</p>
 <div class="highlight"><pre><span></span><span class="c1">// srcActivity</span>
 <span class="n">getApplication</span><span class="o">().</span><span class="na">xxxData</span> <span class="o">=</span> <span class="n">data</span><span class="o">;</span>
@@ -98,7 +98,7 @@
 
 <p>This approach is fast and easy, however when the project comes big, managing all the field in the 
 Application object may be messy.</p>
-<h2>Here comes to EventBus</h2>
+<h2 id="here-comes-to-eventbus">Here comes to EventBus</h2>
 <p><a href="https://github.com/greenrobot/EventBus" title="">EventBus</a> is made by <strong>greenrobot</strong>. <strong>Greenrobot</strong> has another very useful project called <a href="https://github.com/greenrobot/greenDAO" title="">greenDAO</a> which is a easy-to-use ORM library for android developers to manipulate database in a very simple way(Just like ORM in Django and other popular frameworks). EventBus can let you transfer data between different components(in the same app/process) in a very fast and bautiful way. You can take a look at their <a href="https://github.com/greenrobot/EventBus/blob/master/HOWTO.md" title="">docs</a> and I am sure you will love it:).</p>
     </div><!-- .content -->
 

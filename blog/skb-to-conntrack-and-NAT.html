@@ -113,7 +113,7 @@ will build a new one in <code>init_conntrack</code>.</p>
 
 <p>Finally, the newly initialize conntrack will be assign with the original and reply tuple. The upcoming <code>skb</code> can build
 the tuple based on <code>skb</code>'s 5 tuple to find the conntrack in the tuple's hash table.</p>
-<h2>When NAT comes in</h2>
+<h2 id="when-nat-comes-in">When NAT comes in</h2>
 <p>When doing NAT, the reply tuple will be modified based on the altered IP/port.</p>
 <p>Before NAT</p>
 <div class="highlight"><pre><span></span><span class="n">orig</span> <span class="n">tuple</span><span class="p">:</span> <span class="n">src</span><span class="o">=</span><span class="mi">192</span><span class="p">.</span><span class="mi">168</span><span class="p">.</span><span class="mi">1</span><span class="p">.</span><span class="mi">14</span> <span class="n">dst</span><span class="o">=</span><span class="mi">13</span><span class="p">.</span><span class="mi">94</span><span class="p">.</span><span class="mi">40</span><span class="p">.</span><span class="mi">40</span> <span class="n">sport</span><span class="o">=</span><span class="mi">37611</span> <span class="n">dport</span><span class="o">=</span><span class="mi">443</span>
