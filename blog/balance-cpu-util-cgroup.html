@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+      <title>FatMinMin</title>
+      <link rel="shortcut icon" href="https://fatminmin.com/favicon.ico">
+      <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,400,600,700' rel='stylesheet' type='text/css' />
+      <link href='https://fonts.googleapis.com/css?family=Merriweather:300' rel='stylesheet' type='text/css'/>
+      <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro:200,400,700' rel='stylesheet' type='text/css'/>
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+      <link rel="stylesheet" type="text/css" href="https://fatminmin.com/theme/css/icons.css"/>
+      <link rel="stylesheet" type="text/css" href="https://fatminmin.com/theme/css/styles.css"/>
+      <link rel="stylesheet" type="text/css" href="https://fatminmin.com/theme/css/minmin_styles.css"/>
+      <meta charset="utf-8" />
+        <link href="/feeds/rss.xml" type="application/rss+xml" rel="alternate" title="FatMinMin RSS Feed" />
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-7408997-8', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+
+  </head>
+
+  <body id="index">
+    <!-- header -->
+    <header class="siteheader">
+      <!-- site image -->
+        <div class= "siteimage">
+          <a class="nodec" href=/images/me.jpg>
+            <img width="200" height="200" src=/images/me.jpg>
+          </a>
+        </div>
+
+      <div class = "sitebanner">
+        <h1><a class="sitetitle nodec" href="https://fatminmin.com">FatMinMin</a></h1>
+        <h3 class ="sitesubtitle">"What doesn't kill you makes you stronger"</h3>
+        <!-- nav -->
+        <nav class="menu">
+          <ul>
+            <!-- menu items-->
+              <li><a class="nodec" href="/">BLOG</a></li>
+            <!--pages-->
+	  		    <li><a class="nodec" href="https://fatminmin.com/pages/minminguard.html">MINMINGUARD</a></li>
+	  		    <li><a class="nodec" href="https://fatminmin.com/pages/about.html">ABOUT</a></li>
+            <!-- services icons -->
+              <li><a class="nodec icon-github" href="https://github.com/chiehmin/"></a></li>
+              <li><a class="nodec icon-facebook" href="https://www.facebook.com/fatminmin"></a></li>
+              <li><a class="nodec fa fa-linkedin" href="https://tw.linkedin.com/in/fatminmin"></a></li>
+              <li><a class="nodec icon-rss" href="/feeds/rss.xml"></a></li>
+          </ul>
+        </nav>
+      </div> <!-- sitebanner -->
+    </header>
+
+    <!-- content -->
+
+<section class="content">
+
+  <h3 class="posttitle">
+    <a class="nodec" href="/blog/balance-cpu-util-cgroup.html" rel="bookmark" title="Permalink to Balance CPU utilization between services using Cgroup">
+      Balance CPU utilization between services using Cgroup
+    </a>
+  </h3>
+
+  <div class="postinfo">
+    <p class="published" title="2020-05-17T12:23:00+08:00">
+      On 2020/05/17 at 12:23
+    </p>
+
+  </div><!-- .postinfo -->
+
+    <div class="article">
+      <p>I have an application which has two CPU intensive components which I call them as service A and service B. Service A will spawn a new process to deal with a new request. However service B only has fixed processes to deal with the workload. So when service A is under high load, it will spawn lots of cpu-intensive processes to deal with the requests. This behavior will cause service A to consume more than 90% of total CPU resource which will result service B to be very slow and unresponsive.</p>
+<p>To deal with this issue, I would like to <strong>distribute the CPU resouce equally between the two services</strong>. Using CPU Cgroup to fix the situation comes to my head. </p>
+<p>Cgroup uses a tree hierarchy to define how many resource its children can use under the root. For example, if we construct a CPU cgroup like this:</p>
+<div class="highlight"><pre><span></span>    <span class="n">test</span>
+    <span class="o">/</span>  <span class="err">\</span>
+   <span class="n">t1</span>  <span class="n">t2</span>
+</pre></div>
+
+
+<p>Each group (test, t1 and t2) has 1024 (default value) cpu share. If t1 and t2 both contain cpu-intensive processes, no matter how many processces are under t1, the maximum cpu utilization t1 can get is <code>(1024 / (1024 + 1024))</code> which is <code>50%</code>.</p>
+<div class="highlight"><pre><span></span><span class="n">cgcreate</span> <span class="o">-</span><span class="k">g</span> <span class="n">cpu</span><span class="p">:</span><span class="n">test</span>
+<span class="n">cgcreate</span> <span class="o">-</span><span class="k">g</span> <span class="n">cpu</span><span class="p">:</span><span class="n">test</span><span class="o">/</span><span class="n">t1</span>
+<span class="n">cgcreate</span> <span class="o">-</span><span class="k">g</span> <span class="n">cpu</span><span class="p">:</span><span class="n">test</span><span class="o">/</span><span class="n">t2</span>
+
+<span class="n">cgexec</span> <span class="o">-</span><span class="k">g</span> <span class="n">cpuset</span><span class="p">:</span><span class="n">test</span> <span class="o">-</span><span class="k">g</span> <span class="n">cpu</span><span class="p">:</span><span class="n">test</span><span class="o">/</span><span class="n">t1</span> <span class="p">.</span><span class="o">/</span><span class="n">busy11</span> <span class="o">&amp;</span>  <span class="o">#</span> <span class="mi">25</span><span class="o">%</span> <span class="n">cpu</span>
+<span class="n">cgexec</span> <span class="o">-</span><span class="k">g</span> <span class="n">cpuset</span><span class="p">:</span><span class="n">test</span> <span class="o">-</span><span class="k">g</span> <span class="n">cpu</span><span class="p">:</span><span class="n">test</span><span class="o">/</span><span class="n">t1</span> <span class="p">.</span><span class="o">/</span><span class="n">busy12</span> <span class="o">&amp;</span>  <span class="o">#</span> <span class="mi">25</span><span class="o">%</span> <span class="n">cpu</span>
+<span class="n">cgexec</span> <span class="o">-</span><span class="k">g</span> <span class="n">cpuset</span><span class="p">:</span><span class="n">test</span> <span class="o">-</span><span class="k">g</span> <span class="n">cpu</span><span class="p">:</span><span class="n">test</span><span class="o">/</span><span class="n">t2</span> <span class="p">.</span><span class="o">/</span><span class="n">busy2</span> <span class="o">&amp;</span>   <span class="o">#</span> <span class="mi">50</span><span class="o">%</span> <span class="n">cpu</span>
+</pre></div>
+
+
+<p>An interesting fact to know is we can also run processes under to test group which is the root of t1 and t2. If we run a process under the test group, it is the same as creating an individual subgroup which has the same cpu share as root group's setting under the test group and run the process in it.</p>
+<div class="highlight"><pre><span></span><span class="n">cgexec</span> <span class="o">-</span><span class="k">g</span> <span class="n">cpuset</span><span class="p">:</span><span class="n">test</span> <span class="o">-</span><span class="k">g</span> <span class="n">cpu</span><span class="p">:</span><span class="n">test</span> <span class="p">.</span><span class="o">/</span><span class="n">busy01</span> <span class="o">&amp;</span>     <span class="o">#</span> <span class="mi">25</span><span class="o">%</span> <span class="n">cpu</span>
+<span class="n">cgexec</span> <span class="o">-</span><span class="k">g</span> <span class="n">cpuset</span><span class="p">:</span><span class="n">test</span> <span class="o">-</span><span class="k">g</span> <span class="n">cpu</span><span class="p">:</span><span class="n">test</span> <span class="p">.</span><span class="o">/</span><span class="n">busy02</span> <span class="o">&amp;</span>     <span class="o">#</span> <span class="mi">25</span><span class="o">%</span> <span class="n">cpu</span>
+<span class="n">cgexec</span> <span class="o">-</span><span class="k">g</span> <span class="n">cpuset</span><span class="p">:</span><span class="n">test</span> <span class="o">-</span><span class="k">g</span> <span class="n">cpu</span><span class="p">:</span><span class="n">test</span><span class="o">/</span><span class="n">t1</span> <span class="p">.</span><span class="o">/</span><span class="n">busy11</span> <span class="o">&amp;</span>  <span class="o">#</span> <span class="mi">12</span><span class="p">.</span><span class="mi">5</span><span class="o">%</span> <span class="n">cpu</span>
+<span class="n">cgexec</span> <span class="o">-</span><span class="k">g</span> <span class="n">cpuset</span><span class="p">:</span><span class="n">test</span> <span class="o">-</span><span class="k">g</span> <span class="n">cpu</span><span class="p">:</span><span class="n">test</span><span class="o">/</span><span class="n">t1</span> <span class="p">.</span><span class="o">/</span><span class="n">busy12</span> <span class="o">&amp;</span>  <span class="o">#</span> <span class="mi">12</span><span class="p">.</span><span class="mi">5</span><span class="o">%</span> <span class="n">cpu</span>
+<span class="n">cgexec</span> <span class="o">-</span><span class="k">g</span> <span class="n">cpuset</span><span class="p">:</span><span class="n">test</span> <span class="o">-</span><span class="k">g</span> <span class="n">cpu</span><span class="p">:</span><span class="n">test</span><span class="o">/</span><span class="n">t2</span> <span class="p">.</span><span class="o">/</span><span class="n">busy2</span> <span class="o">&amp;</span>   <span class="o">#</span> <span class="mi">50</span><span class="o">%</span> <span class="n">cpu</span>
+</pre></div>
+
+
+<p>The calculation behavior explaination can be found at <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/resource_management_guide/process_behavior">PROCESS BEHAVIOR IN THE ROOT CONTROL GROUP</a>.</p>
+    </div><!-- .content -->
+
+    <h2>Comments</h2>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+       var disqus_shortname = 'fatminmin';
+       var disqus_identifier = 'blog/balance-cpu-util-cgroup.html';
+       var disqus_url = 'https://fatminmin.com/blog/balance-cpu-util-cgroup.html';
+       (function() {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] ||
+             document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+
+</section>
+
+
+    <!-- footer -->
+    <footer>
+      <p>
+        © FatMinMin, license <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/"> CC BY-NC-SA 4.0</a>
+        unless otherwise noted.
+        Generated by <a href= "http://docs.getpelican.com/">Pelican</a> with
+        <a href="https://github.com/chiehmin/crowsfoot">crowsfoot</a> theme.
+      </p>
+    </footer>
+  </body>
+</html>
