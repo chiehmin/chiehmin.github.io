@@ -79,7 +79,7 @@
 After doing some checkings with layer 3 and layer 4 protocol (such as <code>tcp_error</code>), the <code>resolve_normal_ct</code> will search
 the associate conntrack or build a new one and assign it to the <code>skb-&gt;_nfct</code>.</p>
 <p>In <code>resolve_normal_ct</code>, it will build the <code>nf_conntrack_tuple</code> from <code>skb</code> with its <code>l3proto</code> and <code>l4proto</code> respectively.</p>
-<div class="highlight"><pre><span></span><span class="n">memset</span><span class="p">(</span><span class="n">tuple</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">tuple</span><span class="p">));</span>
+<div class="highlight"><pre><span></span><code><span class="n">memset</span><span class="p">(</span><span class="n">tuple</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">tuple</span><span class="p">));</span>
 
 <span class="n">tuple</span><span class="o">-&gt;</span><span class="n">src</span><span class="p">.</span><span class="n">l3num</span> <span class="o">=</span> <span class="n">l3num</span><span class="p">;</span>
 <span class="k">if</span> <span class="p">(</span><span class="n">l3proto</span><span class="o">-&gt;</span><span class="n">pkt_to_tuple</span><span class="p">(</span><span class="n">skb</span><span class="p">,</span> <span class="n">nhoff</span><span class="p">,</span> <span class="n">tuple</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
@@ -89,14 +89,14 @@ the associate conntrack or build a new one and assign it to the <code>skb-&gt;_n
 <span class="n">tuple</span><span class="o">-&gt;</span><span class="n">dst</span><span class="p">.</span><span class="n">dir</span> <span class="o">=</span> <span class="n">IP_CT_DIR_ORIGINAL</span><span class="p">;</span>
 
 <span class="k">return</span> <span class="n">l4proto</span><span class="o">-&gt;</span><span class="n">pkt_to_tuple</span><span class="p">(</span><span class="n">skb</span><span class="p">,</span> <span class="n">dataoff</span><span class="p">,</span> <span class="n">net</span><span class="p">,</span> <span class="n">tuple</span><span class="p">);</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>Next, netfilter will search the tuple hash to get the conntrack if it existed. If the conntrack is not found, netfilter
 will build a new one in <code>init_conntrack</code>.</p>
 <p>At <code>init_conntrack</code>, netfilter will <strong>initialize the reply tuple by reverting the original tuple</strong> using
 <code>nf_ct_invert_tuple</code>.</p>
-<div class="highlight"><pre><span></span><span class="c1">// inverse is the reply tuple and orig is the original tuple</span>
+<div class="highlight"><pre><span></span><code><span class="c1">// inverse is the reply tuple and orig is the original tuple</span>
 
 <span class="n">memset</span><span class="p">(</span><span class="n">inverse</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">inverse</span><span class="p">));</span>
 
@@ -108,7 +108,7 @@ will build a new one in <code>init_conntrack</code>.</p>
 
 <span class="n">inverse</span><span class="o">-&gt;</span><span class="n">dst</span><span class="p">.</span><span class="n">protonum</span> <span class="o">=</span> <span class="n">orig</span><span class="o">-&gt;</span><span class="n">dst</span><span class="p">.</span><span class="n">protonum</span><span class="p">;</span>
 <span class="k">return</span> <span class="n">l4proto</span><span class="o">-&gt;</span><span class="n">invert_tuple</span><span class="p">(</span><span class="n">inverse</span><span class="p">,</span> <span class="n">orig</span><span class="p">);</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>Finally, the newly initialize conntrack will be assign with the original and reply tuple. The upcoming <code>skb</code> can build
@@ -116,19 +116,19 @@ the tuple based on <code>skb</code>'s 5 tuple to find the conntrack in the tuple
 <h2 id="when-nat-comes-in">When NAT comes in</h2>
 <p>When doing NAT, the reply tuple will be modified based on the altered IP/port.</p>
 <p>Before NAT</p>
-<div class="highlight"><pre><span></span><span class="n">orig</span> <span class="n">tuple</span><span class="p">:</span> <span class="n">src</span><span class="o">=</span><span class="mi">192</span><span class="p">.</span><span class="mi">168</span><span class="p">.</span><span class="mi">1</span><span class="p">.</span><span class="mi">14</span> <span class="n">dst</span><span class="o">=</span><span class="mi">13</span><span class="p">.</span><span class="mi">94</span><span class="p">.</span><span class="mi">40</span><span class="p">.</span><span class="mi">40</span> <span class="n">sport</span><span class="o">=</span><span class="mi">37611</span> <span class="n">dport</span><span class="o">=</span><span class="mi">443</span>
-<span class="n">repl</span> <span class="n">tuple</span><span class="p">:</span> <span class="n">src</span><span class="o">=</span><span class="mi">13</span><span class="p">.</span><span class="mi">94</span><span class="p">.</span><span class="mi">40</span><span class="p">.</span><span class="mi">40</span> <span class="n">dst</span><span class="o">=</span><span class="mi">192</span><span class="p">.</span><span class="mi">168</span><span class="p">.</span><span class="mi">1</span><span class="p">.</span><span class="mi">14</span> <span class="n">sport</span><span class="o">=</span><span class="mi">443</span> <span class="n">dport</span><span class="o">=</span><span class="mi">37611</span>
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="err">orig tuple: src=192.168.1.14 dst=13.94.40.40 sport=37611 dport=443</span>
+<span class="err">repl tuple: src=13.94.40.40 dst=192.168.1.14 sport=443 dport=37611</span>
+</code></pre></div>
 
 
 <p>After NAT</p>
-<div class="highlight"><pre><span></span><span class="n">orig</span> <span class="n">tuple</span><span class="p">:</span> <span class="n">src</span><span class="o">=</span><span class="mi">192</span><span class="p">.</span><span class="mi">168</span><span class="p">.</span><span class="mi">1</span><span class="p">.</span><span class="mi">14</span> <span class="n">dst</span><span class="o">=</span><span class="mi">13</span><span class="p">.</span><span class="mi">94</span><span class="p">.</span><span class="mi">40</span><span class="p">.</span><span class="mi">40</span> <span class="n">sport</span><span class="o">=</span><span class="mi">37611</span> <span class="n">dport</span><span class="o">=</span><span class="mi">443</span>
-<span class="n">repl</span> <span class="n">tuple</span><span class="p">:</span> <span class="n">src</span><span class="o">=</span><span class="mi">13</span><span class="p">.</span><span class="mi">94</span><span class="p">.</span><span class="mi">40</span><span class="p">.</span><span class="mi">40</span> <span class="n">dst</span><span class="o">=</span><span class="mi">192</span><span class="p">.</span><span class="mi">168</span><span class="p">.</span><span class="mi">1</span><span class="p">.</span><span class="mi">1</span> <span class="n">sport</span><span class="o">=</span><span class="mi">443</span> <span class="n">dport</span><span class="o">=</span><span class="mi">37611</span>
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="err">orig tuple: src=192.168.1.14 dst=13.94.40.40 sport=37611 dport=443</span>
+<span class="err">repl tuple: src=13.94.40.40 dst=192.168.1.1 sport=443 dport=37611</span>
+</code></pre></div>
 
 
 <p>The reply tuple's destination will be changed to the router's ip address during <code>nf_nat_setup_info</code>.</p>
-<div class="highlight"><pre><span></span><span class="n">nf_ct_invert_tuplepr</span><span class="p">(</span><span class="o">&amp;</span><span class="n">curr_tuple</span><span class="p">,</span>
+<div class="highlight"><pre><span></span><code><span class="n">nf_ct_invert_tuplepr</span><span class="p">(</span><span class="o">&amp;</span><span class="n">curr_tuple</span><span class="p">,</span>
              <span class="o">&amp;</span><span class="n">ct</span><span class="o">-&gt;</span><span class="n">tuplehash</span><span class="p">[</span><span class="n">IP_CT_DIR_REPLY</span><span class="p">].</span><span class="n">tuple</span><span class="p">);</span>
 
 <span class="n">get_unique_tuple</span><span class="p">(</span><span class="o">&amp;</span><span class="n">new_tuple</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">curr_tuple</span><span class="p">,</span> <span class="n">range</span><span class="p">,</span> <span class="n">ct</span><span class="p">,</span> <span class="n">maniptype</span><span class="p">);</span>
@@ -150,11 +150,11 @@ the tuple based on <code>skb</code>'s 5 tuple to find the conntrack in the tuple
         <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">nfct_seqadj_ext_add</span><span class="p">(</span><span class="n">ct</span><span class="p">))</span>
             <span class="k">return</span> <span class="n">NF_DROP</span><span class="p">;</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>Finally, we can doing the <code>skb</code> NAT by using the conntrack tuple directly at <code>nf_nat_manip_pkt</code>.</p>
-<div class="highlight"><pre><span></span><span class="k">static</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">nf_nat_manip_pkt</span><span class="p">(</span><span class="k">struct</span> <span class="n">sk_buff</span> <span class="o">*</span><span class="n">skb</span><span class="p">,</span> <span class="k">struct</span> <span class="n">nf_conn</span> <span class="o">*</span><span class="n">ct</span><span class="p">,</span>
+<div class="highlight"><pre><span></span><code><span class="k">static</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">nf_nat_manip_pkt</span><span class="p">(</span><span class="k">struct</span> <span class="n">sk_buff</span> <span class="o">*</span><span class="n">skb</span><span class="p">,</span> <span class="k">struct</span> <span class="n">nf_conn</span> <span class="o">*</span><span class="n">ct</span><span class="p">,</span>
                      <span class="k">enum</span> <span class="n">nf_nat_manip_type</span> <span class="n">mtype</span><span class="p">,</span>
                      <span class="k">enum</span> <span class="n">ip_conntrack_dir</span> <span class="n">dir</span><span class="p">)</span>
 <span class="p">{</span>
@@ -173,21 +173,21 @@ the tuple based on <code>skb</code>'s 5 tuple to find the conntrack in the tuple
 
     <span class="k">return</span> <span class="n">NF_ACCEPT</span><span class="p">;</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>At <code>nf_nat_ipv4_manip_pkt</code> and <code>tcp_manip_pkt</code>. The <code>skb</code>'s IP and port will be altered based on the target tuple information.</p>
-<div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="n">maniptype</span> <span class="o">==</span> <span class="n">NF_NAT_MANIP_SRC</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="p">(</span><span class="n">maniptype</span> <span class="o">==</span> <span class="n">NF_NAT_MANIP_SRC</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">iph</span><span class="o">-&gt;</span><span class="n">saddr</span> <span class="o">=</span> <span class="n">target</span><span class="o">-&gt;</span><span class="n">src</span><span class="p">.</span><span class="n">u3</span><span class="p">.</span><span class="n">ip</span><span class="p">;</span>
     <span class="n">csum_replace4</span><span class="p">(</span><span class="o">&amp;</span><span class="n">iph</span><span class="o">-&gt;</span><span class="n">check</span><span class="p">,</span> <span class="n">iph</span><span class="o">-&gt;</span><span class="n">saddr</span><span class="p">,</span> <span class="n">target</span><span class="o">-&gt;</span><span class="n">src</span><span class="p">.</span><span class="n">u3</span><span class="p">.</span><span class="n">ip</span><span class="p">);</span>
 <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
     <span class="n">csum_replace4</span><span class="p">(</span><span class="o">&amp;</span><span class="n">iph</span><span class="o">-&gt;</span><span class="n">check</span><span class="p">,</span> <span class="n">iph</span><span class="o">-&gt;</span><span class="n">daddr</span><span class="p">,</span> <span class="n">target</span><span class="o">-&gt;</span><span class="n">dst</span><span class="p">.</span><span class="n">u3</span><span class="p">.</span><span class="n">ip</span><span class="p">);</span>
     <span class="n">iph</span><span class="o">-&gt;</span><span class="n">daddr</span> <span class="o">=</span> <span class="n">target</span><span class="o">-&gt;</span><span class="n">dst</span><span class="p">.</span><span class="n">u3</span><span class="p">.</span><span class="n">ip</span><span class="p">;</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 
 
-<div class="highlight"><pre><span></span><span class="n">hdr</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">tcphdr</span> <span class="o">*</span><span class="p">)(</span><span class="n">skb</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">+</span> <span class="n">hdroff</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><code><span class="n">hdr</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">tcphdr</span> <span class="o">*</span><span class="p">)(</span><span class="n">skb</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">+</span> <span class="n">hdroff</span><span class="p">);</span>
 
 <span class="k">if</span> <span class="p">(</span><span class="n">maniptype</span> <span class="o">==</span> <span class="n">NF_NAT_MANIP_SRC</span><span class="p">)</span> <span class="p">{</span>
     <span class="cm">/* Get rid of src port */</span>
@@ -201,7 +201,7 @@ the tuple based on <code>skb</code>'s 5 tuple to find the conntrack in the tuple
 
 <span class="n">oldport</span> <span class="o">=</span> <span class="o">*</span><span class="n">portptr</span><span class="p">;</span>
 <span class="o">*</span><span class="n">portptr</span> <span class="o">=</span> <span class="n">newport</span><span class="p">;</span>
-</pre></div>
+</code></pre></div>
     </div><!-- .content -->
 
     <h2>Comments</h2>

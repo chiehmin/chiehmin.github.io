@@ -76,28 +76,28 @@
 
     <div class="article">
       <p>When playing CTF, it is often to use a dash character to get an interactable shell after pwning a binary.</p>
-<div class="highlight"><pre><span></span>cat payload - <span class="p">|</span> ./binary
+<div class="highlight"><pre><span></span><code>cat payload - <span class="p">|</span> ./binary
 
 <span class="c1"># is the same as</span>
 cat payload /dev/stdin <span class="p">|</span> ./binary
-</pre></div>
+</code></pre></div>
 
 
 <p>Other commands such as <code>wget</code> also use dash to represent stdout.</p>
-<div class="highlight"><pre><span></span>wget fatminmin.com -O -
+<div class="highlight"><pre><span></span><code>wget fatminmin.com -O -
 
 <span class="c1"># is the same as</span>
 wget fatminmin.com -O /dev/stdout
-</pre></div>
+</code></pre></div>
 
 
 <p>Another example is <code>socat</code>.</p>
-<div class="highlight"><pre><span></span><span class="c1"># stream TCP-LISTEN:5566 to ./a.out binary</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># stream TCP-LISTEN:5566 to ./a.out binary</span>
 socat TCP-LISTEN:5566,fork EXEC:./a.out
 
 <span class="c1"># - is used to stream input/output from TCP-LISTEN:5566 to stdin/stdout</span>
 socat TCP-LISTEN:5566,fork -
-</pre></div>
+</code></pre></div>
 
 
 <p>I used to think it is a convention supported by shells such as <code>bash</code> and <code>zsh</code>. However, I recently found out that it is a convention supported by individual UNIX programs not by the shells as stated in the following links.</p>

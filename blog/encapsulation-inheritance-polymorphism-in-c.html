@@ -81,14 +81,14 @@
 <li>Hide the implementation and data from the users</li>
 </ol>
 <p>nas.h</p>
-<div class="highlight"><pre><span></span><span class="k">struct</span> <span class="n">Nas</span><span class="p">;</span> <span class="c1">// forward declaration</span>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span> <span class="n">Nas</span><span class="p">;</span> <span class="c1">// forward declaration</span>
 <span class="k">struct</span> <span class="n">Nas</span><span class="o">*</span> <span class="nf">newNas</span><span class="p">(</span><span class="kt">int</span> <span class="n">bays</span><span class="p">,</span> <span class="kt">double</span> <span class="n">price</span><span class="p">);</span>
 <span class="kt">double</span> <span class="nf">pricePerBay</span><span class="p">(</span><span class="k">struct</span> <span class="n">Nas</span> <span class="o">*</span><span class="n">nas</span><span class="p">);</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>nas.c</p>
-<div class="highlight"><pre><span></span><span class="k">struct</span> <span class="n">Nas</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span> <span class="n">Nas</span> <span class="p">{</span>
     <span class="kt">int</span> <span class="n">bays</span><span class="p">;</span>
     <span class="kt">double</span> <span class="n">price</span><span class="p">;</span>
 <span class="p">};</span>
@@ -102,21 +102,21 @@
 <span class="p">{</span>
     <span class="k">return</span> <span class="n">nas</span><span class="o">-&gt;</span><span class="n">price</span> <span class="o">/</span> <span class="n">nas</span><span class="o">-&gt;</span><span class="n">bays</span><span class="p">;</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>Users can not access of the member of Nas but only its functions because of the power of forward declaration. (Users can only use the pointer of Nas)</p>
 <h2 id="inheritance">Inheritance</h2>
 <p>Put the parent class as first member.</p>
 <p>10g_nas.h</p>
-<div class="highlight"><pre><span></span><span class="k">struct</span> <span class="n">TenGNas</span><span class="p">;</span> <span class="c1">// forward declaration</span>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span> <span class="n">TenGNas</span><span class="p">;</span> <span class="c1">// forward declaration</span>
 <span class="k">struct</span> <span class="n">TenGNas</span><span class="o">*</span> <span class="nf">newTenGNas</span><span class="p">(</span><span class="kt">bool</span> <span class="n">isSFP</span><span class="p">,</span> <span class="kt">int</span> <span class="n">bays</span><span class="p">,</span> <span class="kt">double</span> <span class="n">price</span><span class="p">);</span>
 <span class="kt">bool</span> <span class="nf">isSFP</span><span class="p">(</span><span class="k">struct</span> <span class="n">TenGNas</span> <span class="o">*</span><span class="n">nas</span><span class="p">);</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>10g_nas.c</p>
-<div class="highlight"><pre><span></span><span class="k">struct</span> <span class="n">TenGNas</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span> <span class="n">TenGNas</span> <span class="p">{</span>
     <span class="k">struct</span> <span class="n">Nas</span> <span class="n">base</span><span class="p">;</span>
     <span class="kt">bool</span> <span class="n">isSFP</span><span class="p">;</span>
 <span class="p">};</span>
@@ -131,11 +131,11 @@
 <span class="p">{</span>
     <span class="k">return</span> <span class="n">nas</span><span class="o">-&gt;</span><span class="n">isSFP</span><span class="p">;</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>client.c</p>
-<div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
 <span class="p">{</span>
     <span class="k">struct</span> <span class="n">TenGNas</span> <span class="o">*</span><span class="n">nas</span> <span class="o">=</span> <span class="n">makeTenGNas</span><span class="p">(</span><span class="nb">true</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
     <span class="n">printf</span> <span class="p">(</span><span class="s">&quot;SPF: %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">isSFP</span><span class="p">(</span><span class="n">nas</span><span class="p">)</span> <span class="o">?</span> <span class="s">&quot;yes&quot;</span> <span class="o">:</span> <span class="s">&quot;no&quot;</span><span class="p">);</span>
@@ -143,14 +143,14 @@
 
     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 
 
 <p><code>(struct Nas*)nas</code> up-casting will be done by OO-language automatically, however, in C we have to do it manually.</p>
 <h2 id="polymorphism">Polymorphism</h2>
 <p>Polymorphism can be done by using function pointers point to different functions for different sub-class.</p>
 <p>nas.h</p>
-<div class="highlight"><pre><span></span><span class="k">struct</span> <span class="n">Nas</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span> <span class="n">Nas</span><span class="p">;</span>
 <span class="k">struct</span> <span class="n">DS918</span><span class="p">;</span>
 <span class="k">struct</span> <span class="n">DS218</span><span class="p">;</span>
 
@@ -158,11 +158,11 @@
 <span class="k">struct</span> <span class="n">DS218</span><span class="o">*</span> <span class="nf">makeDS218</span><span class="p">();</span>
 
 <span class="kt">void</span> <span class="nf">printModelName</span><span class="p">(</span><span class="k">struct</span> <span class="o">*</span><span class="n">Nas</span> <span class="n">nas</span><span class="p">);</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>nas.c</p>
-<div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">printModelNameDS918</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span> <span class="nf">printModelNameDS918</span><span class="p">()</span>
 <span class="p">{</span>
     <span class="n">puts</span><span class="p">(</span><span class="s">&quot;DS918&quot;</span><span class="p">);</span>
 <span class="p">}</span>
@@ -197,11 +197,11 @@
 <span class="p">{</span>
     <span class="n">nas</span><span class="o">-&gt;</span><span class="n">printModelName</span><span class="p">();</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>client.c</p>
-<div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
 <span class="p">{</span>
     <span class="k">struct</span> <span class="n">DS918</span> <span class="o">*</span><span class="n">ds918</span> <span class="o">=</span> <span class="n">makeDS918</span><span class="p">();</span>
     <span class="n">printModelName</span><span class="p">((</span><span class="k">struct</span> <span class="n">Nas</span><span class="o">*</span><span class="p">)</span><span class="n">ds918</span><span class="p">);</span>
@@ -209,7 +209,7 @@
     <span class="k">struct</span> <span class="n">DS218</span> <span class="o">*</span><span class="n">ds218</span> <span class="o">=</span> <span class="n">makeDS218</span><span class="p">();</span>
     <span class="n">printModelName</span><span class="p">((</span><span class="k">struct</span> <span class="n">Nas</span><span class="o">*</span><span class="p">)</span><span class="n">ds218</span><span class="p">);</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>Now printModelName is a polymorphism function.</p>
