@@ -78,30 +78,30 @@
       <p>I have an application which has two CPU intensive components which I call them as service A and service B. Service A will spawn a new process to deal with a new request. However service B only has fixed processes to deal with the workload. So when service A is under high load, it will spawn lots of cpu-intensive processes to deal with the requests. This behavior will cause service A to consume more than 90% of total CPU resource which will result service B to be very slow and unresponsive.</p>
 <p>To deal with this issue, I would like to <strong>distribute the CPU resouce equally between the two services</strong>. Using CPU Cgroup to fix the situation comes to my head. </p>
 <p>Cgroup uses a tree hierarchy to define how many resource its children can use under the root. For example, if we construct a CPU cgroup like this:</p>
-<div class="highlight"><pre><span></span><code><span class="err">    test</span>
+<div class="highlight"><pre><span></span><span class="err">    test</span>
 <span class="err">    /  \</span>
 <span class="err">   t1  t2</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>Each group (test, t1 and t2) has 1024 (default value) cpu share. If t1 and t2 both contain cpu-intensive processes, no matter how many processces are under t1, the maximum cpu utilization t1 can get is <code>(1024 / (1024 + 1024))</code> which is <code>50%</code>.</p>
-<div class="highlight"><pre><span></span><code><span class="n">cgcreate</span> <span class="o">-</span><span class="k">g</span> <span class="n">cpu</span><span class="p">:</span><span class="n">test</span>
+<div class="highlight"><pre><span></span><span class="n">cgcreate</span> <span class="o">-</span><span class="k">g</span> <span class="n">cpu</span><span class="p">:</span><span class="n">test</span>
 <span class="n">cgcreate</span> <span class="o">-</span><span class="k">g</span> <span class="n">cpu</span><span class="p">:</span><span class="n">test</span><span class="o">/</span><span class="n">t1</span>
 <span class="n">cgcreate</span> <span class="o">-</span><span class="k">g</span> <span class="n">cpu</span><span class="p">:</span><span class="n">test</span><span class="o">/</span><span class="n">t2</span>
 
 <span class="n">cgexec</span> <span class="o">-</span><span class="k">g</span> <span class="n">cpuset</span><span class="p">:</span><span class="n">test</span> <span class="o">-</span><span class="k">g</span> <span class="n">cpu</span><span class="p">:</span><span class="n">test</span><span class="o">/</span><span class="n">t1</span> <span class="p">.</span><span class="o">/</span><span class="n">busy11</span> <span class="o">&amp;</span>  <span class="o">#</span> <span class="mi">25</span><span class="o">%</span> <span class="n">cpu</span>
 <span class="n">cgexec</span> <span class="o">-</span><span class="k">g</span> <span class="n">cpuset</span><span class="p">:</span><span class="n">test</span> <span class="o">-</span><span class="k">g</span> <span class="n">cpu</span><span class="p">:</span><span class="n">test</span><span class="o">/</span><span class="n">t1</span> <span class="p">.</span><span class="o">/</span><span class="n">busy12</span> <span class="o">&amp;</span>  <span class="o">#</span> <span class="mi">25</span><span class="o">%</span> <span class="n">cpu</span>
 <span class="n">cgexec</span> <span class="o">-</span><span class="k">g</span> <span class="n">cpuset</span><span class="p">:</span><span class="n">test</span> <span class="o">-</span><span class="k">g</span> <span class="n">cpu</span><span class="p">:</span><span class="n">test</span><span class="o">/</span><span class="n">t2</span> <span class="p">.</span><span class="o">/</span><span class="n">busy2</span> <span class="o">&amp;</span>   <span class="o">#</span> <span class="mi">50</span><span class="o">%</span> <span class="n">cpu</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>An interesting fact to know is we can also run processes under to test group which is the root of t1 and t2. If we run a process under the test group, it is the same as creating an individual subgroup which has the same cpu share as root group's setting under the test group and run the process in it.</p>
-<div class="highlight"><pre><span></span><code><span class="err">cgexec -g cpuset:test -g cpu:test ./busy01 &amp;     # 25% cpu</span>
+<div class="highlight"><pre><span></span><span class="err">cgexec -g cpuset:test -g cpu:test ./busy01 &amp;     # 25% cpu</span>
 <span class="err">cgexec -g cpuset:test -g cpu:test ./busy02 &amp;     # 25% cpu</span>
 <span class="err">cgexec -g cpuset:test -g cpu:test/t1 ./busy11 &amp;  # 12.5% cpu</span>
 <span class="err">cgexec -g cpuset:test -g cpu:test/t1 ./busy12 &amp;  # 12.5% cpu</span>
 <span class="err">cgexec -g cpuset:test -g cpu:test/t2 ./busy2 &amp;   # 50% cpu</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>The calculation behavior explaination can be found at <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/resource_management_guide/process_behavior">PROCESS BEHAVIOR IN THE ROOT CONTROL GROUP</a>.</p>

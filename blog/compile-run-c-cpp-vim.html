@@ -76,11 +76,11 @@
 
     <div class="article">
       <p>When practicing coding contest, the need to compile and run a single C++ file very quickly is very often. In vim, I map <code>F7</code> to call <code>g++</code> to compile the current file and <code>F8</code> to run the compiled binary instantly. The <code>%</code> symbol stands for the filename of the current editing file in the vim command mode. I can use the <code>expand('%:e')</code> to extract the file extension and <code>%&lt;</code> for filename without extension. The config snippet is shown below.</p>
-<div class="highlight"><pre><span></span><code><span class="err">if &quot;cpp&quot; == expand(&#39;%:e&#39;) || &quot;c&quot; == expand(&#39;%:e&#39;)</span>
+<div class="highlight"><pre><span></span><span class="err">if &quot;cpp&quot; == expand(&#39;%:e&#39;) || &quot;c&quot; == expand(&#39;%:e&#39;)</span>
 <span class="err">    noremap &lt;F7&gt; :! g++ % -o %&lt;</span>
 <span class="err">    noremap &lt;F8&gt; :! ./%&lt;</span>
 <span class="err">endif</span>
-</code></pre></div>
+</pre></div>
     </div><!-- .content -->
 
     <h2>Comments</h2>

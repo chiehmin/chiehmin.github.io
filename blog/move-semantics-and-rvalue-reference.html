@@ -78,7 +78,7 @@
       <p>I was confused with the move semantics and the rvalue reference because I thought they are tight together to fix a single problem. However, they are two differenct ideas and <strong>rvalue reference is just a method to help implement move semantics much easier!</strong></p>
 <p>Rvalue reference is a lvalue which can hold a reference to a rvalue (can be thought as a temporary which can not be addressed in program). Before C++11, we can use <code>const T&amp;</code> as rvalue reference but the referenced value can not be modified by the reference. In C++11, we can simple use <code>T&amp;&amp;</code> to reference the rvalue and we can use the reference to modify the rvalue.</p>
 <p>Move semantics is meant to <strong>steal the resource held by another object to prevent unwanted copy</strong>. So in C++11, most of the stl classes have defined move constructor, move assignment to transfer(not copy) the resources from the temporary object to current object directly. Binary operators can also be benefit from the rvalue references, because the temporary values produces in the middle calculation can be used directly.</p>
-<div class="highlight"><pre><span></span><code><span class="n">string</span> <span class="nf">foo</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">string</span> <span class="nf">foo</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">)</span>
 <span class="n">string</span> <span class="n">bar</span><span class="p">(</span><span class="s">&quot;world&quot;</span><span class="p">);</span>
 
 <span class="c1">// string operator+ (const string&amp; lhs, const string&amp; rhs);</span>
@@ -88,17 +88,17 @@
 
 <span class="c1">// foo + bar creates a temporary which can be captured by rvalue reference</span>
 <span class="c1">// finally, the result use move assignment to transfer the resources in the temporary object to result</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><code>std::move</code> is an another confusing function for me in the past. Actually, it is just a <strong>cast function which can cast any value to rvalue reference</strong>.</p>
-<div class="highlight"><pre><span></span><code><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">v1</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">};</span>
+<div class="highlight"><pre><span></span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">v1</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">};</span>
 <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">v1</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>  <span class="c1">// size=3</span>
 
 <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">v2</span> <span class="o">=</span> <span class="n">move</span><span class="p">(</span><span class="n">v1</span><span class="p">);</span>
 <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">v1</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>  <span class="c1">// size=0, because the internal data is transfer to v2 by the move assignment</span>
 <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">v2</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>  <span class="c1">// size=3</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>Because move constructor and move assignment is designed to take temporary rvalue as argument, it should be safe to steal the resource from the temporary. If you use <code>std::move</code> on a lvalue and pass it to a move constructor and move assignment, the internal data of the lvaue should be thought as <strong>transfered</strong>. This is why the <code>v1</code> in the above example is empty after moved and assigned (it depends on the implementation of the move constructor and move assignment implementation in different classes).</p>

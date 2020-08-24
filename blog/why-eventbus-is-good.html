@@ -76,10 +76,10 @@
 
     <div class="article">
       <p>When developing Android apps, it is common to use <code>intent</code> to transfer objects between different components in the same app. For example:</p>
-<div class="highlight"><pre><span></span><code><span class="n">Intent</span> <span class="n">it</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="n">TargetActivity</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><span class="n">Intent</span> <span class="n">it</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="n">TargetActivity</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
 <span class="n">it</span><span class="p">.</span><span class="na">putExtra</span><span class="p">(</span><span class="s">&quot;key&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>
 <span class="n">startActivity</span><span class="p">(</span><span class="n">it</span><span class="p">);</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>However, this method comes with two problems. First, the object to be transfered needs to be <code>Parceble</code>. Second, if you are passing a big object or multiple objects, passing data though IPC is slow and inefficient. </p>
@@ -87,13 +87,13 @@
 <p>Whenever you call startAcitvity, you are actually calling <code>startActivity</code> method in <strong>AMS</strong>(ActivityManagerService) through <strong>binder IPC</strong>. Binder is an RPC(Remote Procedure Call) mechanism, binder servers(ie. ActivityManagerService) expose their method for client to use. And the data to be transfered is carried by <code>Parcel</code>. <code>Intent</code> called <code>writeToParcel</code> to write all its data into a parcel and then transfer it into the AMS. So the whole procedure works like this, app opened <code>/dev/binder</code>, binder driver uses <code>copy_from_user</code> to copy the data to be transfered into binder driver, AMS uses <code>mmap</code> call to binder device to access the page that contains the data. Then AMS starts the targetActivity and uses the same way to send the data into the targetActivity. </p>
 <h2 id="passing-data-in-the-same-app-through-ipc-is-very-weird-and-slow">Passing data in the same app through IPC is very weird and slow</h2>
 <p>Different components in the same app are reside in the same process(unless you specify <code>process</code> attribute in the xml), so we don't need to use IPC the transfer the data. So a common model is using <code>Application Singleton</code> to access data. For example:</p>
-<div class="highlight"><pre><span></span><code><span class="c1">// srcActivity</span>
+<div class="highlight"><pre><span></span><span class="c1">// srcActivity</span>
 <span class="n">getApplication</span><span class="p">().</span><span class="na">xxxData</span> <span class="o">=</span> <span class="n">data</span><span class="p">;</span>
 <span class="n">startActivity</span><span class="p">(</span><span class="k">new</span> <span class="n">Intent</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="n">TargetActivity</span><span class="p">.</span><span class="na">class</span><span class="p">));</span>
 
 <span class="c1">// targetActivity</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">getApplication</span><span class="p">().</span><span class="na">xxxData</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>This approach is fast and easy, however when the project comes big, managing all the field in the 

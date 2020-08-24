@@ -79,7 +79,7 @@
 interesting tricks I learned.</p>
 <h2 id="get-the-number-of-elements-in-a-enum-type">Get the number of elements in a <code>enum</code> type</h2>
 <p>The need for getting the number of elements in a <code>enum</code> type is common. For example, <a href="https://elixir.free-electrons.com/linux/v4.13.6/source/include/net/netfilter/nf_conntrack_extend.h#L8"><code>enum nf_ct_ext_id</code></a> is defined in linux kernel to specify the type of conntrack extension being used. We may need to know how many extensions are defined in the kernel. So adding the <code>NF_CT_EXT_NUM</code> at the end of the <code>enum</code> can do the job immediately. And adding or removing extention type in the <code>enum</code> will change the value of <code>NF_CT_EXT_NUM</code> automatically.</p>
-<div class="highlight"><pre><span></span><code><span class="k">enum</span> <span class="n">nf_ct_ext_id</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><span class="k">enum</span> <span class="n">nf_ct_ext_id</span> <span class="p">{</span>
     <span class="n">NF_CT_EXT_HELPER</span><span class="p">,</span>
     <span class="n">NF_CT_EXT_NAT</span><span class="p">,</span>
     <span class="n">NF_CT_EXT_SEQADJ</span><span class="p">,</span>
@@ -87,12 +87,12 @@ interesting tricks I learned.</p>
     <span class="n">NF_CT_EXT_TSTAMP</span><span class="p">,</span>
     <span class="n">NF_CT_EXT_NUM</span><span class="p">,</span>
 <span class="p">};</span>
-</code></pre></div>
+</pre></div>
 
 
 <h2 id="using-enum-to-define-constants">Using <code>enum</code> to define constants</h2>
 <p>The first look at <a href="http://elixir.free-electrons.com/linux/latest/source/include/uapi/linux/netfilter/nf_conntrack_common.h#L41"><code>enum ip_conntrack_status</code></a> is a little overwhelming for me. After digging into the code, I found the use of <code>enum ip_conntrack_status</code> is for <strong>defining constant</strong>. The kernel does not use <code>enum ip_conntrack_status</code> as a type directly (You can found the <a href="http://elixir.free-electrons.com/linux/latest/ident/ip_conntrack_status">references</a> to the type is none.). And you can also find a lot of projects use <strong>untagged enum</strong> to define constant. The following code snippet is from <a href="https://git.netfilter.org/iptables/tree/extensions/libxt_MARK.c#n23">iptable project</a>.</p>
-<div class="highlight"><pre><span></span><code><span class="k">enum</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><span class="k">enum</span> <span class="p">{</span>
     <span class="n">O_SET_MARK</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="n">O_AND_MARK</span><span class="p">,</span>
     <span class="n">O_OR_MARK</span><span class="p">,</span>
@@ -106,7 +106,7 @@ interesting tricks I learned.</p>
     <span class="n">F_ANY</span>       <span class="o">=</span> <span class="n">F_SET_MARK</span> <span class="o">|</span> <span class="n">F_AND_MARK</span> <span class="o">|</span> <span class="n">F_OR_MARK</span> <span class="o">|</span>
                   <span class="n">F_XOR_MARK</span> <span class="o">|</span> <span class="n">F_SET_XMARK</span><span class="p">,</span>
 <span class="p">};</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>The discussion for using <code>enum</code> to define constants can be found in the following links.</p>
@@ -122,16 +122,16 @@ interesting tricks I learned.</p>
 <h3 id="sizeofenum_type-sizeofint-which-may-not-be-acceptable-for-some-applications"><code>sizeof(enum_type) == sizeof(int)</code> which may not be acceptable for some applications</h3>
 <p>Although using <code>enum</code> to define a new type is common, but in most compiler the size of a <code>enum</code> type is the same as an integer. In some memory limited application, we may want the limit the size of enum type.</p>
 <p>In C++11, we can bind the enum type to a existing type. For example:</p>
-<div class="highlight"><pre><span></span><code><span class="k">enum</span> <span class="nl">Color</span> <span class="p">:</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><span class="k">enum</span> <span class="nl">Color</span> <span class="p">:</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="p">{</span>
     <span class="n">Red</span><span class="p">,</span>
     <span class="n">Blue</span><span class="p">,</span>
     <span class="n">Yellow</span>
 <span class="p">};</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>However, in C we don't have this kind of priviledge. I found some code use untagged enum to define constants and assign it to the smaller size variable. For <a href="https://elixir.free-electrons.com/linux/v4.13.6/source/include/uapi/linux/netfilter/xt_connmark.h">example</a>:</p>
-<div class="highlight"><pre><span></span><code><span class="k">enum</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><span class="k">enum</span> <span class="p">{</span>
     <span class="n">XT_CONNMARK_SET</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="n">XT_CONNMARK_SAVE</span><span class="p">,</span>
     <span class="n">XT_CONNMARK_RESTORE</span>
@@ -141,7 +141,7 @@ interesting tricks I learned.</p>
     <span class="n">__u32</span> <span class="n">ctmark</span><span class="p">,</span> <span class="n">ctmask</span><span class="p">,</span> <span class="n">nfmask</span><span class="p">;</span>
     <span class="n">__u8</span> <span class="n">mode</span><span class="p">;</span>
 <span class="p">};</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>The <code>__u8 mode</code> is used the save one of <code>XT_CONNMARK_SET</code>, <code>XT_CONNMARK_SAVE</code>, <code>XT_CONNMARK_RESTORE</code>. Instead of using the <code>enum</code> type directly, this example use only one byte to save the mode.</p>

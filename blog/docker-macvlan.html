@@ -80,12 +80,12 @@
 <p>So, I can launch containers in the same host network subnet easily and quickly.</p>
 <h2 id="instructions">Instructions</h2>
 <p>Create macvlan docker network. The subnet and gateway should be the same as my host network and the <code>parent</code> option should assing to the host ethernet interface.</p>
-<div class="highlight"><pre><span></span><code>$ docker network create -d macvlan --subnet<span class="o">=</span><span class="m">10</span>.1.14.0/24 --gateway<span class="o">=</span><span class="m">10</span>.1.14.1 -o <span class="nv">parent</span><span class="o">=</span>enp5s2 macvlan
-</code></pre></div>
+<div class="highlight"><pre><span></span>$ docker network create -d macvlan --subnet<span class="o">=</span><span class="m">10</span>.1.14.0/24 --gateway<span class="o">=</span><span class="m">10</span>.1.14.1 -o <span class="nv">parent</span><span class="o">=</span>enp5s2 macvlan
+</pre></div>
 
 
 <p>Launch containers with macvlan network.</p>
-<div class="highlight"><pre><span></span><code><span class="err">&gt; $ docker run -ti --network macvlan myubuntu ip addr</span>
+<div class="highlight"><pre><span></span><span class="err">&gt; $ docker run -ti --network macvlan myubuntu ip addr</span>
 <span class="c">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000</span>
 <span class="c">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span>
 <span class="c">    inet 127.0.0.1/8 scope host lo</span>
@@ -98,7 +98,7 @@
 <span class="c">       valid_lft forever preferred_lft forever</span>
 <span class="c">    inet6 fe80::42:aff:fe01:e02/64 scope link tentative</span>
 <span class="c">       valid_lft forever preferred_lft forever</span>
-</code></pre></div>
+</pre></div>
     </div><!-- .content -->
 
     <h2>Comments</h2>
