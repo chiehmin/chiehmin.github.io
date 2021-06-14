@@ -79,15 +79,14 @@
 <p>We have to install <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools">cpptools</a> and <a href="https://marketplace.visualstudio.com/items?itemName=austin.code-gnu-global">C++ Intellisense</a> first. In order to use C++ Intellisense, we have also to install <a href="https://www.gnu.org/software/global/">GNU Global tools</a>. (In fedora, I can simply install GNU Global tools by <code>dnf install global</code>.)</p>
 <p>Second thing is to make the <strong>code-editing aids</strong> feature work, it does not automatically generate the browse.VC.db file on my Fedora 23. I have to press <code>F1</code> to brings up the command palette and type <code>C/Cpp Edit configuration</code>. It will open a <code>c_cpp_properties.json</code> file and simply press <code>ctrl+s</code> you can save it to the <code>.vscode</code> folder under your project folder(You may need to point the <code>includePath</code> to the correct path). After the generating the <code>c_cpp_properties.json</code>, the symbol will start to be tagged and the <strong>code-editing aids</strong> feature will work.</p>
 <p>The next thing is to generate the <code>task.json</code> for automatic build after you press <code>ctrl+shift+b</code>. The first time you press <code>ctrl+shift+b</code> there will be a dialog prompt up asking you edit build configuration. Here I used the <em>other</em> option to manualy use external command to build my code. The second element in the args array means using the current file name as the argument. After setting up the <code>task.json</code>, we can build our code by simply pressing <code>ctrl+shift+b</code>. </p>
-<div class="highlight"><pre><span></span><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
     <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;0.1.0&quot;</span><span class="p">,</span>
     <span class="nt">&quot;command&quot;</span><span class="p">:</span> <span class="s2">&quot;g++&quot;</span><span class="p">,</span>
     <span class="nt">&quot;isShellCommand&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
     <span class="nt">&quot;args&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;-g&quot;</span><span class="p">,</span> <span class="s2">&quot;${file}&quot;</span><span class="p">],</span>
     <span class="nt">&quot;showOutput&quot;</span><span class="p">:</span> <span class="s2">&quot;always&quot;</span>
 <span class="p">}</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>The last thing is to make debugging feature work. First time pressing <code>F5</code> will generate a <code>launch.json</code> under your <code>.vscode</code> folter. Just pointing the <code>program</code> attribute value to you <code>${workspaceRoot}/a.out</code> then you are done(Because our <code>task.json</code> use default output binary name for g++).</p>
 <p>After completing all the settings, you can now build the code by pressing <code>ctrl+shift+b</code> and run it by pressing <code>F5</code>. You can even set breakpoint and debug using the debug feature. The only on drawback is <code>cpptools</code> plugin can not show the content of STL containers even though my GDB supports showing content of STL container. I hope showing STL containers content feature can be added into cpptools soon :).   </p>

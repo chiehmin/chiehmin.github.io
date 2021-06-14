@@ -77,37 +77,34 @@
     <div class="article">
       <p>I was wondering how can we access other services in the cluster just using the name <code>&lt;service name&gt;</code> instead of the full
 domain name <code>&lt;service name&gt;.&lt;namespace&gt;.svc.cluster.local</code>.</p>
-<div class="highlight"><pre><span></span><span class="c1"># run a nginx server</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># run a nginx server</span>
 $ kubectl run nginx --generator<span class="o">=</span>run-pod/v1 --image<span class="o">=</span>nginx
 <span class="c1"># expose pod using service</span>
 $ kubectl expose pods nginx --port<span class="o">=</span><span class="m">80</span>
 <span class="c1"># we can no access the nginx server in the cluster using &lt;service name&gt;</span>
 $ kubectl run <span class="nb">test</span> --image<span class="o">=</span>alpine --restart<span class="o">=</span>Never --rm -i -- wget nginx -O -
 &lt;h1&gt;Welcome to nginx!&lt;/h1&gt;
-</pre></div>
-
+</code></pre></div>
 
 <p>I used to thought the work is done by adding <code>&lt;service name&gt;</code> DNS A record in the CoreDNS. However when doing DNS
 lookup, it always shows me the full domain name.</p>
-<div class="highlight"><pre><span></span>$ kubectl run <span class="nb">test</span> --image<span class="o">=</span>alpine --restart<span class="o">=</span>Never --rm -i -- nslookup nginx
+<div class="highlight"><pre><span></span><code>$ kubectl run <span class="nb">test</span> --image<span class="o">=</span>alpine --restart<span class="o">=</span>Never --rm -i -- nslookup nginx
 Name:      nginx
 Address <span class="m">1</span>: <span class="m">10</span>.107.232.183 nginx.default.svc.cluster.local
-</pre></div>
-
+</code></pre></div>
 
 <p>After some diggings, I found the magic is done by the containers itself using the <code>search</code> field in the <code>/etc/resolv.conf</code>.</p>
-<div class="highlight"><pre><span></span>$ kubectl run <span class="nb">test</span> --image<span class="o">=</span>alpine --restart<span class="o">=</span>Never --rm -i -- cat /etc/resolv.conf
+<div class="highlight"><pre><span></span><code>$ kubectl run <span class="nb">test</span> --image<span class="o">=</span>alpine --restart<span class="o">=</span>Never --rm -i -- cat /etc/resolv.conf
 nameserver <span class="m">10</span>.96.0.10
 search default.svc.cluster.local svc.cluster.local cluster.local
 options ndots:5
-</pre></div>
-
+</code></pre></div>
 
 <p>According to the man page(<code>man resolv.conf</code>), if the dot number is less than <code>ndots:&lt;num&gt;</code>, it will resolve the query by
 appending the domains listed in the <code>search</code> field. For example, <code>nginx</code> will be <code>nginx.default.svc.cluster.local</code>.
 And the answer will be found in CoreDNS directly!</p>
 <p>To inspect the query process, we can use <code>host -v</code></p>
-<div class="highlight"><pre><span></span>$ kubectl run <span class="nb">test</span> --image<span class="o">=</span>minmin-alpine --restart<span class="o">=</span>Never --rm -ti -- host -v fatminmin.com
+<div class="highlight"><pre><span></span><code>$ kubectl run <span class="nb">test</span> --image<span class="o">=</span>minmin-alpine --restart<span class="o">=</span>Never --rm -ti -- host -v fatminmin.com
 Trying <span class="s2">&quot;fatminmin.com.default.svc.cluster.local&quot;</span>
 Trying <span class="s2">&quot;fatminmin.com.svc.cluster.local&quot;</span>
 Trying <span class="s2">&quot;fatminmin.com.cluster.local&quot;</span>
@@ -117,7 +114,7 @@ Trying <span class="s2">&quot;fatminmin.com&quot;</span>
 
 <span class="p">;;</span> ANSWER SECTION:
 fatminmin.com.          <span class="m">30</span>      IN      A       <span class="m">104</span>.18.49.26
-</pre></div>
+</code></pre></div>
     </div><!-- .content -->
 
     <h2>Comments</h2>

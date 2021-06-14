@@ -76,18 +76,17 @@
 
     <div class="article">
       <p>Recently, I was doing a project on Android x86 and I found the image created by Android x86 livecd using NTFS file system format cannot be booted by Qemu.</p>
-<div class="highlight"><pre><span></span>&gt; $ qemu-system-x86_64 -hda base.img --enable-kvm -serial stdio <span class="se">\</span>
+<div class="highlight"><pre><span></span><code>&gt; $ qemu-system-x86_64 -hda base.img --enable-kvm -serial stdio <span class="se">\</span>
 -m 4G -smp <span class="m">4</span> <span class="se">\</span>
 -net nic,vlan<span class="o">=</span><span class="m">0</span> <span class="se">\</span>
 -net user,hostfwd<span class="o">=</span>tcp:127.0.0.1:8001-:8001,hostfwd<span class="o">=</span>tcp:127.0.0.1:5555-:5555 <span class="se">\</span>
 -soundhw all <span class="se">\</span>
 -vga std
-</pre></div>
-
+</code></pre></div>
 
 <p>And I suspected the problem may be caused by the grub bootloader can not be executed correctly. So I tried extracting the kernel and initrd(it is initramfs actually) and passed it to Qemu directly. And it just booted successfully :). Following is my steps:</p>
 <p>1. Check the length of the bootloader (The first 63 sectors)  </p>
-<div class="highlight"><pre><span></span>&gt; $ fdisk -lu 
+<div class="highlight"><pre><span></span><code>&gt; $ fdisk -lu 
 Disk base.img: <span class="m">5</span> GiB, <span class="m">5368709120</span> bytes, <span class="m">10485760</span> sectors
 Units: sectors of <span class="m">1</span> * <span class="nv">512</span> <span class="o">=</span> <span class="m">512</span> bytes
 Sector size <span class="o">(</span>logical/physical<span class="o">)</span>: <span class="m">512</span> bytes / <span class="m">512</span> bytes
@@ -100,11 +99,10 @@ base.img1          <span class="m">63</span> <span class="m">10474379</span> <sp
 
 &gt; $ python -c <span class="s2">&quot;print 63*512&quot;</span>
 <span class="m">32256</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>2. Mount the images with offset 32256 bytes  </p>
-<div class="highlight"><pre><span></span>&gt; $ mkdir <span class="nb">test</span>
+<div class="highlight"><pre><span></span><code>&gt; $ mkdir <span class="nb">test</span>
 &gt; $ sudo mount -o loop,offset<span class="o">=</span><span class="m">32256</span> base.img <span class="nb">test</span>
 &gt; $ <span class="nb">cd</span> test<span class="p">;</span> tree                                                                                                                                                                            
 .
@@ -132,11 +130,10 @@ base.img1          <span class="m">63</span> <span class="m">10474379</span> <sp
     └── stage2_eltorito
 
 <span class="m">4</span> directories, <span class="m">18</span> files
-</pre></div>
-
+</code></pre></div>
 
 <p>3. Check the grub kernel options  </p>
-<div class="highlight"><pre><span></span>&gt; $ cat grub/menu.lst                                                                                                                                                                        
+<div class="highlight"><pre><span></span><code>&gt; $ cat grub/menu.lst                                                                                                                                                                        
 <span class="nv">default</span><span class="o">=</span><span class="m">0</span>
 <span class="nv">timeout</span><span class="o">=</span><span class="m">6</span>
 <span class="nv">splashimage</span><span class="o">=</span>/grub/android-x86.xpm.gz
@@ -157,11 +154,10 @@ title Android-x86 <span class="m">2015</span>-12-07 <span class="o">(</span>Debu
 title Android-x86 <span class="m">2015</span>-12-07 <span class="o">(</span>Debug <span class="nv">video</span><span class="o">=</span>LVDS-1:d<span class="o">)</span>
         kernel /android-2015-12-07/kernel <span class="nv">video</span><span class="o">=</span>LVDS-1:d <span class="nv">root</span><span class="o">=</span>/dev/ram0 androidboot.hardware<span class="o">=</span>sense_svmp <span class="nv">DEBUG</span><span class="o">=</span><span class="m">2</span> <span class="nv">SRC</span><span class="o">=</span>/android-2015-12-07
         initrd /android-2015-12-07/initrd.img
-</pre></div>
-
+</code></pre></div>
 
 <p>4. Pass the parameter and boot it!  </p>
-<div class="highlight"><pre><span></span>&gt; $ qemu-system-x86_64 -hda base.img --enable-kvm <span class="se">\</span>
+<div class="highlight"><pre><span></span><code>&gt; $ qemu-system-x86_64 -hda base.img --enable-kvm <span class="se">\</span>
 -kernel kernel -initrd initrd.img <span class="se">\</span>
 -append <span class="s2">&quot;root=/dev/ram0 androidboot.hardware=sense_svmp SRC=android-2015-12-07&quot;</span> <span class="se">\</span>
 -serial stdio <span class="se">\</span>
@@ -170,8 +166,7 @@ title Android-x86 <span class="m">2015</span>-12-07 <span class="o">(</span>Debu
 -net user,hostfwd<span class="o">=</span>tcp:127.0.0.1:8001-:8001,hostfwd<span class="o">=</span>tcp:127.0.0.1:5555-:5555 <span class="se">\</span>
 -soundhw all <span class="se">\</span>
 -vga std
-</pre></div>
-
+</code></pre></div>
 
 <p><img alt="Result" src="https://fatminmin.com/images/direct_kernel_boot.png"></p>
     </div><!-- .content -->

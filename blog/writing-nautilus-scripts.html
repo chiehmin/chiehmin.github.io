@@ -88,7 +88,7 @@
     position and size of current window</li>
 </ul>
 <p>Therefore, I simply wrote a ruby script to convert the encoding of selected files from simplified chinese/utf16 to traditional chinese/utf8 as following: </p>
-<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env ruby</span>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env ruby</span>
 
 <span class="c1">#log = open(&#39;ruby.log&#39;, &#39;w&#39;)</span>
 
@@ -104,8 +104,7 @@
     <span class="sx">%x[ tr -d &#39;</span><span class="se">\r</span><span class="sx">&#39; &lt; &#39;</span><span class="si">#{</span><span class="n">tmpPath</span><span class="si">}</span><span class="sx">&#39; &gt; &#39;</span><span class="si">#{</span><span class="n">newPath</span><span class="si">}</span><span class="sx">&#39; ]</span>  <span class="c1"># converting CRLF to LF</span>
     <span class="sx">%x[ rm &#39;</span><span class="si">#{</span><span class="n">tmpPath</span><span class="si">}</span><span class="sx">&#39; ]</span>
 <span class="k">end</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Finally, I can easily execute the nautilus script by clicking the menu item in the context menu.</p>
 <p><img alt="script in context menu" src="https://fatminmin.com/images/script_context_menu.png"></p>

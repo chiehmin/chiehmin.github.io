@@ -79,13 +79,12 @@
 <p>I found actually I can invoke the traditional Android x86 installer that can help you install remix os into any disk, using ext4 and getting larger data partition. I can invoke it by simply adding <code>INSTALL=1</code> into boot time parameter list. This parameter will be check by the initrd script as follow:</p>
 <p><img alt="android_x86_initrd" src="https://fatminmin.com/images/android_x86_initrd.png"></p>
 <p>Here I used QEMU/KVM and usb passthrough to install remix os into my 16GB usb disk.</p>
-<div class="highlight"><pre><span></span>qemu-system-x86_64 --enable-kvm -boot d <span class="se">\</span>
+<div class="highlight"><pre><span></span><code>qemu-system-x86_64 --enable-kvm -boot d <span class="se">\</span>
 -cdrom ./Remix_OS_for_PC_64_B2016011402_Alpha_Legacy.iso <span class="se">\</span>
 -smp <span class="m">4</span> -m <span class="m">4096</span> <span class="se">\</span>
 -vga std -usbdevice tablet -soundhw hda <span class="se">\ </span>
 -usb -device usb-host,hostbus<span class="o">=</span><span class="m">3</span>,hostaddr<span class="o">=</span><span class="m">8</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>First, press tab to edit boot parameter at GRUB menu.</p>
 <p><img alt="grub_tab" src="https://fatminmin.com/images/grub_tab.png"></p>

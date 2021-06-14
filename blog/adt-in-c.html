@@ -76,49 +76,47 @@
 
     <div class="article">
       <p>When tracing the code of libnetfilter_conntrack libray, I found the use of abstract data type implementation in C is very interesting and elegant. Its OOP behavior is the same as the following C++ code:</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">nf_conntrack</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">nf_conntrack</span> <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
     <span class="cm">/* some public method...*/</span>
-    <span class="kt">void</span> <span class="n">set_attr</span><span class="p">(</span><span class="k">const</span> <span class="k">enum</span> <span class="n">nf_conntrack_attr</span> <span class="n">type</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">value</span><span class="p">);</span>
-    <span class="kt">void</span><span class="o">*</span> <span class="nf">get_attr</span><span class="p">(</span><span class="k">const</span> <span class="k">enum</span> <span class="n">nf_conntrack_attr</span> <span class="n">type</span><span class="p">);</span>
+    <span class="kt">void</span> <span class="n">set_attr</span><span class="p">(</span><span class="k">const</span> <span class="k">enum</span> <span class="nc">nf_conntrack_attr</span> <span class="n">type</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">value</span><span class="p">);</span>
+    <span class="kt">void</span><span class="o">*</span> <span class="nf">get_attr</span><span class="p">(</span><span class="k">const</span> <span class="k">enum</span> <span class="nc">nf_conntrack_attr</span> <span class="n">type</span><span class="p">);</span>
     <span class="kt">int</span> <span class="nf">compare</span><span class="p">(</span><span class="k">const</span> <span class="n">nf_conntrack</span> <span class="o">*</span><span class="n">other</span><span class="p">);</span>
     <span class="cm">/* blah blah... */</span>
 <span class="k">private</span><span class="o">:</span>
-    <span class="k">struct</span> <span class="n">__nfct_tuple</span> <span class="n">repl</span><span class="p">;</span>
-    <span class="k">struct</span> <span class="n">__nfct_tuple</span> <span class="n">master</span><span class="p">;</span>
+    <span class="k">struct</span> <span class="nc">__nfct_tuple</span> <span class="n">repl</span><span class="p">;</span>
+    <span class="k">struct</span> <span class="nc">__nfct_tuple</span> <span class="n">master</span><span class="p">;</span>
     <span class="kt">uint32_t</span>    <span class="n">timeout</span><span class="p">;</span>
     <span class="kt">uint32_t</span>    <span class="n">mark</span><span class="p">;</span>
     <span class="cm">/* some other private field */</span>
 <span class="p">};</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>It restrict users from using <code>nf_conntrack</code>'s private field and only allow them using its public member function. The library did it by forward declaring the <code>nf_conntrack</code> and its public function in <code>libnetfilter_conntrack/libnetfiter_conntrack.h</code> and hide the private internal members in <code>internal/internal.h</code> and <code>internal/object.h</code></p>
 <p><code>libnetfilter_conntrack/libnetfiter_conntrack.h</code>:</p>
-<div class="highlight"><pre><span></span><span class="cm">/* forward declaring nf_conntrack */</span>
-<span class="k">struct</span> <span class="n">nf_conntrack</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><code><span class="cm">/* forward declaring nf_conntrack */</span>
+<span class="k">struct</span> <span class="nc">nf_conntrack</span><span class="p">;</span>
 
-<span class="k">extern</span> <span class="k">struct</span> <span class="n">nf_conntrack</span> <span class="o">*</span><span class="nf">nfct_new</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
-<span class="k">extern</span> <span class="kt">void</span> <span class="nf">nfct_destroy</span><span class="p">(</span><span class="k">struct</span> <span class="n">nf_conntrack</span> <span class="o">*</span><span class="n">ct</span><span class="p">);</span>
+<span class="k">extern</span> <span class="k">struct</span> <span class="nc">nf_conntrack</span> <span class="o">*</span><span class="n">nfct_new</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="k">extern</span> <span class="kt">void</span> <span class="n">nfct_destroy</span><span class="p">(</span><span class="k">struct</span> <span class="nc">nf_conntrack</span> <span class="o">*</span><span class="n">ct</span><span class="p">);</span>
 
 <span class="cm">/* setter */</span>
-<span class="k">extern</span> <span class="kt">void</span> <span class="nf">nfct_set_attr</span><span class="p">(</span><span class="k">struct</span> <span class="n">nf_conntrack</span> <span class="o">*</span><span class="n">ct</span><span class="p">,</span>
+<span class="k">extern</span> <span class="kt">void</span> <span class="n">nfct_set_attr</span><span class="p">(</span><span class="k">struct</span> <span class="nc">nf_conntrack</span> <span class="o">*</span><span class="n">ct</span><span class="p">,</span>
               <span class="k">const</span> <span class="k">enum</span> <span class="n">nf_conntrack_attr</span> <span class="n">type</span><span class="p">,</span>
               <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">value</span><span class="p">);</span>
 
 <span class="cm">/* getter */</span>
-<span class="k">extern</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="nf">nfct_get_attr</span><span class="p">(</span><span class="k">const</span> <span class="k">struct</span> <span class="n">nf_conntrack</span> <span class="o">*</span><span class="n">ct</span><span class="p">,</span>
+<span class="k">extern</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">nfct_get_attr</span><span class="p">(</span><span class="k">const</span> <span class="k">struct</span> <span class="nc">nf_conntrack</span> <span class="o">*</span><span class="n">ct</span><span class="p">,</span>
                  <span class="k">const</span> <span class="k">enum</span> <span class="n">nf_conntrack_attr</span> <span class="n">type</span><span class="p">);</span>
-</pre></div>
-
+</code></pre></div>
 
 <p><code>internal/object.h</code>:</p>
-<div class="highlight"><pre><span></span><span class="cm">/* real nf_conntrack definition */</span>
+<div class="highlight"><pre><span></span><code><span class="cm">/* real nf_conntrack definition */</span>
 
-<span class="k">struct</span> <span class="n">nf_conntrack</span> <span class="p">{</span>
-    <span class="k">struct</span> <span class="n">nfct_tuple_head</span>  <span class="n">head</span><span class="p">;</span>
-    <span class="k">struct</span> <span class="n">__nfct_tuple</span> <span class="n">repl</span><span class="p">;</span>
-    <span class="k">struct</span> <span class="n">__nfct_tuple</span> <span class="n">master</span><span class="p">;</span>
+<span class="k">struct</span> <span class="nc">nf_conntrack</span> <span class="p">{</span>
+    <span class="k">struct</span> <span class="nc">nfct_tuple_head</span>  <span class="n">head</span><span class="p">;</span>
+    <span class="k">struct</span> <span class="nc">__nfct_tuple</span> <span class="n">repl</span><span class="p">;</span>
+    <span class="k">struct</span> <span class="nc">__nfct_tuple</span> <span class="n">master</span><span class="p">;</span>
 
     <span class="kt">uint32_t</span>    <span class="n">timeout</span><span class="p">;</span>
     <span class="kt">uint32_t</span>    <span class="n">mark</span><span class="p">;</span>
@@ -129,8 +127,7 @@
     <span class="kt">uint16_t</span>    <span class="n">zone</span><span class="p">;</span>
     <span class="cm">/* blah blah... */</span>
 <span class="p">};</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>In <code>conntrack/api.c</code>, the api implementation include <code>internal/internal.h</code> directly. However for users using this library, they can only use the public methods exposed by <code>libnetfilter_conntrack.h</code>.</p>
     </div><!-- .content -->

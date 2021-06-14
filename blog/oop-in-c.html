@@ -78,7 +78,7 @@
       <p>Despite C does not support OOP like C++ or Java, OOP concepts is still used in Android HAL module and GTK+ programs.</p>
 <h1 id="inheretance">Inheretance</h1>
 <p>Simulating inheretance feature in C is done by simply putting the parent class as the first field in the structure. In this way, we can get all the parent fields in the child class and transform it to the parent type by using a simple pointer conversion.</p>
-<div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
     <span class="p">...</span>
 <span class="p">}</span> <span class="n">Animal</span><span class="p">;</span>
 
@@ -92,24 +92,22 @@
 <span class="n">Dog</span> <span class="o">*</span><span class="n">dog</span> <span class="o">=</span> <span class="n">new_dog</span><span class="p">();</span>
 <span class="n">Animal</span> <span class="o">*</span><span class="n">animal</span> <span class="o">=</span> <span class="p">(</span><span class="n">Animal</span><span class="o">*</span><span class="p">)</span> <span class="n">dog</span><span class="p">;</span>
 <span class="c1">// access dog&#39;s inhereted field</span>
-</pre></div>
-
+</code></pre></div>
 
 <h2 id="android-hal-module">Android HAL module</h2>
 <p>In Android, every HAL module must have <code>hw_module_t</code> as the first field. For example, <a href="https://source.android.com/devices/halref/sensors_8h_source.html#l00840">sensors_moudle_t</a>. </p>
 <h2 id="gtk">GTK+</h2>
 <p>GTK+ programs use more OOP concepts for developing. The inheretance structure is this <code>GObject &lt;- GInitiallyUnowned &lt;- GtkObject &lt;- GtkWidget &lt;- GtkContainer &lt;- GtkBin &lt;- GtkWindow</code></p>
 <p>For most GTK functions, the first argument works as the <code>this</code> pointer for OOP language.</p>
-<div class="highlight"><pre><span></span><span class="n">GtkWidget</span><span class="o">*</span> <span class="n">window</span> <span class="o">=</span> <span class="n">gtk_window_new</span><span class="p">(</span><span class="n">GTK_WINDOW_TOPLEVEL</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><code><span class="n">GtkWidget</span><span class="o">*</span> <span class="n">window</span> <span class="o">=</span> <span class="n">gtk_window_new</span><span class="p">(</span><span class="n">GTK_WINDOW_TOPLEVEL</span><span class="p">);</span>
 <span class="n">gtk_window_set_title</span><span class="p">(</span><span class="n">GTK_WINDOW</span><span class="p">(</span><span class="n">window</span><span class="p">),</span> <span class="s">&quot;title&quot;</span><span class="p">);</span>
 <span class="c1">// this works like access gtk window member function</span>
-</pre></div>
-
+</code></pre></div>
 
 <p><code>GTK_WINDOW</code> is a macro for type checking and casting</p>
-<div class="highlight"><pre><span></span><span class="cp">#define GTK_WINDOW(obj)</span>
+<div class="highlight"><pre><span></span><code><span class="cp">#define GTK_WINDOW(obj)</span>
           <span class="p">(</span><span class="n">G_TYPE_CHECK_INSTANCE_CAST</span><span class="p">((</span><span class="n">obj</span><span class="p">),</span> <span class="n">GTK_TYPE_WINDOW</span><span class="p">,</span> <span class="n">GtkWindow</span><span class="p">))</span>
-</pre></div>
+</code></pre></div>
     </div><!-- .content -->
 
     <h2>Comments</h2>

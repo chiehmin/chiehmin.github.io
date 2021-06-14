@@ -78,13 +78,13 @@
       <p>When playing with Linux netfilter, I was wondering why I can treat all packets as 802.3 packets and use <code>eth_hdr</code> to get
 L2 information even though the packet is a <strong>WLAN(802.11) packet</strong>. The 802.11 header is total differently from 802.3
 header.</p>
-<div class="highlight"><pre><span></span><span class="k">struct</span> <span class="n">ethhdr</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span> <span class="nc">ethhdr</span> <span class="p">{</span>
     <span class="kt">unsigned</span> <span class="kt">char</span>   <span class="n">h_dest</span><span class="p">[</span><span class="n">ETH_ALEN</span><span class="p">];</span>   <span class="cm">/* destination eth addr */</span>
     <span class="kt">unsigned</span> <span class="kt">char</span>   <span class="n">h_source</span><span class="p">[</span><span class="n">ETH_ALEN</span><span class="p">];</span> <span class="cm">/* source ether addr    */</span>
     <span class="n">__be16</span>      <span class="n">h_proto</span><span class="p">;</span>        <span class="cm">/* packet type ID field */</span>
 <span class="p">}</span> <span class="n">__attribute__</span><span class="p">((</span><span class="n">packed</span><span class="p">));</span>
 
-<span class="k">struct</span> <span class="n">ieee80211_hdr</span> <span class="p">{</span>
+<span class="k">struct</span> <span class="nc">ieee80211_hdr</span> <span class="p">{</span>
     <span class="n">__le16</span> <span class="n">frame_control</span><span class="p">;</span>
     <span class="n">__le16</span> <span class="n">duration_id</span><span class="p">;</span>
     <span class="n">u8</span> <span class="n">addr1</span><span class="p">[</span><span class="n">ETH_ALEN</span><span class="p">];</span>
@@ -93,8 +93,7 @@ header.</p>
     <span class="n">__le16</span> <span class="n">seq_ctrl</span><span class="p">;</span>
     <span class="n">u8</span> <span class="n">addr4</span><span class="p">[</span><span class="n">ETH_ALEN</span><span class="p">];</span>
 <span class="p">}</span> <span class="n">__packed</span> <span class="n">__aligned</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>After some googling and digging into the source code. I found Linux kernel converts the 802.11 packet into a 802.3
 packet by using <code>ieee80211_data_to_8023</code>. The reasons is explained in this article <a href="https://superuser.com/questions/1242454/why-do-i-see-ethernet-ii-protocol-in-wireshark-in-wireless-connection">Why do i see Ethernet II protocol in wireshark in wireless connection?</a>.</p>
