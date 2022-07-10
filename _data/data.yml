@@ -1,0 +1,156 @@
+#
+# Be aware that even a small syntax error here can lead to failures in output.
+#
+
+sidebar:
+    about: False # set to False or comment line if you want to remove the "how to use?" in the sidebar
+    education: True # set to False if you want education in main section instead of in sidebar
+
+    # Profile information
+    name: Chieh-Min Wang
+    tagline: From Embedded to Cloud
+    avatar: profile.png  #place a 100x100 picture inside /assets/images/ folder and provide the name of the file below
+
+    # Sidebar links
+    email: chiehmin18@gmail.com
+    phone: 
+    timezone: Taipei (UTC+8)
+    citizenship:
+    # website: blog.cmwang.me #do not add http://
+    linkedin: chiehminw
+    github: chiehmin
+    telegram: # add your nickname without '@' sign
+    gitlab: chiehmin18
+    bitbucket:
+    twitter: 
+    stack-overflow: # Number/Username, e.g. 123456/alandoe
+    codewars:
+    goodreads: # Number-Username, e.g. 123456-alandoe
+    pdf: misc/resume.pdf
+
+    languages:
+      - idiom: Mandarin
+        level: Native
+
+      - idiom: English
+        level: Professional
+
+    interests:
+
+career-profile:
+    title: About Me
+    summary: |
+      Hi, I am Chieh-Min Wang. I am a software engineer who loves programming a lot. My dream is to write programs
+      that can influence millions of people and make the world better! I am experienced in embedded 
+      system development, Linux network stack, Android development, cloud infrastructure design (AWS, K8S, ...etc) 
+      and DevOps(CI/CD pipeline).
+
+education:
+    - degree: Master in Computer Science
+      university: National Yang Ming Chiao Tung University 
+      time: 2014 - 2016
+      details:
+    - degree: Bachelor in Computer Science
+      university: National Yang Ming Chiao Tung University 
+      time: 2010 - 2014
+      details:
+
+experiences:
+    - role: Software Engineer
+      time: Sep 2021 - Present
+      company: Google, Taipei
+      details: |
+        - Silicon bring-up.
+    - role: Senior Product Developer
+      time: Oct 2016 - Sep 2021
+      company: Synology, Taipei
+      details: |
+        - Improved the services’ availability, maintainability and observability by refactoring the infrastructures
+          using container orchestration framework (k8s), IaC (Ansible and k8s) and several monitoring tools
+          (Elastic stack, Prometheus...etc).
+        - Reduced the web request p99 latency of services running in a virtualized environment from 40s to 1s
+          by adjusting the overcommited cpu and memory resources to a better allocation to reduce the VM
+          memory page fault rate and CPU steal time. Improve the performance of service background workers
+          by successfully scaling the workers to fully utilize the available CPU resources on the system.
+        - Ensured the GDPR compliance of collected data by designing and implementing a data pipeline to
+          make sure the data content align with the pre-defined schema. Improved the the data ingesting
+          performance by identifying the bottlenecks and separating the stateless part and stateful part to
+          scale-out the services.
+        - Achieved 1,000 connection per second and 200,000 concurrent connections for the in-house traffic
+          monitoring and deep packet inspection solution on the router platform with limited hardware resources
+          by leveraging the Linux netfilter to design a flexible offloading framework.
+
+    - role: Software Engineering Intern
+      time: Jul 2015 - Aug 2015
+      company: Yahoo, Taipei
+      details: |
+        I am a Android developer responsible for building a new O2O e-commerce app and
+        won the best internship award for engineering group.
+
+    - role: Software Engineering Intern
+      time: Jul 2014 - Aug 2014
+      company: IBM, Taipei
+      details: |
+        Use Java to build tools to assure quality and find bugs in the CD pipeline.
+
+projects:
+    title: Projects
+    intro: 
+    assignments:
+      - title: MinMinGuard
+        link: "https://github.com/chiehmin/MinMinGuard"
+        tagline: |
+          MinMinGuard is a popular Xposed module that removes ads from Android applications using several
+          API hooking methods to remove both ads and black space caused by those ads which is more effective
+          than any other ad-removing solutions in the market.
+      
+      - title: Leetcode Ranking Search
+        link: "https://github.com/chiehmin/leetcode-ranking-search"
+        tagline: |
+          Official Leetcode contest ranking page lacks advance search/filter functions. So I implemented one!!
+          Features:
+            1. Search users contest ranking history.
+            2. Filter ranking data by username and country.
+      - title: OSS contributions
+        link: 
+        tagline: GitLab (A GitLab hero), Linux, nDPI, Prometheus, SynoCommunity...etc.
+
+publications:
+    title: Publications
+    intro:
+    papers:
+      - title: "Application Execution Time Prediction for Effective CPU Provisioning in Virtualization Environment"
+        link: "http://ieeexplore.ieee.org/document/7933268/"
+        authors: Hong-Wei Li; Yu-Sung Wu; Yi-Yung Chen; Chieh-Min Wang; Yen-Nun Huang
+        conference: IEEE Transactions on Parallel and Distributed Systems · May 24, 2017
+
+      - title: "Smartphone Virtualization"
+        link: "https://www.computer.org/csdl/proceedings/icpads/2016/4457/00/4457a141-abs.html"
+        authors: Tzi-cker Chiueh; Houcheng Lin; Ares Chao; Anthony; Tan-Gen Wu; Chieh-Min Wang; Yu-Sung Wu
+        conference: "IEEE International Conference on Parallel and Distributed Systems · Dec 13, 2016"
+
+      - title: "Density-aware Detailed Placement with Instant Legalization"
+        link: "https://dl.acm.org/doi/10.1145/2593069.2593120"
+        authors: Sergiy Popovych; Hung-Hao Lai; Chieh-Min Wang; Yih-Lang Li; Wen-Hao Liu; Ting-Chi Wang
+        conference: "DAC 2014 · Jun 1, 2014"
+      
+      - title: "FUSION: A unified application model for virtual mobile infrastructure"
+        link: "https://ieeexplore.ieee.org/document/8073811"
+        authors: Chieh-Min Wang; Yu-Sung Wu; Hsing-Hsuan Chung
+        conference: "IEEE Conference on Dependable and Secure Computing · August 7, 2017"
+
+skills:
+    title: Skills &amp; Proficiency
+
+    toolset:
+      - name: C/C++
+        level: 100%
+      - name: Linux
+        level: 100%
+      - name: Networking
+        level: 90%
+      - name: Kubernetes
+        level: 70%
+      - name: Cloud Development
+        level: 60%
+footer:
