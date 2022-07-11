@@ -99,21 +99,39 @@ projects:
     assignments:
       - title: MinMinGuard
         link: "https://github.com/chiehmin/MinMinGuard"
-        tagline: |
+        details: |
           MinMinGuard is a popular Xposed module that removes ads from Android applications using several
           API hooking methods to remove both ads and black space caused by those ads which is more effective
           than any other ad-removing solutions in the market.
-      
+
       - title: Leetcode Ranking Search
         link: "https://github.com/chiehmin/leetcode-ranking-search"
-        tagline: |
+        details: |
           Official Leetcode contest ranking page lacks advance search/filter functions. So I implemented one!!
           Features:
             1. Search users contest ranking history.
             2. Filter ranking data by username and country.
       - title: OSS contributions
-        link: 
-        tagline: GitLab (A GitLab hero), Linux, nDPI, Prometheus, SynoCommunity...etc.
+        link:
+        details: |
+          You can find my contributions to the following open source projects via
+          `git log --author=chiehmin`.
+
+          - [MinMinGuard](https://github.com/chiehmin/MinMinGuard)
+          - [Linux](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log?qt=author&q=chiehmin)
+          - [conntrack-tools](http://git.netfilter.org/conntrack-tools/log?qt=author&q=chiehmin)
+          - [ntop/nDPI](https://github.com/ntop/nDPI/commits?author=chiehmin)
+          - [gitlab-org/gitlab](https://gitlab.com/gitlab-org/gitlab/-/merge_requests?state=all&author_username=chiehmin18)
+          - [gitlab-org/omnibus-gitlab](https://gitlab.com/gitlab-org/omnibus-gitlab/-/merge_requests?state=all&author_username=chiehmin18)
+          - [gitlab-org/gitlab-omnibus-builder](https://gitlab.com/gitlab-org/gitlab-omnibus-builder/-/merge_requests?state=all&author_username=chiehmin18)
+          - [gitlab-org/gitlab-development-kit](https://gitlab.com/gitlab-org/gitlab-development-kit/-/merge_requests?state=all&author_username=chiehmin18)
+          - [gitlab-org/gitlab-monitor](https://gitlab.com/gitlab-org/gitlab-exporter/-/merge_requests?author_username=chiehmin18&state=all)
+          - [prometheus/procfs](https://github.com/prometheus/procfs/commits?author=chiehmin)
+          - [ansible-collections/community.general](https://github.com/ansible-collections/community.general/pulls?q=author=chiehmin)
+          - [dagwieers/vmguestlib](https://github.com/dagwieers/vmguestlib/commits?author=chiehmin)
+          - [SynoCommunity/spksrc](https://github.com/SynoCommunity/spksrc/commits?author=chiehmin)
+          - [vim-bootstrap](https://github.com/avelino/vim-bootstrap/commits?author=chiehmin)
+
 
 publications:
     title: Publications
