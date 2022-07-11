@@ -21,7 +21,7 @@
 
     {% if sidebar.timezone %}
     <li class="timezone"><i class="fas fa-clock"></i>
-      <a href="">{{ sidebar.timezone }}</a>
+      <span>{{ sidebar.timezone }}</span>
     </li>
     {% endif %}
 
@@ -33,7 +33,7 @@
 
     {% if sidebar.website %}
     <li class="website"><i class="fas fa-globe-americas"></i>
-      <a href="http://{{ sidebar.website }}" target="_blank">{{ sidebar.website }}</a>
+      <a href="http://{{ sidebar.website.link }}" target="_blank">{{ sidebar.website.name }}</a>
     </li>
     {% endif %}
 

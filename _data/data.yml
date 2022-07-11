@@ -13,16 +13,18 @@ sidebar:
 
     # Sidebar links
     email: chiehmin18@gmail.com
-    phone: 
+    phone:
     timezone: Taipei (UTC+8)
     citizenship:
-    # website: blog.cmwang.me #do not add http://
+    website:
+      name: Blog
+      link: blog.cmwang.me #do not add http://
     linkedin: chiehminw
     github: chiehmin
     telegram: # add your nickname without '@' sign
     gitlab: chiehmin18
     bitbucket:
-    twitter: 
+    twitter:
     stack-overflow: # Number/Username, e.g. 123456/alandoe
     codewars:
     goodreads: # Number-Username, e.g. 123456-alandoe
@@ -41,17 +43,17 @@ career-profile:
     title: About Me
     summary: |
       Hi, I am Chieh-Min Wang. I am a software engineer who loves programming a lot. My dream is to write programs
-      that can influence millions of people and make the world better! I am experienced in embedded 
-      system development, Linux network stack, Android development, cloud infrastructure design (AWS, K8S, ...etc) 
+      that can influence millions of people and make the world better! I am experienced in embedded
+      system development, Linux network stack, Android development, cloud infrastructure design (AWS, K8S, ...etc)
       and DevOps(CI/CD pipeline).
 
 education:
     - degree: Master in Computer Science
-      university: National Yang Ming Chiao Tung University 
+      university: National Yang Ming Chiao Tung University
       time: 2014 - 2016
       details:
     - degree: Bachelor in Computer Science
-      university: National Yang Ming Chiao Tung University 
+      university: National Yang Ming Chiao Tung University
       time: 2010 - 2014
       details:
 
@@ -95,7 +97,7 @@ experiences:
 
 projects:
     title: Projects
-    intro: 
+    intro:
     assignments:
       - title: MinMinGuard
         link: "https://github.com/chiehmin/MinMinGuard"
@@ -151,7 +153,7 @@ publications:
         link: "https://dl.acm.org/doi/10.1145/2593069.2593120"
         authors: Sergiy Popovych; Hung-Hao Lai; Chieh-Min Wang; Yih-Lang Li; Wen-Hao Liu; Ting-Chi Wang
         conference: "DAC 2014 · Jun 1, 2014"
-      
+
       - title: "FUSION: A unified application model for virtual mobile infrastructure"
         link: "https://ieeexplore.ieee.org/document/8073811"
         authors: Chieh-Min Wang; Yu-Sung Wu; Hsing-Hsuan Chung
